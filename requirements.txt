@@ -1,0 +1,10 @@
+langgraph
+langchain
+openai
+pillow
+streamlit
+dotenv
+langchain-community
+python-dotenv
+huggingface-hub
+langchain-openai
