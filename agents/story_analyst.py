@@ -10,8 +10,9 @@ def story_analyst(state: ComicGenerationState) -> dict:
 
     # Pass through the style and mood from the input state.
     # The prompt engineer expects the key 'artistic_style'.
-    artistic_style = state.get('style', 'default comic style')
-    mood = state.get('mood', 'neutral')
+    # Ensure these keys match ComicGenerationState and Streamlit inputs
+    artistic_style = state.get('style_preset', 'default comic style') 
+    mood = state.get('genre_preset', 'neutral')
     layout_style = state.get('layout_style', 'grid_2x2')
 
     print(f"   > Style set to: {artistic_style}")

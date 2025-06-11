@@ -6,7 +6,7 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from graph.workflow import create_workflow
-from utils.config import OUTPUT_DIR, PANELS_DIR, PAGES_DIR
+from utils.config import OUTPUT_DIR, RAW_PANELS_DIR, COMIC_PAGES_DIR # Updated import names
 
 # --- Page Configuration and Styling ---
 st.set_page_config(page_title="DeepDoodle: AI Comic Generator", layout="wide", initial_sidebar_state="expanded")
@@ -53,8 +53,8 @@ st.markdown("---")
 def setup_directories():
     if os.path.exists(OUTPUT_DIR):
         shutil.rmtree(OUTPUT_DIR)
-    os.makedirs(PAGES_DIR, exist_ok=True)
-    os.makedirs(PANELS_DIR, exist_ok=True)
+    os.makedirs(COMIC_PAGES_DIR, exist_ok=True)
+    os.makedirs(RAW_PANELS_DIR, exist_ok=True)
 
 # --- Sidebar for Inputs ---
 with st.sidebar:

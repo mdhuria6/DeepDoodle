@@ -19,6 +19,8 @@ def create_workflow():
     workflow.add_node("scene_decomposer", agents.scene_decomposer)
     workflow.add_node("prompt_engineer", agents.prompt_engineer)
     workflow.add_node("image_generator", agents.image_generator)
+    workflow.add_node("panel_sizer", agents.panel_sizer) # Renamed from panel_sizer_agent
+    workflow.add_node("captioner", agents.captioner) # Renamed from caption_agent
     workflow.add_node("page_composer", agents.page_composer)
     
     workflow.set_entry_point("story_analyst")
@@ -26,10 +28,19 @@ def create_workflow():
     workflow.add_edge("scene_decomposer", "prompt_engineer")
     workflow.add_edge("prompt_engineer", "image_generator")
     
+    # After image_generator, decide if more panels or move to panel_sizer_agent
     workflow.add_conditional_edges(
         "image_generator",
         should_continue_generating,
-        {"continue_generation": "prompt_engineer", "compose_pages": "page_composer"}
+        {
+            "continue_generation": "prompt_engineer", 
+            "compose_pages": "panel_sizer" # Renamed from panel_sizer_agent
+        }
     )
+
+    # After panel_sizer, go to captioner
+    workflow.add_edge("panel_sizer", "captioner") # Renamed
+    # After captioner, go to page_composer
+    workflow.add_edge("captioner", "page_composer") # Renamed
     workflow.add_edge("page_composer", END)
     return workflow.compile()

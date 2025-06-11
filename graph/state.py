@@ -18,7 +18,10 @@ class ComicGenerationState(TypedDict):
     mood: str           # This key is also created by the story_analyst
     scenes: List[dict]
     panel_prompts: List[str]
-    panel_image_paths: List[str]
+    panel_image_paths: List[str] # Paths to raw images from image_generator
+    sized_panel_image_paths: List[str] # Paths to images after panel_sizer_agent
+    panel_images_with_captions_paths: List[str] # Paths to images after caption_agent
+    panel_images_with_captions: List[Image.Image] # PIL Images after caption_agent (optional, if needed by composer)
     
     # Internal loop counter
     current_panel_index: int

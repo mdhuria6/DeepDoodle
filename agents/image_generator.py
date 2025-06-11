@@ -1,5 +1,5 @@
 import os
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 from graph.state import ComicGenerationState
 
 def image_generator(state: ComicGenerationState) -> dict:
@@ -21,14 +21,6 @@ def image_generator(state: ComicGenerationState) -> dict:
     # Placeholder: Create a dummy image with PIL instead of calling a model
     print("   > Generating placeholder image...")
     img = Image.new('RGB', (512, 512), color='darkgray')
-    d = ImageDraw.Draw(img)
-    try:
-        font = ImageFont.truetype("arial.ttf", 20)
-    except IOError:
-        font = ImageFont.load_default(size=20)
-        
-    text = f"Panel {panel_index + 1}\n\nStyle: {state['artistic_style']}"
-    d.text((10, 10), text, fill='white', font=font)
 
     # Ensure output directory exists
     output_dir = "output/panels"
