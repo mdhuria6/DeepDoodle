@@ -3,6 +3,10 @@
 DeepDoodle is an Agentic AI framework that transforms natural language stories into illustrated, style-consistent comic panels. 
 
 ---
+## 📜 Abstract:
+In today’s visually driven digital culture, many rich narratives ranging from ancient folk tales to personal memories and imaginative ideas often remain confined to text, limiting their reach and experiential impact. Enabling users to visualize these stories as immersive visual narratives can inspire creativity, preserve cultural heritage, and engage younger, media savvy audiences. We introduce an agentic AI framework that transforms such rich texts into fully illustrated, style-consistent comic panels, enabling end-to-end visual storytelling from natural language. The system accepts user-provided inputs including the story, genre, artistic style, and desired panel count. In the absence of any of these, dedicated agents automatically infer the narrative mood, assign thematic tags, suggest a visual style, and segment the story into coherent scenes. The architecture is composed of modular agents orchestrated using LangChain responsible for metadata extraction, narrative decomposition, prompt engineering, and image generation. Leveraging LLMs, Stable Diffusion XL, the system generates and stylizes story panels based on detailed visual prompts. These panels are composed with consistency in character identity and setting maintained throughout the narrative. Designed with modularity and extensibility in mind, the framework supports multilingual storytelling, artistic style adaptation, and scalable deployment. Potential applications span digital storytelling, education, visual media, and cultural preservation.
+
+---
 
 ## 🔧 Project Structure
 
@@ -20,7 +24,8 @@ DeepDoodle/
 │   ├── scene_decomposer.py      # Splits story into visual scenes/panels
 │   ├── prompt_engineer.py       # Crafts prompts for image generation
 │   ├── image_generator.py       # Generates (or mocks) panel images
-│   ├── character_memory.py      # (Optional) Maintains character consistency
+│   ├── panel_sizer.py           # Resizes/crops raw panels to fit page layout
+│   ├── captioner.py             # Adds captions/text to sized panels
 │   └── page_composer.py         # Stitches panels into comic pages
 │
 ├── graph/                       # Workflow orchestration (LangGraph)
@@ -30,11 +35,13 @@ DeepDoodle/
 │
 ├── utils/                       # Utility functions and configuration
 │   ├── __init__.py
-│   ├── config.py                # Constants (panel size, output dir, etc.)
+│   ├── config.py                # Constants (page dimensions, output dirs, font path, etc.)
 │   └── layout.py                # Comic page layout functions (grid, strip, etc.)
 │
 ├── output/                      # Generated images (created at runtime)
-│   ├── panels/                  # Individual panel images
+│   ├── panels/                  # Raw individual panel images from image_generator
+│   ├── panels_sized/            # Panels after sizing by panel_sizer
+│   ├── panels_with_captions/    # Panels after captioning by captioner
 │   └── pages/                   # Final composed comic pages
 │
 ├── ui/                          # Streamlit web interface
@@ -75,7 +82,7 @@ HUGGINGFACEHUB_API_TOKEN=your_hf_token
 ```
 
 ### 5. (Optional) Place sample images
-Put some sample images `sample-panel-<i>.png` in the `/output/panels` folder if you want to test the UI with static images.
+Put some sample images `sample-panel-<i>.png` in the `output/panels/` folder if you want to test parts of the UI or pipeline with static images.
 
 ### 6. Run the Streamlit app
 ```bash
@@ -89,9 +96,10 @@ streamlit run ui/streamlit_app.py
 - **Story Analyst**: Analyzes the story, extracts genre, style, and mood.
 - **Scene Decomposer**: Splits the story into visual scenes/panels.
 - **Prompt Engineer**: Converts scenes and metadata into image prompts.
-- **Image Generator**: Generates images for each panel based on prompts (mocked or real).
-- **Page Composer**: Stitches image panels into final comic pages.
-- **(Optional) Character Memory**: Maintains character consistency across panels.
+- **Image Generator**: Generates images for each panel based on prompts.
+- **Panel Sizer**: Calculates target dimensions for each panel based on the chosen layout and page size, then crops/resizes the raw panel images accordingly.
+- **Captioner**: Adds dialogue or narrative captions to the (already sized) panel images.
+- **Page Composer**: Arranges the sized and captioned panels onto a blank page according to the selected layout style.
 - **LangGraph-based orchestration**: Orchestrates agent communication and workflow.
 
 ---
@@ -116,11 +124,11 @@ streamlit run ui/streamlit_app.py
 ## 👨‍💻 Authors
 
 Team of 5 students – M.Tech in AI (IISc Bangalore)  
-- Member 1
-- Member 2
-- Member 3
-- Member 4
-- Member 5
+- Jyoti Pal, 
+- Kshitiz Singh, 
+- Meenal Dhuria, 
+- Nirmit Srivastava, 
+- Rishav Kumar Goswami
 
 Course: **DA225o - Deep Learning**, Summer 2025  
 
