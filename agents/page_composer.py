@@ -1,11 +1,12 @@
-import os
-from PIL import Image
+from PIL import Image, ImageDraw
+import os # Added missing import
 from collections import defaultdict
+from typing import List, Dict, Tuple
 
+from configs import COMIC_PAGES_DIR, PAGE_WIDTH, PAGE_HEIGHT, MARGIN # Added MARGIN
 from models.comic_generation_state import ComicGenerationState # PanelLayoutDetail will be imported from its own file
 from models.panel_layout_detail import PanelLayoutDetail # Import from new file
-from utils.config import COMIC_PAGES_DIR, PAGE_WIDTH, PAGE_HEIGHT, MARGIN # Added MARGIN
-from utils import layout # Keep for existing compose functions if they are reused or adapted
+from utils import layout_util # Changed from 'layout' to 'layout_util'
 
 def page_composer(state: ComicGenerationState) -> dict:
     """Assembles sized and captioned panels into final pages based on pre-planned layouts."""

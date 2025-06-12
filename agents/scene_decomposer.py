@@ -19,67 +19,64 @@ def scene_decomposer(state: ComicGenerationState) -> dict:
     scenes = [
       {
         "panel": 1,
-        "description": "A lonely astronomer, Elara, sits in a dark observatory, her face illuminated by a screen of static. Her colleague, Ben, looks on.",
+        "description": "Elara in a space observatory, looking at a screen with static. Room has some equipment. Clear outlines, simple shapes.",
         "captions": [
-            {"type": "caption", "speaker": "Narrator", "text": "The observatory was quiet, save for the hum of machinery."},
-            {"type": "dialogue", "speaker": "Elara", "text": "(Sighs) Another night, same old static..."},
-            {"type": "dialogue", "speaker": "Ben", "text": "Anything yet, Elara? Don't lose hope."}
+            {"type": "caption", "speaker": "Narrator", "text": "The silent hum of the deep space observatory... a familiar vigil."},
+            {"type": "dialogue", "speaker": "Elara", "text": "(Muttering to self) Years of this... just static..."}
         ]
       },
       {
         "panel": 2,
-        "description": "Close-up on the monitor where the static is replaced by a single, perfect, glowing green sine wave. Two scientists are looking at it.",
+        "description": "Close up: Monitor screen shows a green sine wave through static. Elara's surprised face reflected. Simple line art.",
         "captions": [
-            {"type": "dialogue", "speaker": "Scientist 1", "text": "What is that?"},
-            {"type": "dialogue", "speaker": "Scientist 2", "text": "I've never seen anything like it!"},
-            {"type": "caption", "speaker": None, "text": "A signal from the void."}
+            {"type": "caption", "speaker": "Narrator", "text": "Tonight, the void answered."},
+            {"type": "sfx", "speaker": None, "text": "*Ping!*"}
         ]
       },
       {
         "panel": 3,
-        "description": "A shocking image of a red giant star violently exploding in a supernova, sending a shockwave through space.",
+        "description": "Split panel: Left - Red alert lights in observatory. Right - Hologram of star exploding (supernova). Bold outlines.",
         "captions": [
-            {"type": "caption", "speaker": "SFX", "text": "KABOOOM!"},
-            {"type": "caption", "speaker": "Narrator", "text": "The universe trembled with cosmic fury."}
+            {"type": "sfx", "speaker": None, "text": "KLAXON! WARNING!"},
+            {"type": "dialogue", "speaker": "Observatory AI (voiceover)", "text": "Catastrophic stellar event imminent! Red Giant 7GL-F, unscheduled detonation!"}
         ]
       },
       {
         "panel": 4,
-        "description": "Elara's face, a mix of terror and awe, as she realizes the signal and the supernova are connected.",
+        "description": "Elara looking at a transparent screen showing data: green sine wave over supernova shockwave. Clear, simple forms.",
         "captions": [
-            {"type": "dialogue", "speaker": "Elara", "text": "It can't be... the signal... it's a countdown?"}
+            {"type": "dialogue", "speaker": "Elara", "text": "The energy... it's being focused! The signal... it's riding the shockwave! An invitation..."}
         ]
       },
       {
         "panel": 5,
-        "description": "Years later, an older Elara stands on a lush, green alien planet, looking at a new sky. The air is filled with the scent of unknown, exotic flowers and the sounds of strange, melodic bird calls.",
+        "description": "Elara (grey streaks in hair) on an alien planet with two suns. Simple plants around. Wears explorer suit. Line art style.",
         "captions": [
-            {"type": "caption", "speaker": "Narrator", "text": "Years passed, and humanity journeyed to the source."},
-            {"type": "dialogue", "speaker": "Elara", "text": "We made it. After all these years, and all those hardships, this new home seems like a paradise. I hope humanity can learn from its past mistakes here."}
+            {"type": "caption", "speaker": "Narrator", "text": "The journey was long, the destination, a revelation."},
+            {"type": "dialogue", "speaker": "Elara", "text": "(Awe-struck whisper) Incredible..."}
         ]
       },
       {
         "panel": 6,
-        "description": "A wide shot of a futuristic city on the new planet, with two suns in the sky, a symbol of a new beginning.",
+        "description": "Wide shot: Alien city in distance under two suns. Sleek buildings, simple shapes. Minimal shading.",
         "captions": [
-            {"type": "caption", "speaker": "Narrator", "text": "And so, humanity found a new dawn, a chance to build again among the stars."}
+            {"type": "caption", "speaker": "Narrator", "text": "A civilization that had mastered the stars, and sent a welcome."}
         ]
       },
       {
         "panel": 7,
-        "description": "Close-up on a futuristic data pad in Elara's hand showing the original green sine wave, now labeled 'The Invitation'. The screen flickers slightly, displaying complex astronomical data scrolling beneath the main message.",
+        "description": "Close up: Elara's hand holds a device showing a green sine wave on its screen. She smiles. Bold outlines.",
         "captions": [
-            {"type": "caption", "speaker": "Datapad Display", "text": "Signal Source: Kepler-186f. Status: Welcoming."},
-            {"type": "caption", "speaker": None, "text": "Additional telemetry indicates complex life forms and a breathable atmosphere. Proceed with cautious optimism and standard diplomatic protocols."}
+            #{"type": "caption", "speaker": "Device Screen", "text": "Signal Source: Kepler-186f. Status: Welcome Home."},
+            {"type": "dialogue", "speaker": "Elara", "text": "(Softly) So this is it. Home."}
         ]
       },
       {
         "panel": 8,
-        "description": "Elara smiles, looking towards the horizon of the new world, full of hope. Another colonist stands beside her.",
+        "description": "Elara overlooking the alien city. Twin suns setting. Hopeful expression. Simple line art, clear landscape forms.",
         "captions": [
-            {"type": "dialogue", "speaker": "Elara", "text": "The start of a new adventure."},
-            {"type": "dialogue", "speaker": "Colonist", "text": "Indeed. A fresh start for us all."},
-            {"type": "caption", "speaker": "Narrator", "text": "Hope blossomed under alien suns."}
+            {"type": "caption", "speaker": "Narrator", "text": "She was not just a discoverer, but the guest of honor. A new chapter for humanity, and for Elara, had begun."},
+            {"type": "dialogue", "speaker": "Elara", "text": "Let's see what tomorrow brings."}
         ]
       }
     ]

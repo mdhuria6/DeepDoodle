@@ -4,8 +4,8 @@ def story_analyst(state: ComicGenerationState) -> dict:
     """Analyzes the story and sets up initial style, mood, and character."""
     print("---AGENT: Story Analyst---")
 
-    # Define a consistent character description (placeholder)
-    character_description = "A brave knight in shining armor."
+    # Define a consistent character description based on the new story
+    character_description = "Elara, a veteran astronomer, with hair streaked with grey later in the story."
     print(f"   > Character Defined: {character_description}")
 
     # Pass through the style and mood from the input state.

@@ -8,7 +8,7 @@ import shutil # Added shutil import
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from main import run_comic_generation_workflow #type: ignore
-from utils.config import (
+from configs import (
     DEFAULT_LAYOUT_STYLE, SUPPORTED_LAYOUT_STYLES, 
     DEFAULT_STYLE_PRESET, SUPPORTED_STYLE_PRESETS, 
     DEFAULT_GENRE_PRESET, SUPPORTED_GENRE_PRESETS,
@@ -71,11 +71,13 @@ with st.sidebar:
     story_input = st.text_area("Write or paste your story here:", height=250, 
                                placeholder="A curious fox enters a haunted library...")
     
-    style_options = ["auto", "Ghibli Animation", "Modern Anime", "Western Comic", "Minimalist Line Art"]
-    style = st.selectbox("Select Visual Style", style_options)
+    # Updated style_options to match keys from STYLE_CONFIGS
+    # Assuming 'auto' is still desired as an option for future development or default handling
+    style_options = ["auto", "Simple Line Art Comic", "Black and White Manga", "Ghibli Animation", "Modern Anime", "Classic Western Comic"]
+    style = st.selectbox("Select Visual Style", style_options, index=0) # Default to 'auto'
 
-    mood_options = ["auto", "Happy", "Dark & Brooding", "Mysterious", "Adventurous"]
-    mood = st.selectbox("Select Mood", mood_options)
+    mood_options = ["auto", "Sci-Fi", "Fantasy", "Horror", "Comedy", "Drama", "Mystery", "Adventure", "Whimsical", "Noir", "Cyberpunk", "Steampunk"]
+    mood = st.selectbox("Select Mood", mood_options, index=0) # Default to 'auto'
     
     st.header("📄 Page Layout")
     panel_count = st.slider("Number of Panels", min_value=1, max_value=8, value=4)

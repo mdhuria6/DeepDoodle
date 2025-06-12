@@ -2,7 +2,7 @@ import os
 from PIL import Image
 
 from models.comic_generation_state import ComicGenerationState
-from utils.layout import crop_to_fit
+from utils.layout_util import crop_to_fit
 
 def panel_sizer(state: ComicGenerationState) -> dict:
     print("---AGENT: Panel Sizer---")

@@ -1,18 +1,20 @@
 from PIL import Image, ImageDraw, ImageFont
-from typing import List, Dict
 import os
-import shutil
+from typing import List, Dict, Tuple, Optional
 
+from models.caption import Caption
+from models.caption_style_metadata import CaptionStyleMetadata
+
+from utils import draw_caption_bubbles
+ 
 from models.comic_generation_state import ComicGenerationState
-from models.caption import Caption # Assuming Caption is defined in models.caption
-from utils import caption_utils # Import the new utility module
-from utils.caption_utils import CaptionStyleConfig # Import the config model
-
-from utils.config import ( # Import only necessary global configs
-    BUNDLED_FONT_PATH, MAX_FONT_SIZE, DEFAULT_FONT_SIZE, MIN_FONT_SIZE,
-    LINE_SPACING, CAPTION_MARGIN, CAPTION_PADDING, MAX_CAPTION_HEIGHT_RATIO,
-    CAPTION_BACKGROUND_COLOR, NARRATOR_BACKGROUND_COLOR, CAPTION_TEXT_COLOR,
-    CAPTION_CORNER_RADIUS, CAPTIONED_PANELS_DIR,
+from utils import caption_util 
+from configs import (
+    CAPTIONED_PANELS_DIR, SIZED_PANELS_DIR, BUNDLED_FONT_PATH,
+    CAPTION_BACKGROUND_COLOR, CAPTION_TEXT_COLOR, CAPTION_PADDING,
+    CAPTION_MARGIN, MAX_CAPTION_HEIGHT_RATIO, MAX_FONT_SIZE, # Added MAX_FONT_SIZE
+    DEFAULT_FONT_SIZE, MIN_FONT_SIZE,
+    LINE_SPACING, NARRATOR_BACKGROUND_COLOR, CAPTION_CORNER_RADIUS,
     SFX_TEXT_COLOR, SFX_FONT_PATH # Assuming these might be in global config
 )
 
@@ -28,8 +30,8 @@ def add_texts_to_image(
     Adds formatted text captions to an image using utility functions.
     Returns a PIL Image object with captions drawn.
     """
-    # 1. Create CaptionStyleConfig from global config constants
-    style_config = CaptionStyleConfig(
+    # 1. Create CaptionStyleMetadata from global config constants
+    style_config = CaptionStyleMetadata(
         font_path=BUNDLED_FONT_PATH,
         max_font_size=MAX_FONT_SIZE,
         min_font_size=MIN_FONT_SIZE,
@@ -43,11 +45,13 @@ def add_texts_to_image(
         caption_text_color=CAPTION_TEXT_COLOR,
         caption_corner_radius=CAPTION_CORNER_RADIUS,
         sfx_text_color=SFX_TEXT_COLOR, 
-        sfx_font_path=SFX_FONT_PATH
+        sfx_font_path=SFX_FONT_PATH,
+        border_color="black",
+        border_width=1  # Changed from 3 back to 1
     )
 
     # 2. Load image (or error fallback)
-    img, draw, is_error_image = caption_utils.load_panel_image(
+    img, draw, is_error_image = caption_util.load_panel_image(
         image_path, panel_width, panel_height, style_config
     )
 
@@ -58,7 +62,7 @@ def add_texts_to_image(
     text_area_width = panel_width - 2 * style_config['caption_margin'] - 2 * style_config['caption_padding']
     max_block_height_px = int(panel_height * style_config['max_caption_height_ratio'])
 
-    final_font, all_wrapped_captions_info = caption_utils.determine_font_and_layout(
+    final_font, all_wrapped_captions_info = caption_util.determine_font_and_layout(
         captions_data,
         text_area_width,
         max_block_height_px,
@@ -71,7 +75,7 @@ def add_texts_to_image(
         return img 
 
     # 4. Draw captions onto the image
-    caption_utils.draw_caption_bubbles(
+    draw_caption_bubbles(
         draw,
         final_font,
         all_wrapped_captions_info,

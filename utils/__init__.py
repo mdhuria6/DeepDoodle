@@ -1,5 +1,4 @@
-from .config import CHARACTER_DESCRIPTION, PANEL_SIZE, MARGIN, OUTPUT_DIR, OPENAI_API_KEY
-from .layout import (
+from .layout_util import (
     compose_grid_2x2,
     compose_horizontal_strip,
     compose_vertical_strip,
@@ -7,8 +6,11 @@ from .layout import (
     compose_mixed_2x2
 )
 
+from .caption_util import (
+    draw_caption_bubbles
+)
+
 __all__ = [
-    CHARACTER_DESCRIPTION,
     "compose_grid_2x2",
     "compose_horizontal_strip",
     "compose_vertical_strip",
@@ -17,5 +19,6 @@ __all__ = [
     "PANEL_SIZE",
     "MARGIN",
     "OUTPUT_DIR",
-    "OPENAI_API_KEY"
+    "OPENAI_API_KEY",
+    "draw_caption_bubbles"
 ]

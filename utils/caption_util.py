@@ -2,24 +2,9 @@ from PIL import Image, ImageDraw, ImageFont
 from typing import List, Dict, Tuple, TypedDict, Literal, Optional
 import os
 
-from models.caption import Caption # Import Caption TypedDict
+from models.caption import Caption 
+from models.caption_style_metadata import CaptionStyleMetadata
 
-# --- Configuration Model ---
-class CaptionStyleConfig(TypedDict):
-    font_path: str
-    max_font_size: int
-    min_font_size: int
-    default_font_size: int
-    line_spacing: int
-    caption_margin: int
-    caption_padding: int
-    max_caption_height_ratio: float
-    caption_background_color: str
-    narrator_background_color: str
-    caption_text_color: str
-    caption_corner_radius: int
-    sfx_text_color: Optional[str]
-    sfx_font_path: Optional[str]
 
 # --- Text Formatting and Wrapping ---
 def format_caption_text(caption: Caption) -> str:
@@ -147,7 +132,7 @@ def wrap_text(text: str, font: ImageFont.FreeTypeFont, max_width: int, max_heigh
     return final_lines, final_calculated_height
 
 # --- Image and Font Handling ---
-def load_panel_image(image_path: str, panel_width: int, panel_height: int, style_config: CaptionStyleConfig) -> Tuple[Image.Image, ImageDraw.Draw, bool]:
+def load_panel_image(image_path: str, panel_width: int, panel_height: int, style_config: CaptionStyleMetadata) -> Tuple[Image.Image, ImageDraw.Draw, bool]:
     """Loads the panel image. Returns the image, its drawing context, and a flag indicating if it's an error image."""
     try:
         img = Image.open(image_path).convert("RGBA")
@@ -194,7 +179,7 @@ def determine_font_and_layout(
     captions_data: List[Caption],
     text_area_width: int,
     max_block_height_px: int,
-    style_config: CaptionStyleConfig,
+    style_config: CaptionStyleMetadata,
     panel_idx_for_logging: int = -1
 ) -> Tuple[Optional[ImageFont.FreeTypeFont], List[Dict]]:
     """
@@ -313,22 +298,23 @@ def determine_font_and_layout(
 
     return final_font, all_wrapped_captions_for_final_font
 
-
 # --- Drawing ---
 def draw_caption_bubbles(
     draw: ImageDraw.Draw,
     font: ImageFont.FreeTypeFont,
     wrapped_captions_info: List[Dict], 
     panel_height: int,
-    style_config: CaptionStyleConfig
+    style_config: CaptionStyleMetadata
 ) -> None:
     """Draws all caption bubbles and text onto the image."""
-    
+    # print(f"DEBUG [caption_utils.draw_caption_bubbles]: style_config received: border_color='{style_config.get('border_color')}', border_width={style_config.get('border_width')}") # DEBUG print
+
     actual_block_height = 0
     non_empty_caption_count_for_drawing = 0
     for idx, info in enumerate(wrapped_captions_info):
         if info['text_lines']: # Only consider captions that will be drawn
             actual_block_height += (info['text_height'] + 2 * style_config['caption_padding'])
+            # Add margin if not the first visible bubble
             if non_empty_caption_count_for_drawing > 0: # Add margin if not the first visible bubble
                 actual_block_height += style_config['caption_margin']
             non_empty_caption_count_for_drawing += 1
@@ -361,39 +347,55 @@ def draw_caption_bubbles(
         bg_x1 = bg_x0 + bg_width
         bg_y1 = bg_y0 + bg_height
 
-        # Determine text color and font for this specific caption type
-        text_color_to_use = style_config['caption_text_color']
-        font_to_use = font # Default to the main font determined earlier
-
-        if caption_type == "sfx":
-            if style_config.get('sfx_text_color'):
-                text_color_to_use = style_config['sfx_text_color']
-            if style_config.get('sfx_font_path'):
-                try:
-                    sfx_font_size = font.size if hasattr(font, 'size') else style_config['default_font_size']
-                    sfx_font_candidate = _try_load_font(style_config['sfx_font_path'], sfx_font_size)
-                    if sfx_font_candidate:
-                        font_to_use = sfx_font_candidate
-                except Exception as e_sfx_font:
-                    print(f"Could not load SFX font '{style_config['sfx_font_path']}': {e_sfx_font}")
-        
         # Draw background
+        current_border_color = style_config.get('border_color')
+        current_border_width = style_config.get('border_width', 0)
+
         if caption_type == "dialogue":
+            # print(f"DEBUG [caption_utils.draw_caption_bubbles]: Drawing DIALOGUE bubble. Outline: '{current_border_color}', Width: {current_border_width}") # DEBUG print
             draw.rounded_rectangle(
                 (bg_x0, bg_y0, bg_x1, bg_y1),
                 radius=style_config['caption_corner_radius'],
-                fill=style_config['caption_background_color']
+                fill=style_config['caption_background_color'],
+                outline=current_border_color,
+                width=current_border_width
             )
         elif caption_type == "narrator":
+            # print(f"DEBUG [caption_utils.draw_caption_bubbles]: Drawing NARRATOR bubble. Outline: '{current_border_color}', Width: {current_border_width}") # DEBUG print
             draw.rectangle( # Narrator boxes are typically rectangular
                 (bg_x0, bg_y0, bg_x1, bg_y1),
-                fill=style_config['narrator_background_color']
+                fill=style_config['narrator_background_color'], # Use specific narrator background
+                outline=current_border_color,
+                width=current_border_width
             )
         elif caption_type == "sfx":
-            # SFX often has no standard background or very custom styling.
-            # For now, no background is drawn, text will be directly on panel.
-            pass 
+            # Give SFX a background for better visibility, using caption_background_color for now
+            # print(f"DEBUG [caption_utils.draw_caption_bubbles]: Drawing SFX bubble. Outline: '{current_border_color}', Width: {current_border_width}") # DEBUG print
+            draw.rounded_rectangle( # Or draw.rectangle if a different shape is preferred for SFX
+                (bg_x0, bg_y0, bg_x1, bg_y1),
+                radius=style_config['caption_corner_radius'], # Can be adjusted if SFX needs different styling
+                fill=style_config['caption_background_color'], # Using dialogue background for now
+                outline=current_border_color,
+                width=current_border_width
+            )
+        elif caption_type == "caption": # Generic caption, give it a background too
+            draw.rounded_rectangle(
+                (bg_x0, bg_y0, bg_x1, bg_y1),
+                radius=style_config['caption_corner_radius'],
+                fill=style_config['caption_background_color'],
+                outline=current_border_color,
+                width=current_border_width
+            )
+        # else:
+            # For any other unhandled caption types, no background is drawn by default.
+            # Consider adding a default background if all types should have one.
+            # print(f"DEBUG: Caption type '{caption_type}' has no explicit background drawing rule.")
 
+
+        font_to_use = font
+        text_color_to_use = style_config['caption_text_color']
+        
+        
         # Draw text lines
         text_draw_x = bg_x0 + style_config['caption_padding']
         current_line_y_start_in_bubble = bg_y0 + style_config['caption_padding']

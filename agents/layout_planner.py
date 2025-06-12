@@ -1,8 +1,10 @@
 # filepath: agents/layout_planner.py
 import math
-from models.comic_generation_state import ComicGenerationState
-from models.panel_layout_detail import PanelLayoutDetail
-from utils.config import PAGE_WIDTH, PAGE_HEIGHT, MARGIN
+from typing import List, Dict, Tuple, Optional
+
+from models.comic_generation_state import ComicGenerationState #type: ignore
+from models.panel_layout_detail import PanelLayoutDetail #type: ignore
+from configs import PAGE_WIDTH, PAGE_HEIGHT, MARGIN
 
 GENERATION_DIM_MULTIPLE = 64
 

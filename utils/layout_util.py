@@ -1,5 +1,5 @@
 from PIL import Image, ImageOps
-from .config import MARGIN, PAGE_WIDTH, PAGE_HEIGHT
+from configs import PAGE_WIDTH, PAGE_HEIGHT, MARGIN
 
 # --- Helper Function for Aspect-Aware Cropping (used by panel_sizer_agent) ---
 def crop_to_fit(image: Image.Image, target_width: int, target_height: int) -> Image.Image:
