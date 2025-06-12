@@ -5,11 +5,13 @@ from .image_generator import image_generator
 from .captioner import captioner
 from .page_composer import page_composer
 from .panel_sizer import panel_sizer
+from .layout_planner import layout_planner
 
 __all__ = [
     "story_analyst",
     "scene_decomposer",
     "prompt_engineer",
+    "layout_planner", 
     "image_generator",
     "panel_sizer",
     "captioner",

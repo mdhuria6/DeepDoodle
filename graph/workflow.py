@@ -17,6 +17,7 @@ def create_workflow():
     workflow = StateGraph(ComicGenerationState)
     workflow.add_node("story_analyst", agents.story_analyst)
     workflow.add_node("scene_decomposer", agents.scene_decomposer)
+    workflow.add_node("layout_planner", agents.layout_planner) # Added layout_planner
     workflow.add_node("prompt_engineer", agents.prompt_engineer)
     workflow.add_node("image_generator", agents.image_generator)
     workflow.add_node("panel_sizer", agents.panel_sizer) # Renamed from panel_sizer_agent
@@ -25,7 +26,8 @@ def create_workflow():
     
     workflow.set_entry_point("story_analyst")
     workflow.add_edge("story_analyst", "scene_decomposer")
-    workflow.add_edge("scene_decomposer", "prompt_engineer")
+    workflow.add_edge("scene_decomposer", "layout_planner") # scene_decomposer now goes to layout_planner
+    workflow.add_edge("layout_planner", "prompt_engineer") # layout_planner goes to prompt_engineer
     workflow.add_edge("prompt_engineer", "image_generator")
     
     # After image_generator, decide if more panels or move to panel_sizer_agent

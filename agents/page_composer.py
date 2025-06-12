@@ -1,96 +1,95 @@
-import os # Added for makedirs
+import os
 from PIL import Image
-from models.comic_generation_state import ComicGenerationState # Updated import
-from utils.config import COMIC_PAGES_DIR, PAGE_WIDTH, PAGE_HEIGHT # Import new page dimensions and use COMIC_PAGES_DIR
-from utils import layout
+from collections import defaultdict
+
+from models.comic_generation_state import ComicGenerationState # PanelLayoutDetail will be imported from its own file
+from models.panel_layout_detail import PanelLayoutDetail # Import from new file
+from utils.config import COMIC_PAGES_DIR, PAGE_WIDTH, PAGE_HEIGHT, MARGIN # Added MARGIN
+from utils import layout # Keep for existing compose functions if they are reused or adapted
 
 def page_composer(state: ComicGenerationState) -> dict:
-    """Assembles generated panels into final pages using a specified layout."""
+    """Assembles sized and captioned panels into final pages based on pre-planned layouts."""
     print("---AGENT: Page Composer---")
 
-    # Ensure output directory for pages exists
-    os.makedirs(COMIC_PAGES_DIR, exist_ok=True) # Use COMIC_PAGES_DIR
+    os.makedirs(COMIC_PAGES_DIR, exist_ok=True)
     
-    layout_style = state.get("layout_style") or "grid_2x2"
-    # Expects paths to images that are already sized and captioned
-    image_paths_to_compose = state.get("panel_images_with_captions_paths", [])
+    # panel_images_with_captions_paths are the images ready to be placed
+    panel_image_paths = state.get("panel_images_with_captions_paths", [])
+    panel_layout_details = state.get("panel_layout_details", [])
 
-    if not image_paths_to_compose:
-        print("Error: No image paths found to compose. Check 'panel_images_with_captions_paths' in state.")
+    if not panel_image_paths:
+        print("Error: No image paths found ('panel_images_with_captions_paths').")
+        return {"final_page_images": [], "final_page_paths": []}
+    
+    if not panel_layout_details:
+        print("Error: No panel layout details found.")
+        return {"final_page_images": [], "final_page_paths": []}
+    
+    if len(panel_image_paths) != len(panel_layout_details):
+        print("Error: Mismatch between number of panel images and layout details.")
+        # Potentially return or handle error, e.g. try to compose with available info
         return {"final_page_images": [], "final_page_paths": []}
 
-    # Define panels per page based on layout style
-    if layout_style == "feature_left":
-        panels_per_page = 3
-    elif layout_style == "vertical_strip":
-        panels_per_page = 3 # As per new requirement
-    elif layout_style == "horizontal_strip":
-        panels_per_page = 4 # As per new requirement
-    elif layout_style in ["grid_2x2", "mixed_2x2"]:
-        panels_per_page = 4
-    else: # Default or unknown layout
-        panels_per_page = 4 
-        print(f"Warning: Unknown layout_style '{layout_style}', defaulting to 4 panels per page.")
+    # Group panel details and their corresponding image paths by page_number
+    panels_by_page = defaultdict(list)
+    for i, detail in enumerate(panel_layout_details):
+        if i < len(panel_image_paths):
+            panels_by_page[detail['page_number']].append(
+                {'path': panel_image_paths[i], 'detail': detail}
+            )
+        else:
+            print(f"Warning: More layout details than image paths. Detail for panel_index {detail['panel_index']} ignored.")
 
-    # Ensure total panel count from state is used if it's a strip layout that should fill one page
-    # This logic might need refinement if strips can span multiple pages with fixed panels_per_page
-    # For now, assuming strip layouts try to fit all panels from state['panel_count'] onto one page,
-    # but capped by the new fixed panels_per_page for horizontal/vertical.
-    # If state['panel_count'] is less than panels_per_page, it will be handled by page_chunk logic.
-
-    page_chunks = [image_paths_to_compose[i:i + panels_per_page] for i in range(0, len(image_paths_to_compose), panels_per_page)]
-    
-    final_pages = []
+    final_pages_pil = [] # Store PIL Image objects
     final_page_paths = []
 
-    for i, page_chunk in enumerate(page_chunks):
-        # Validate if enough panels for the chosen layout on this page
-        if layout_style == "feature_left" and len(page_chunk) < 3:
-            print(f"Skipping page {i+1} for feature_left: needs 3 panels, got {len(page_chunk)}")
-            continue
-        if layout_style == "vertical_strip" and len(page_chunk) < 3:
-            print(f"Skipping page {i+1} for vertical_strip: needs 3 panels, got {len(page_chunk)}")
-            continue
-        if layout_style == "horizontal_strip" and len(page_chunk) < 4:
-            # Allow fewer if it's the last page and not enough panels left
-            if i < len(page_chunks) -1 : # Not the last page
-                 print(f"Skipping page {i+1} for horizontal_strip: needs 4 panels, got {len(page_chunk)}")
-                 continue
-            elif len(page_chunk) == 0: # Empty chunk
-                continue
-
-        if layout_style in ["grid_2x2", "mixed_2x2"] and len(page_chunk) < 4:
-            # Allow fewer if it's the last page and not enough panels left
-            if i < len(page_chunks) -1: # Not the last page
-                print(f"Skipping page {i+1} for {layout_style}: needs 4 panels, got {len(page_chunk)}")
-                continue
-            elif len(page_chunk) == 0: # Empty chunk
-                continue
+    for page_num in sorted(panels_by_page.keys()):
+        page_panel_data = panels_by_page[page_num]
         
-        # Create a new page with fixed dimensions
-        page = Image.new('RGB', (PAGE_WIDTH, PAGE_HEIGHT), color='white')
+        if not page_panel_data:
+            print(f"Warning: No panels found for page {page_num}. Skipping page.")
+            continue
 
-        # Call the appropriate layout composition function
-        if layout_style == "grid_2x2":
-            page = layout.compose_grid_2x2(page, page_chunk)
-        elif layout_style == "horizontal_strip":
-            page = layout.compose_horizontal_strip(page, page_chunk)
-        elif layout_style == "vertical_strip":
-            page = layout.compose_vertical_strip(page, page_chunk)
-        elif layout_style == "feature_left":
-            page = layout.compose_feature_left(page, page_chunk)
-        elif layout_style == "mixed_2x2":
-            page = layout.compose_mixed_2x2(page, page_chunk)
-        else:
-            print(f"Warning: Layout style '{layout_style}' not implemented. Creating blank page.")
-            # Fallback: paste panels if any, or leave page blank
-            if page_chunk:
-                 page = layout.compose_grid_2x2(page, page_chunk) # Default to grid if unknown
+        # All panels on a page should have the same page_layout_type, determined by layout_planner
+        # We can take it from the first panel on this page
+        current_page_layout_type = page_panel_data[0]['detail']['page_layout_type']
+        print(f"   > Composing Page {page_num} with layout: {current_page_layout_type}")
 
-        final_pages.append(page)
-        page_path = f"{COMIC_PAGES_DIR}/page_{i + 1}.png" # Use COMIC_PAGES_DIR
-        page.save(page_path)
-        final_page_paths.append(page_path)
-        print(f"   > Saved composed page to: {page_path}")
+        page_image = Image.new('RGB', (PAGE_WIDTH, PAGE_HEIGHT), color='white')
 
-    return {"final_page_images": final_pages, "final_page_paths": final_page_paths}
+        # The core change: directly paste images using their pre-calculated ideal_x_offset and ideal_y_offset
+        for panel_data in page_panel_data:
+            panel_path = panel_data['path']
+            detail = panel_data['detail']
+            try:
+                with Image.open(panel_path) as panel_img:
+                    # panel_img should already be sized to ideal_width, ideal_height by panel_sizer
+                    # We just need to paste it at the correct x, y offset
+                    x_offset = detail['ideal_x_offset']
+                    y_offset = detail['ideal_y_offset']
+                    
+                    # Sanity check image size against ideal dimensions (optional)
+                    if panel_img.width != detail['ideal_width'] or panel_img.height != detail['ideal_height']:
+                        print(f"Warning: Panel {detail['panel_index']} image size ({panel_img.width}x{panel_img.height}) "
+                              f"does not match ideal size ({detail['ideal_width']}x{detail['ideal_height']}). Pasting as is.")
+                        # Optionally, resize here again, but panel_sizer should have handled it.
+                        # panel_img = panel_img.resize((detail['ideal_width'], detail['ideal_height']), Image.Resampling.LANCZOS)
+
+                    page_image.paste(panel_img, (x_offset, y_offset))
+            except FileNotFoundError:
+                print(f"Error: Panel image not found at {panel_path} for page {page_num}.")
+                # Create a black box as a placeholder for the missing panel
+                error_panel_img = Image.new('RGB', (detail['ideal_width'], detail['ideal_height']), color='black')
+                page_image.paste(error_panel_img, (detail['ideal_x_offset'], detail['ideal_y_offset']))
+            except Exception as e:
+                print(f"Error loading or pasting panel {panel_path}: {e}")
+                error_panel_img = Image.new('RGB', (detail['ideal_width'], detail['ideal_height']), color='red') # Red box for other errors
+                page_image.paste(error_panel_img, (detail['ideal_x_offset'], detail['ideal_y_offset']))
+
+        final_pages_pil.append(page_image)
+        page_output_path = os.path.join(COMIC_PAGES_DIR, f"page_{page_num}.png")
+        page_image.save(page_output_path)
+        final_page_paths.append(page_output_path)
+        print(f"   > Saved composed page to: {page_output_path}")
+
+    return {"final_page_images": final_pages_pil, "final_page_paths": final_page_paths}

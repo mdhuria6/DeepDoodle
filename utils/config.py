@@ -49,6 +49,24 @@ MARGIN = 5        # Margin around panels and page edges in pixels
 PANEL_SIZE = (PAGE_WIDTH - 3 * MARGIN) // 2  # Default panel size for grid layout, calculated based on margins
 
 
+# --- Text & Caption Styling ---
+# Caption styling
+CAPTION_BACKGROUND_COLOR = (255, 255, 255, 100)  # RGBA: White with some transparency
+CAPTION_TEXT_COLOR = "black"
+CAPTION_PADDING = 8                    # Pixels inside the caption box
+CAPTION_MARGIN = 5                      # Pixels outside the caption box (spacing between captions)
+MAX_CAPTION_HEIGHT_RATIO = 0.25         # Max height of the entire caption block relative to panel height
+LINE_SPACING = 2                        # Pixels between lines of text within a single caption
+CAPTION_CORNER_RADIUS = 10              # Pixels for rounded corners of dialogue bubbles
+NARRATOR_BACKGROUND_COLOR = (220, 220, 220, 100) # RGBA: Light grey with some transparency
+MAX_FONT_SIZE = 14 # Maximum font size for captions
+DEFAULT_FONT_SIZE = 12 # Default font size if not otherwise determined
+MIN_FONT_SIZE = 10 # Absolute minimum font size to attempt for captions
+
+# SFX (Sound Effects) styling
+SFX_TEXT_COLOR = "yellow"  # Example: SFX text color, changed to yellow for visibility
+SFX_FONT_PATH = None # Example: Path to a dedicated SFX font, set to None if not used or use BUNDLED_FONT_PATH
+
 # --- UI Configuration ---
 # DEFAULT_LAYOUT_STYLE sets the default layout for the comic panels.
 # SUPPORTED_LAYOUT_STYLES lists all the layout styles that can be used.
@@ -62,16 +80,3 @@ SUPPORTED_STYLE_PRESETS = ["default comic style", "Modern Anime", "Vintage Comic
 # DEFAULT_GENRE_PRESET and SUPPORTED_GENRE_PRESETS define the default and available genre presets for the comic.
 DEFAULT_GENRE_PRESET = "neutral"
 SUPPORTED_GENRE_PRESETS = ["neutral", "Sci-Fi", "Fantasy", "Adventure", "Comedy", "Horror", "Drama", "Mystery"]
-
-# --- Font & Caption Configuration ---
-CAPTION_BACKGROUND_COLOR = (255, 255, 255, 100)  # RGBA: White with some transparency
-CAPTION_TEXT_COLOR = (0, 0, 0)     # RGB: Black
-CAPTION_PADDING = 8                    # Pixels inside the caption box
-CAPTION_MARGIN = 5                      # Pixels outside the caption box (spacing between captions)
-MAX_CAPTION_HEIGHT_RATIO = 0.25         # Max height of the entire caption block relative to panel height
-LINE_SPACING = 2                        # Pixels between lines of text within a single caption
-CAPTION_CORNER_RADIUS = 15              # Pixels for rounded corners of dialogue bubbles
-NARRATOR_BACKGROUND_COLOR = (220, 220, 220, 100) # RGBA: Light grey with some transparency
-MAX_FONT_SIZE = 14 # Maximum font size for captions
-DEFAULT_FONT_SIZE = 12 # Default font size if not otherwise determined
-MIN_FONT_SIZE = 10 # Absolute minimum font size to attempt for captions

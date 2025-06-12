@@ -22,16 +22,23 @@ DeepDoodle/
 │   ├── __init__.py
 │   ├── story_analyst.py         # Analyzes story, extracts genre/style/mood
 │   ├── scene_decomposer.py      # Splits story into visual scenes/panels
+│   ├── layout_planner.py        # Determines panel dimensions and page layouts
 │   ├── prompt_engineer.py       # Crafts prompts for image generation
-│   ├── image_generator.py       # Generates (or mocks) panel images
-│   ├── panel_sizer.py           # Resizes/crops raw panels to fit page layout
+│   ├── image_generator.py       # Generates panel images at target dimensions
+│   ├── panel_sizer.py           # Resizes/crops raw panels to ideal dimensions from layout plan
 │   ├── captioner.py             # Adds captions/text to sized panels
-│   └── page_composer.py         # Stitches panels into comic pages
+│   └── page_composer.py         # Stitches panels onto pages using offsets from layout plan
 │
 ├── graph/                       # Workflow orchestration (LangGraph)
 │   ├── __init__.py
-│   ├── workflow.py              # Defines the LangGraph workflow
-│   └── state.py                 # Defines the ComicGenerationState (shared state dict)
+│   └── workflow.py              # Defines the LangGraph workflow
+│
+├── models/                      # Data structures and type definitions
+│   ├── __init__.py              # (if you add one)
+│   ├── comic_generation_state.py # Defines the ComicGenerationState (shared state dict)
+│   ├── panel_layout_detail.py   # Defines the PanelLayoutDetail TypedDict
+│   ├── scene.py                 # Defines the Scene TypedDict
+│   └── caption.py               # Defines the Caption TypedDict
 │
 ├── utils/                       # Utility functions and configuration
 │   ├── __init__.py
@@ -145,11 +152,12 @@ streamlit run ui/streamlit_app.py
 
 - **Story Analyst**: Analyzes the story, extracts genre, style, and mood.
 - **Scene Decomposer**: Splits the story into visual scenes/panels.
+- **Layout Planner**: Determines the detailed layout for each panel on each page, including ideal dimensions for final placement, target dimensions for image generation (multiple of 64), and precise x/y offsets for composition. It prioritizes UI-selected layouts and dynamically adapts for remaining panels.
 - **Prompt Engineer**: Converts scenes and metadata into image prompts.
-- **Image Generator**: Generates images for each panel based on prompts.
-- **Panel Sizer**: Calculates target dimensions for each panel based on the chosen layout and page size, then crops/resizes the raw panel images accordingly.
+- **Image Generator**: Generates images for each panel based on prompts, adhering to the target generation dimensions specified by the `Layout Planner`.
+- **Panel Sizer**: Takes the generated images and resizes/crops them to the ideal dimensions defined in the layout plan from `Layout Planner`, preparing them for final page composition.
 - **Captioner**: Adds dialogue or narrative captions to the (already sized) panel images.
-- **Page Composer**: Arranges the sized and captioned panels onto a blank page according to the selected layout style.
+- **Page Composer**: Arranges the sized and captioned panels onto a blank page according to the ideal dimensions and x/y offsets provided by the `Layout Planner`.
 - **LangGraph-based orchestration**: Orchestrates agent communication and workflow.
 
 ---
