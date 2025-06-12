@@ -1,71 +1,98 @@
+# agents/scene_decomposer.py
+
+import os
+import json
+from openai import OpenAI
+from dotenv import load_dotenv
 from graph.state import ComicGenerationState
+
+load_dotenv()
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def scene_decomposer(state: ComicGenerationState) -> dict:
     """
     Node 2: Decomposes the story into a sequence of visual scenes for each panel.
-    This is a placeholder for an LLM call.
+    Returns scene descriptions for the requested number of comic panels.
     """
     print("---AGENT: Scene Decomposer---")
 
-    # --- LLM Call Placeholder ---
-    # llm = ChatOpenAI(model="gpt-4-turbo", temperature=0.7)
-    # prompt = f"""Read... STORY: {state['story_text']}... Decompose into {state['panel_count']} scenes... Return JSON array."""
-    # response = llm.invoke(prompt)
-    # scenes = json.loads(response.content)
-    # --- End Placeholder ---
+    story_text = state.get("story_text", "").strip()
+    panel_count = state.get("panel_count", 6)
 
-    # Placeholder result for demonstration
-    print(f"   > Decomposing story into {state['panel_count']} scenes...")
-    scenes = [
-      {
-        "panel": 1,
-        "description": "A lonely astronomer, Elara, sits in a dark observatory, her face illuminated by a screen of static.",
-        "caption": "Elara: (Sighs) Another night, same old static..."
-      },
-      {
-        "panel": 2,
-        "description": "Close-up on the monitor where the static is replaced by a single, perfect, glowing green sine wave.",
-        "caption": "Monitor: *BEEP*"
-      },
-      {
-        "panel": 3,
-        "description": "A shocking image of a red giant star violently exploding in a supernova, sending a shockwave through space.",
-        "caption": "SFX: KABOOOM!"
-      },
-      {
-        "panel": 4,
-        "description": "Elara's face, a mix of terror and awe, as she realizes the signal and the supernova are connected.",
-        "caption": "Elara: It can't be... the signal... it's a countdown?"
-      },
-      {
-        "panel": 5,
-        "description": "Years later, an older Elara stands on a lush, green alien planet, looking at a new sky.",
-        "caption": "Elara: We made it. A new home."
-      },
-      {
-        "panel": 6,
-        "description": "A wide shot of a futuristic city on the new planet, with two suns in the sky, a symbol of a new beginning.",
-        "caption": "Narrator: And so, humanity found a new dawn."
-      },
-      {
-        "panel": 7,
-        "description": "Close-up on a futuristic data pad in Elara's hand showing the original green sine wave, now labeled 'The Invitation'.",
-        "caption": "Datapad: Signal Source: Kepler-186f. Status: Welcoming."
-      },
-      {
-        "panel": 8,
-        "description": "Elara smiles, looking towards the horizon of the new world, full of hope.",
-        "caption": "Elara: The start of a new adventure."
-      }
-    ]
+    if not story_text:
+        raise ValueError("No story text found in state for scene decomposition.")
 
-    # Ensure the number of scenes matches the requested panel count
-    final_scenes = scenes[:state['panel_count']]
+    print(f"   > Decomposing story into {panel_count} scenes...")
 
-    # Initialize the state for the panel generation loop
+    system_prompt = (
+        "You're a comic panel planner. Given a short story, break it into a JSON list of scenes. "
+        "Each scene should contain:\n"
+        "- panel (int): panel number\n"
+        "- description (str): a short visual description of what to draw\n"
+        "- caption (str, optional): narration or character dialogue\n\n"
+        f"Limit to {panel_count} scenes max. Return JSON only, without markdown formatting."
+    )
+
+    user_prompt = f"Story:\n{story_text}"
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            temperature=0.7,
+        )
+
+
+        content = response.choices[0].message.content.strip()
+        scenes = json.loads(content)
+        final_scenes = scenes[:panel_count]
+        print("final scnenes:: " , final_scenes)
+
+    except Exception as e:
+        print("❌ Error parsing LLM output, using fallback scenes instead.\nError:", e)
+        final_scenes = _fallback_scenes()[:panel_count]
+
     return {
         "scenes": final_scenes,
         "current_panel_index": 0,
         "panel_prompts": [],
         "panel_images": [],
     }
+
+def _fallback_scenes():
+    """Returns sample hardcoded scenes (for dev fallback)."""
+    return [
+        {
+            "panel": 1,
+            "description": "A lonely robot sits in a junkyard surrounded by twisted metal.",
+            "caption": "Narrator: In the silence of scrap, hope sparked."
+        },
+        {
+            "panel": 2,
+            "description": "The robot finds a blooming flower among the debris.",
+            "caption": "Robot: What... is this?"
+        },
+        {
+            "panel": 3,
+            "description": "The robot shelters the flower with a rusty umbrella as acid rain begins to fall.",
+            "caption": "Narrator: Even steel can care."
+        },
+        {
+            "panel": 4,
+            "description": "More flowers begin sprouting around the robot in vibrant color.",
+            "caption": ""
+        },
+        {
+            "panel": 5,
+            "description": "The robot stands in a now-green junkyard, smiling faintly.",
+            "caption": "Robot: Beautiful."
+        },
+        {
+            "panel": 6,
+            "description": "A drone observes from afar, recording the moment.",
+            "caption": "Drone Log: Emotional anomaly detected."
+        }
+    ]

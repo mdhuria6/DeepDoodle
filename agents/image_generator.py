@@ -1,36 +1,39 @@
 import os
-from PIL import Image
+import torch
+from diffusers import StableDiffusionPipeline
 from graph.state import ComicGenerationState
+
+# Load model once (globally)
+MODEL_ID = "runwayml/stable-diffusion-v1-5"
+pipe = StableDiffusionPipeline.from_pretrained(
+    MODEL_ID, torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32
+)
+pipe = pipe.to("cuda" if torch.cuda.is_available() else "cpu")
 
 def image_generator(state: ComicGenerationState) -> dict:
     """
-    Node 4: Generates an image for the current panel based on the created prompt.
-    This is a placeholder for an image generation model call.
+    Node 4: Generates a panel image using Stable Diffusion (offline).
     """
-    panel_index = state['current_panel_index']
+    panel_index = state["current_panel_index"]
+    prompt = state["panel_prompts"][panel_index]
     print(f"---AGENT: Image Generator (Panel {panel_index + 1})---")
+    print(f"   > Generating image with prompt: {prompt[:100]}...")
 
-    # --- Image Generation API Placeholder ---
-    # This is where you'd call a service like DALL-E 3, Imagen, or Stable Diffusion.
-    # image_bytes = image_generation_api(prompt=state["panel_prompts"][-1])
-    # image_path = f"output/panel_{panel_index + 1}.png"
-    # with open(image_path, "wb") as f:
-    #     f.write(image_bytes)
-    # --- End Placeholder ---
+    try:
+        image = pipe(prompt).images[0]
 
-    # Placeholder: Create a dummy image with PIL instead of calling a model
-    print("   > Generating placeholder image...")
-    img = Image.new('RGB', (512, 512), color='darkgray')
+        # Save image
+        output_dir = "output/panels"
+        os.makedirs(output_dir, exist_ok=True)
+        image_path = os.path.join(output_dir, f"panel_{panel_index + 1}.png")
+        image.save(image_path)
+        print(f"   > Image saved to {image_path}")
 
-    # Ensure output directory exists
-    output_dir = "output/panels"
-    os.makedirs(output_dir, exist_ok=True)
-    image_path = f"{output_dir}/panel_{panel_index + 1}.png"
-    img.save(image_path)
+    except Exception as e:
+        print("❌ Error generating image with Stable Diffusion:", e)
+        image_path = "output/placeholder.png"
 
-    # Add the new image path to our list and increment the counter for the next loop
-    paths = state.get("panel_image_paths") or []
     return {
-        "panel_image_paths": paths + [image_path], 
+        "panel_image_paths": state.get("panel_image_paths", []) + [image_path],
         "current_panel_index": panel_index + 1
     }

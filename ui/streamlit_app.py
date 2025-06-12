@@ -114,6 +114,8 @@ if generate_button:
                 "layout_style": layout,
             }
 
+            print(inputs)
+
             app = create_workflow()
             st.session_state.result = app.invoke(inputs)
     else:
