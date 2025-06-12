@@ -1,6 +1,6 @@
 langgraph
 langchain
-pillow
+pillow==11.2.1
 streamlit
 dotenv
 langchain-community

@@ -1,17 +1,26 @@
 import streamlit as st
+from PIL import Image
 import os
-import shutil
 import sys
+import shutil # Added shutil import
 
+# Add project root to Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from graph.workflow import create_workflow
-from utils.config import OUTPUT_DIR, RAW_PANELS_DIR, COMIC_PAGES_DIR # Updated import names
+from main import run_comic_generation_workflow #type: ignore
+from utils.config import (
+    DEFAULT_LAYOUT_STYLE, SUPPORTED_LAYOUT_STYLES, 
+    DEFAULT_STYLE_PRESET, SUPPORTED_STYLE_PRESETS, 
+    DEFAULT_GENRE_PRESET, SUPPORTED_GENRE_PRESETS,
+    OUTPUT_DIR, COMIC_PAGES_DIR, RAW_PANELS_DIR # Added missing imports
+) #type: ignore
+from models.comic_generation_state import ComicGenerationState # Import from models
+from graph.workflow import create_workflow # Added missing import
 
-# --- Page Configuration and Styling ---
+# --- Page Configuration ---
 st.set_page_config(page_title="DeepDoodle: AI Comic Generator", layout="wide", initial_sidebar_state="expanded")
 
-# Inject custom CSS for better styling
+# --- CSS Styling ---
 st.markdown("""
     <style>
     /* Main container styling */
@@ -44,12 +53,12 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-
+# --- Title and Subtitle ---
 st.title("✒️ DeepDoodle: AI Comic Generator")
 st.markdown("<h4 style='text-align: center; color: #555;'>Turn your stories into visual comic strips with the power of AI Agents</h4>", unsafe_allow_html=True)
 st.markdown("---")
 
-
+# --- Directory Setup ---
 def setup_directories():
     if os.path.exists(OUTPUT_DIR):
         shutil.rmtree(OUTPUT_DIR)

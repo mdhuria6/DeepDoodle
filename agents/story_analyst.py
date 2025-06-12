@@ -1,4 +1,4 @@
-from graph.state import ComicGenerationState
+from models.comic_generation_state import ComicGenerationState # Updated import
 
 def story_analyst(state: ComicGenerationState) -> dict:
     """Analyzes the story and sets up initial style, mood, and character."""

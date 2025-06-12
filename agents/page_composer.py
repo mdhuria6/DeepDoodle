@@ -1,6 +1,6 @@
 import os # Added for makedirs
 from PIL import Image
-from graph.state import ComicGenerationState
+from models.comic_generation_state import ComicGenerationState # Updated import
 from utils.config import COMIC_PAGES_DIR, PAGE_WIDTH, PAGE_HEIGHT # Import new page dimensions and use COMIC_PAGES_DIR
 from utils import layout
 

@@ -1,5 +1,5 @@
 from langgraph.graph import StateGraph, END
-from .state import ComicGenerationState
+from models.comic_generation_state import ComicGenerationState # Import from models
 import agents
 
 def should_continue_generating(state: ComicGenerationState) -> str:

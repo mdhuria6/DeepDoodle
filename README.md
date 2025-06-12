@@ -74,6 +74,56 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+#### 3.1. Special Instructions for Pillow (Text Shaping)
+
+For optimal text rendering, especially for complex scripts, Pillow should be compiled with `libraqm` support.
+
+**On macOS:**
+
+1.  **Install dependencies for `libraqm`**:
+    ```bash
+    brew install freetype harfbuzz fribidi
+    ```
+2.  **Install `libraqm`**:
+    ```bash
+    brew install libraqm
+    ```
+3.  **Reinstall Pillow from source**:
+    It's crucial to reinstall Pillow after `libraqm` is available to ensure it's detected during the build.
+    ```bash
+    pip uninstall Pillow -y
+    pip install Pillow --no-cache-dir --no-binary :all: --verbose
+    ```
+    During the verbose output of the Pillow installation, look for a line confirming "RAQM (Text shaping) support available".
+
+**On Linux (Debian/Ubuntu):**
+
+1.  **Install dependencies for `libraqm`**:
+    ```bash
+    sudo apt-get install libfreetype6-dev libharfbuzz-dev libfribidi-dev libjpeg-dev libtiff5-dev liblcms2-dev
+    ```
+2.  **Install `libraqm`**:
+    ```bash
+    sudo apt-get install libraqm-dev
+    ```
+3.  **Reinstall Pillow from source**:
+    ```bash
+    pip uninstall Pillow -y
+    pip install Pillow --no-cache-dir --no-binary :all: --verbose
+    ```
+    Check for "RAQM (Text shaping) support available" in the build log.
+
+**Font Selection for Text Rendering:**
+Equally important as `libraqm` support is the choice of font. The font used for rendering text (e.g., in captions) **must contain the glyphs for the specific language or script** you intend to use. If the font lacks the necessary glyphs, you may see empty boxes (tofu) or incorrect characters. For example, to render Arabic text, use a font like "Noto Sans Arabic" or another font with comprehensive Arabic support. Ensure the `font_path` in your project's configuration (e.g., `utils/config.py` or relevant scripts) points to such a font file.
+
+**Verification (Optional but Recommended):**
+
+After installation, you can run the `verify_text_shaping.py` script (located in `test/setup/`) to check if Pillow has RAQM support and can render a sample of complex text:
+```bash
+python test/setup/verify_text_shaping.py
+```
+This will create an image `text_shaping_verification.png` in the root directory. Open it to visually confirm.
+
 ### 4. Add environment variables
 Create a `.env` file in the root directory with this content:
 ```env

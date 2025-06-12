@@ -1,5 +1,6 @@
-from typing import TypedDict, List, Optional
+from typing import TypedDict, List, Optional, Dict
 from PIL import Image
+from models.scene import Scene
 
 class ComicGenerationState(TypedDict):
     """
@@ -16,7 +17,7 @@ class ComicGenerationState(TypedDict):
     character_description: str
     artistic_style: str # This key is created by the story_analyst
     mood: str           # This key is also created by the story_analyst
-    scenes: List[dict]
+    scenes: List[Scene] # Updated to use the Scene TypedDict
     panel_prompts: List[str]
     panel_image_paths: List[str] # Paths to raw images from image_generator
     sized_panel_image_paths: List[str] # Paths to images after panel_sizer_agent

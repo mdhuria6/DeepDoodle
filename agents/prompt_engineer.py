@@ -1,4 +1,4 @@
-from graph.state import ComicGenerationState
+from models.comic_generation_state import ComicGenerationState # Updated import
 from utils import CHARACTER_DESCRIPTION
 
 def prompt_engineer(state: ComicGenerationState) -> dict:

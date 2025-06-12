@@ -1,9 +1,10 @@
-\
-# filepath: /Users/r0g06vy/IISc-Workspace/ML-Coding-Workspace/DA-225o-DL/Course-Project/DeepDoodle/agents/panel_sizer_agent.py
 import os
 from PIL import Image
-from graph.state import ComicGenerationState
-from utils.config import PAGE_WIDTH, PAGE_HEIGHT, MARGIN
+from typing import List, Dict, Tuple
+
+from models.comic_generation_state import ComicGenerationState
+from utils.config import RAW_PANELS_DIR, COMIC_PAGES_DIR, PANEL_OUTPUT_SIZE, PAGE_WIDTH, PAGE_HEIGHT, MARGIN
+
 from utils.layout import crop_to_fit
 
 def get_panel_dimensions(layout_style: str, num_panels_on_page: int, panel_index_on_page: int) -> tuple[int, int]:
@@ -18,14 +19,16 @@ def get_panel_dimensions(layout_style: str, num_panels_on_page: int, panel_index
         return int(round(panel_w)), int(round(panel_h))
     
     elif layout_style == "horizontal_strip":
-        # Assuming 4 panels for a horizontal strip, stacked vertically
+        # Horizontal strip always assumes 4 panels stacked vertically for its geometry.
+        characteristic_num_panels = 4
         panel_w = PAGE_WIDTH - 2 * MARGIN
-        panel_h = (PAGE_HEIGHT - (num_panels_on_page + 1) * MARGIN) / num_panels_on_page
+        panel_h = (PAGE_HEIGHT - (characteristic_num_panels + 1) * MARGIN) / characteristic_num_panels
         return int(round(panel_w)), int(round(panel_h))
 
     elif layout_style == "vertical_strip":
-        # Assuming 3 panels for a vertical strip, arranged horizontally
-        panel_w = (PAGE_WIDTH - (num_panels_on_page + 1) * MARGIN) / num_panels_on_page
+        # Vertical strip always assumes 3 panels arranged horizontally for its geometry.
+        characteristic_num_panels = 3
+        panel_w = (PAGE_WIDTH - (characteristic_num_panels + 1) * MARGIN) / characteristic_num_panels
         panel_h = PAGE_HEIGHT - 2 * MARGIN
         return int(round(panel_w)), int(round(panel_h))
 

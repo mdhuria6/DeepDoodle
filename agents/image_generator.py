@@ -1,6 +1,6 @@
 import os
 from PIL import Image
-from graph.state import ComicGenerationState
+from models.comic_generation_state import ComicGenerationState # Updated import
 
 def image_generator(state: ComicGenerationState) -> dict:
     """
