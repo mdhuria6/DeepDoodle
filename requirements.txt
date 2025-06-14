@@ -2,9 +2,11 @@ langgraph
 langchain
 pillow==11.2.1
 streamlit
-dotenv
-langchain-community
 python-dotenv
-huggingface-hub
-langchain-openai
-boto3
+langchain-community
+huggingface-hub[inference]
+transformers
+torch
+accelerate
+requests
+typing-extensions

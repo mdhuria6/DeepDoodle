@@ -146,26 +146,23 @@ layout_definitions = {
 def layout_planner(state: ComicGenerationState) -> ComicGenerationState:
     """
     Determines page layouts and calculates ideal and target generation dimensions for each panel.
-    Prioritizes UI-selected layout style, falling back to dynamic logic for partial/last pages
-    or if no preference is set.
+    Alternates layouts for variety and always picks the best fit for the remaining panels.
     """
     print("---AGENT: Layout Planner---")
     panel_count = state['panel_count']
-    preferred_layout_style = state.get('layout_style') # From UI, e.g., "grid_2x2"
-
+    preferred_layout_style = state.get('layout_style')
     panel_layout_details: list[PanelLayoutDetail] = []
     current_panel_global_idx = 0
     page_number = 1
-
+    # List of layouts to alternate for variety
+    alternate_layouts = ["grid_2x2", "mixed_2x2", "horizontal_strip", "feature_left"]
+    alt_idx = 0
     while current_panel_global_idx < panel_count:
         panels_remaining_total = panel_count - current_panel_global_idx
         page_layout_type = ""
-        # How many panels the chosen layout type is designed for
         panels_layout_can_take = 0 
         panel_configs_for_page: list[dict] = []
-        
         use_preferred_layout_this_page = False
-
         # Try to use preferred layout if set and applicable
         if preferred_layout_style and preferred_layout_style in layout_definitions:
             layout_info = layout_definitions[preferred_layout_style]
@@ -176,80 +173,58 @@ def layout_planner(state: ComicGenerationState) -> ComicGenerationState:
                 panel_configs_for_page = layout_info["config_func"](PAGE_WIDTH, PAGE_HEIGHT, MARGIN)
                 use_preferred_layout_this_page = True
                 print(f"   > Page {page_number}: Using UI preferred layout '{page_layout_type}' (for {panels_layout_can_take} panels).")
-
         # If preferred layout not used (not set, unknown, or not enough panels for it)
         if not use_preferred_layout_this_page:
-            print(f"   > Page {page_number}: UI preference not used or not applicable. Dynamically choosing layout for up to {panels_remaining_total} panel(s).")
-            
-            # Dynamic layout choice for the current page based on panels_remaining_total
-            chosen_dynamically = False
-            if panels_remaining_total >= 4 and "grid_2x2" in layout_definitions:
-                page_layout_type = "grid_2x2"
-                chosen_dynamically = True
-            elif panels_remaining_total == 3 and "feature_left" in layout_definitions:
+            # Alternate layouts for variety
+            if panels_remaining_total >= 4:
+                page_layout_type = alternate_layouts[alt_idx % len(alternate_layouts)]
+                alt_idx += 1
+            elif panels_remaining_total == 3:
                 page_layout_type = "feature_left"
-                chosen_dynamically = True
-            elif panels_remaining_total == 2 and "horizontal_strip_2" in layout_definitions: # Defaulting to horizontal for 2
+            elif panels_remaining_total == 2:
                 page_layout_type = "horizontal_strip_2"
-                chosen_dynamically = True
-            elif panels_remaining_total >= 1 and "single_panel" in layout_definitions: # Handles 1 panel
+            elif panels_remaining_total == 1:
                 page_layout_type = "single_panel"
-                chosen_dynamically = True
-            
-            if chosen_dynamically:
+            else:
+                break
+            if page_layout_type in layout_definitions:
                 layout_info = layout_definitions[page_layout_type]
                 panels_layout_can_take = layout_info["panels"]
                 panel_configs_for_page = layout_info["config_func"](PAGE_WIDTH, PAGE_HEIGHT, MARGIN)
-                print(f"   > Page {page_number}: Dynamically selected '{page_layout_type}' (for {panels_layout_can_take} panels).")
-            else: # Should only happen if panels_remaining_total is 0 or layout_definitions is incomplete
-                if panels_remaining_total == 0: # All panels processed
-                    break 
-                print(f"Warning: Could not determine dynamic layout for {panels_remaining_total} panels. Breaking.")
+                print(f"   > Page {page_number}: Alternating layout '{page_layout_type}' (for {panels_layout_can_take} panels).")
+            else:
+                print(f"Warning: Layout '{page_layout_type}' not defined. Breaking.")
                 break
-        
-        # Determine how many panels will actually be processed and placed on this page
         num_panels_to_process_on_page = min(panels_layout_can_take, panels_remaining_total)
-        
         if num_panels_to_process_on_page == 0 and panels_remaining_total > 0:
-             # This might happen if a layout was selected (e.g. preferred) but panels_layout_can_take was 0 (error in defs)
-             # Or if dynamic selection failed to set panels_layout_can_take > 0.
-             # Fallback to a single panel to ensure progress if possible.
-             print(f"Error: Layout selected but num_panels_to_process_on_page is 0 with {panels_remaining_total} panels remaining. Defaulting to single panel for one panel.")
-             page_layout_type = "single_panel"
-             if "single_panel" in layout_definitions:
-                 layout_info = layout_definitions[page_layout_type]
-                 panels_layout_can_take = layout_info["panels"] # Should be 1
-                 panel_configs_for_page = layout_info["config_func"](PAGE_WIDTH, PAGE_HEIGHT, MARGIN)
-                 num_panels_to_process_on_page = min(panels_layout_can_take, panels_remaining_total) # Recalculate
-             else: # Critical error if single_panel is not defined
-                 print("CRITICAL: single_panel layout not defined. Cannot proceed.")
-                 break
-
-
+            print(f"Error: Layout selected but num_panels_to_process_on_page is 0 with {panels_remaining_total} panels remaining. Defaulting to single panel for one panel.")
+            page_layout_type = "single_panel"
+            if "single_panel" in layout_definitions:
+                layout_info = layout_definitions[page_layout_type]
+                panels_layout_can_take = layout_info["panels"]
+                panel_configs_for_page = layout_info["config_func"](PAGE_WIDTH, PAGE_HEIGHT, MARGIN)
+                num_panels_to_process_on_page = min(panels_layout_can_take, panels_remaining_total)
+            else:
+                print("CRITICAL: single_panel layout not defined. Cannot proceed.")
+                break
         if num_panels_to_process_on_page > 0:
             print(f"   > Page {page_number}: Finalizing layout '{page_layout_type}', will place {num_panels_to_process_on_page} panel(s) on this page.")
         else:
-            if panels_remaining_total > 0: 
-                 print(f"Warning: No panels assigned to page {page_number} despite {panels_remaining_total} panels remaining. Breaking.")
-            break # Break if no panels can be processed (e.g. all done, or error)
-
+            if panels_remaining_total > 0:
+                print(f"Warning: No panels assigned to page {page_number} despite {panels_remaining_total} panels remaining. Breaking.")
+            break
         for i in range(num_panels_to_process_on_page):
-            # This check should be redundant due to panels_remaining_total and num_panels_to_process_on_page logic
-            if current_panel_global_idx >= panel_count: 
-                break 
-
-            config = panel_configs_for_page[i] # panel_configs_for_page should have enough items
+            if current_panel_global_idx >= panel_count:
+                break
+            config = panel_configs_for_page[i]
             ideal_w = config["w"]
             ideal_h = config["h"]
-            
-            # Ensure ideal dimensions are positive before rounding for generation
-            if ideal_w <= 0: ideal_w = GENERATION_DIM_MULTIPLE # Fallback
-            if ideal_h <= 0: ideal_h = GENERATION_DIM_MULTIPLE # Fallback
-
+            if ideal_w <= 0: ideal_w = GENERATION_DIM_MULTIPLE
+            if ideal_h <= 0: ideal_h = GENERATION_DIM_MULTIPLE
             detail = PanelLayoutDetail(
                 panel_index=current_panel_global_idx,
                 page_number=page_number,
-                page_layout_type=page_layout_type, # Store the actual layout used for this panel's page
+                page_layout_type=page_layout_type,
                 ideal_width=ideal_w,
                 ideal_height=ideal_h,
                 target_generation_width=round_to_multiple(ideal_w, GENERATION_DIM_MULTIPLE),
@@ -259,11 +234,8 @@ def layout_planner(state: ComicGenerationState) -> ComicGenerationState:
             )
             panel_layout_details.append(detail)
             current_panel_global_idx += 1
-        
         if num_panels_to_process_on_page > 0:
             page_number += 1
-        # If num_panels_to_process_on_page was 0, loop should have broken or will break due to current_panel_global_idx not changing
-
     state['panel_layout_details'] = panel_layout_details
     if panel_layout_details:
         final_page_num = panel_layout_details[-1]['page_number'] if panel_layout_details else 0

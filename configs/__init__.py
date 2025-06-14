@@ -2,7 +2,7 @@
 
 # This file makes the 'configs' directory a Python package and exports all configurations.
 
-from .base_config import OPENAI_API_KEY, PROJECT_ROOT
+from .base_config import OPENAI_API_KEY, PROJECT_ROOT, HUGGINGFACE_API_TOKEN
 from .paths_config import (
     ASSETS_DIR, FONTS_DIR, BUNDLED_FONT_PATH,
     OUTPUT_DIR, RAW_PANELS_DIR, SIZED_PANELS_DIR,
@@ -24,6 +24,8 @@ from .ui_options_config import (
     DEFAULT_GENRE_PRESET, SUPPORTED_GENRE_PRESETS
 )
 from .llm_api_config import (
+    USE_HUGGINGFACE_IMAGE_GENERATION, HUGGINGFACE_IMAGE_MODEL,
+    USE_HUGGINGFACE_LLM, HUGGINGFACE_LLM_MODEL,
     USE_BEDROCK_IMAGE_GENERATION, BEDROCK_AWS_REGION, BEDROCK_IMAGE_MODEL_ID
 )
 from .story_elements_config import CHARACTER_DESCRIPTION
@@ -35,7 +37,7 @@ from .prompt_styles import (
 
 __all__ = [
     # from base_config
-    "OPENAI_API_KEY", "PROJECT_ROOT",
+    "OPENAI_API_KEY", "PROJECT_ROOT", "HUGGINGFACE_API_TOKEN",
     # from paths_config
     "ASSETS_DIR", "FONTS_DIR", "BUNDLED_FONT_PATH",
     "OUTPUT_DIR", "RAW_PANELS_DIR", "SIZED_PANELS_DIR",
@@ -53,6 +55,8 @@ __all__ = [
     "DEFAULT_STYLE_PRESET", "SUPPORTED_STYLE_PRESETS",
     "DEFAULT_GENRE_PRESET", "SUPPORTED_GENRE_PRESETS",
     # from llm_api_config
+    "USE_HUGGINGFACE_IMAGE_GENERATION", "HUGGINGFACE_IMAGE_MODEL",
+    "USE_HUGGINGFACE_LLM", "HUGGINGFACE_LLM_MODEL",
     "USE_BEDROCK_IMAGE_GENERATION", "BEDROCK_AWS_REGION", "BEDROCK_IMAGE_MODEL_ID",
     # from story_elements_config
     "CHARACTER_DESCRIPTION",

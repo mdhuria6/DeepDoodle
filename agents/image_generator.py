@@ -7,7 +7,7 @@ from botocore.exceptions import ClientError
 
 from configs import (
     RAW_PANELS_DIR, USE_BEDROCK_IMAGE_GENERATION,
-    BEDROCK_AWS_REGION, BEDROCK_IMAGE_MODEL_ID, OPENAI_API_KEY
+    BEDROCK_AWS_REGION, BEDROCK_IMAGE_MODEL_ID, OPENAI_API_KEY, HUGGINGFACE_API_TOKEN
 )
 
 from models.comic_generation_state import ComicGenerationState
@@ -174,10 +174,61 @@ def image_generator(state: ComicGenerationState) -> dict:
         )
     else:
         print(f"   > Generating placeholder image with grid ({target_w}x{target_h})...")
-        _generate_placeholder_image(target_w, target_h, image_path)
+        # _generate_placeholder_image(target_w, target_h, image_path)
+        generate_image(
+            prompt=current_panel_prompt, 
+            style=state.get('artistic_style', 'manga'),
+            width=target_w,
+            height=target_h,
+            output_path=image_path
+        )
 
     paths = state.get("panel_image_paths") or []
     return {
         "panel_image_paths": paths + [image_path], 
         "current_panel_index": panel_index + 1
     }
+
+from utils.huggingface_utils import get_hf_client
+
+def generate_image(prompt: str, style: str = "manga", width: int = 1024, height: int = 1024, output_path: str = None) -> str:
+    """
+    Generate an image from a text prompt using Hugging Face Inference API.
+
+    Args:
+        prompt (str): The text prompt describing the scene.
+        style (str): Artistic style to condition on.
+        width (int): Image width.
+        height (int): Image height.
+        output_path (str): Path to save the generated image. If None, auto-generate.
+
+    Returns:
+        str: Path to the saved generated image file.
+    """
+    hf_client = get_hf_client()
+    # Combine prompt with style and size for better control
+    full_prompt = f"{prompt}, style: {style}, {width}x{height}"
+    response = hf_client.client.text_to_image(
+        full_prompt,
+        model="stabilityai/stable-diffusion-xl-base-1.0",
+        width=width,
+        height=height,
+        num_inference_steps=30,
+        guidance_scale=7.5
+    )
+    # Handle possible response types
+    from PIL import Image
+    import io
+    if isinstance(response, Image.Image):
+        img = response
+    elif isinstance(response, bytes):
+        img = Image.open(io.BytesIO(response))
+    else:
+        raise RuntimeError("Unexpected response type from Hugging Face Inference API.")
+    if not output_path:
+        import os
+        output_dir = "output/panels"
+        os.makedirs(output_dir, exist_ok=True)
+        output_path = os.path.join(output_dir, f"panel_{abs(hash(full_prompt)) & 0xffffffff:x}.png")
+    img.save(output_path)
+    return output_path
