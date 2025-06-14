@@ -74,6 +74,54 @@ class HuggingFaceClient:
             logger.error(f"Error in text generation: {e}")
             return f"Error generating text: {str(e)}"
     
+    def generate_conversation(
+        self,
+        messages: list,
+        model: str = "mistralai/Mixtral-8x7B-Instruct-v0.1",
+        max_tokens: int = 1000,
+        temperature: float = 0.7,
+        top_p: float = 0.9
+    ) -> str:
+        """
+        Generate text using HuggingFace conversational/chat-completion API.
+        
+        Args:
+            messages: List of dicts, e.g. [{"role": "system", "content": "..."}, {"role": "user", "content": "..."}]
+            model: Model name
+            max_tokens: Maximum tokens to generate
+            temperature: Sampling temperature
+            top_p: Top-p sampling parameter
+            
+        Returns:
+            Generated text string
+        """
+        try:
+            # Try with max_tokens, fallback if not accepted
+            try:
+                response = self.client.chat_completion(
+                    messages=messages,
+                    model=model,
+                    temperature=temperature,
+                    top_p=top_p,
+                    max_tokens=max_tokens
+                )
+            except TypeError as e:
+                # Remove max_tokens if not accepted by the provider
+                if "unexpected keyword argument" in str(e) and "max_tokens" in str(e):
+                    response = self.client.chat_completion(
+                        messages=messages,
+                        model=model,
+                        temperature=temperature,
+                        top_p=top_p,
+                    )
+                else:
+                    raise
+            # Extract the assistant's reply
+            return response['choices'][0]['message']['content'].strip()
+        except Exception as e:
+            logger.error(f"Error in conversational generation: {e}")
+            return f"Error generating conversation: {str(e)}"
+    
     def parse_json_response(self, text: str) -> Any:
         """
         Parse JSON from LLM response, handling common formatting issues and extracting the first valid JSON array.

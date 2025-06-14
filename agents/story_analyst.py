@@ -56,9 +56,13 @@ Return ONLY the JSON object, nothing else.
 """
         try:
             hf_client = get_hf_client()
-            # Use Mixtral for story_analyst regardless of global config
-            llm_response = hf_client.generate_text(
-                prompt=analysis_prompt,
+            # Use conversational API
+            messages = [
+                {"role": "system", "content": "You are a comic book adaptation expert."},
+                {"role": "user", "content": analysis_prompt}
+            ]
+            llm_response = hf_client.generate_conversation(
+                messages=messages,
                 model="mistralai/Mixtral-8x7B-Instruct-v0.1",
                 max_tokens=500,
                 temperature=0.3
@@ -107,4 +111,3 @@ Return ONLY the JSON object, nothing else.
             "mood": state.get('genre_preset', 'Adventure'),
             "layout_style": state.get('layout_style', 'grid_2x2')
         }
-        

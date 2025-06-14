@@ -1,5 +1,6 @@
 from models.comic_generation_state import ComicGenerationState # Updated import
 from configs.prompt_styles import STYLE_CONFIGS, DEFAULT_STYLE_KEYWORDS, DEFAULT_LIGHTING_KEYWORDS, DEFAULT_ADDITIONAL_DETAILS, DEFAULT_PROMPT_SUFFIX
+import re
 
 def prompt_engineer(state: ComicGenerationState) -> dict:
     """
@@ -36,18 +37,53 @@ def prompt_engineer(state: ComicGenerationState) -> dict:
         scene_desc = current_scene.get('description', '').strip()
         if not scene_desc or len(scene_desc) < 10:
             scene_desc = "A visually interesting comic panel scene."
-        # Build a more explicit, detailed prompt
-        full_prompt = (
-            f"Comic panel featuring: {character_desc}. "
-            f"Scene: {scene_desc}. "
-            f"Art Style: {style_keywords}{lighting_keywords}, {additional_details}. "
-            f"Mood: {state.get('mood', 'neutral')}. "
-            f"{prompt_suffix}"
-        )
-        # The prompt is constructed to be explicit, visual, and style-specific for best image generation results.
-        # If you want to further improve, you can add more context from previous panels or global story mood.
-        print(f"   > Generated Prompt: {full_prompt}...")
-        return {"panel_prompts": state.get("panel_prompts", []) + [full_prompt]}
+
+        panel_prompts = state.get("panel_prompts", [])
+        captions = current_scene.get('captions', [])
+        if captions and isinstance(captions, list):
+            for caption in captions:
+                text = caption.get('text', '').strip()
+                # Try to extract character dialogue: e.g., Grandma: "..."
+                match = re.match(r'([A-Za-z0-9 _-]+):\s*"(.*)"', text)
+                if match:
+                    speaker = match.group(1).strip()
+                    dialogue = match.group(2).strip()
+                    prompt = (
+                        f"Comic panel featuring: {character_desc}. "
+                        f"Speaker: {speaker}. "
+                        f"Dialogue: \"{dialogue}\". "
+                        f"Scene: {scene_desc}. "
+                        f"Art Style: {style_keywords}{lighting_keywords}, {additional_details}. "
+                        f"Mood: {state.get('mood', 'neutral')}. "
+                        f"{prompt_suffix}"
+                    )
+                    panel_prompts.append(prompt)
+                else:
+                    # Use the provided speaker or default to Narrator
+                    speaker = caption.get('speaker', 'Narrator')
+                    prompt = (
+                        f"Comic panel featuring: {character_desc}. "
+                        f"Speaker: {speaker}. "
+                        f"Narration: \"{text}\". "
+                        f"Scene: {scene_desc}. "
+                        f"Art Style: {style_keywords}{lighting_keywords}, {additional_details}. "
+                        f"Mood: {state.get('mood', 'neutral')}. "
+                        f"{prompt_suffix}"
+                    )
+                    panel_prompts.append(prompt)
+        else:
+            # No captions, just a narrator prompt
+            full_prompt = (
+                f"Comic panel featuring: {character_desc}. "
+                f"Speaker: Narrator. "
+                f"Narration: \"{scene_desc}\". "
+                f"Art Style: {style_keywords}{lighting_keywords}, {additional_details}. "
+                f"Mood: {state.get('mood', 'neutral')}. "
+                f"{prompt_suffix}"
+            )
+            panel_prompts.append(full_prompt)
+        print(f"   > Generated Prompts: {panel_prompts}...")
+        return {"panel_prompts": panel_prompts}
     except Exception as e:
         print(f"[ERROR] Exception in prompt_engineer: {e}")
         return {"panel_prompts": state.get("panel_prompts", [])}

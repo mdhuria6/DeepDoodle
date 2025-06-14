@@ -57,8 +57,12 @@ Return ONLY the JSON array, nothing else.
 """
 
     hf_client = get_hf_client()
-    llm_response = hf_client.generate_text(
-        prompt=prompt,
+    messages = [
+        {"role": "system", "content": "You are a professional comic book storyboard artist."},
+        {"role": "user", "content": prompt}
+    ]
+    llm_response = hf_client.generate_conversation(
+        messages=messages,
         model="mistralai/Mixtral-8x7B-Instruct-v0.1",
         max_tokens=1800,
         temperature=0.7
@@ -74,19 +78,25 @@ Return ONLY the JSON array, nothing else.
             desc = scene.get("description", "").strip()
             captions = scene.get("captions")
             if not desc:
-                # Re-prompt for missing description
                 reprompt = f"Write a detailed, visual comic panel description for panel {i+1} of this story.\nStory: {story_text}"
-                desc = hf_client.generate_text(
-                    prompt=reprompt,
+                reprompt_msgs = [
+                    {"role": "system", "content": "You are a professional comic book storyboard artist."},
+                    {"role": "user", "content": reprompt}
+                ]
+                desc = hf_client.generate_conversation(
+                    messages=reprompt_msgs,
                     model="mistralai/Mixtral-8x7B-Instruct-v0.1",
                     max_tokens=120,
                     temperature=0.7
                 ).strip()
             if not isinstance(captions, list) or len(captions) == 0:
-                # Re-prompt for at least one caption/dialogue
                 reprompt = f"Write a short comic panel caption or dialogue for panel {i+1} of this story.\nStory: {story_text}"
-                cap_text = hf_client.generate_text(
-                    prompt=reprompt,
+                reprompt_msgs = [
+                    {"role": "system", "content": "You are a professional comic book storyboard artist."},
+                    {"role": "user", "content": reprompt}
+                ]
+                cap_text = hf_client.generate_conversation(
+                    messages=reprompt_msgs,
                     model="mistralai/Mixtral-8x7B-Instruct-v0.1",
                     max_tokens=60,
                     temperature=0.7
@@ -98,17 +108,24 @@ Return ONLY the JSON array, nothing else.
                 "captions": captions
             })
         else:
-            # If LLM returned too few scenes, generate new ones
             reprompt = f"Write a detailed, visual comic panel description for panel {i+1} of this story.\nStory: {story_text}"
-            desc = hf_client.generate_text(
-                prompt=reprompt,
+            reprompt_msgs = [
+                {"role": "system", "content": "You are a professional comic book storyboard artist."},
+                {"role": "user", "content": reprompt}
+            ]
+            desc = hf_client.generate_conversation(
+                messages=reprompt_msgs,
                 model="mistralai/Mixtral-8x7B-Instruct-v0.1",
                 max_tokens=120,
                 temperature=0.7
             ).strip()
             reprompt = f"Write a short comic panel caption or dialogue for panel {i+1} of this story.\nStory: {story_text}"
-            cap_text = hf_client.generate_text(
-                prompt=reprompt,
+            reprompt_msgs = [
+                {"role": "system", "content": "You are a professional comic book storyboard artist."},
+                {"role": "user", "content": reprompt}
+            ]
+            cap_text = hf_client.generate_conversation(
+                messages=reprompt_msgs,
                 model="mistralai/Mixtral-8x7B-Instruct-v0.1",
                 max_tokens=60,
                 temperature=0.7
