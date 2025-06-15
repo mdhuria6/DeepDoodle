@@ -1,7 +1,16 @@
 from langgraph.graph import StateGraph, END
 from models.comic_generation_state import ComicGenerationState # Import from models
 import agents
+from configs import STORY_EXPANSION_WORD_THRESHOLD
 
+def should_expand_story(state: ComicGenerationState) -> str:
+    story_text = state.get("story_text", "")
+    word_count = len(story_text.strip().split())
+    if word_count < STORY_EXPANSION_WORD_THRESHOLD:
+        return "short_prompt"
+    else:
+        return "full_story"
+    
 def should_continue_generating(state: ComicGenerationState) -> str:
     """Decides whether to continue generating panels or compose pages."""
     print("---CONDITION: Should we continue generating panels?---")
@@ -16,6 +25,7 @@ def create_workflow():
     """Creates and compiles the LangGraph workflow."""
     workflow = StateGraph(ComicGenerationState)
     workflow.add_node("story_analyst", agents.story_analyst)
+    workflow.add_node("story_generator", agents.story_generator)
     workflow.add_node("scene_decomposer", agents.scene_decomposer)
     workflow.add_node("layout_planner", agents.layout_planner)
     workflow.add_node("prompt_engineer", agents.prompt_engineer)
@@ -24,8 +34,17 @@ def create_workflow():
     workflow.add_node("captioner", agents.captioner) 
     workflow.add_node("page_composer", agents.page_composer)
     
-    workflow.set_entry_point("story_analyst")
-    workflow.add_edge("story_analyst", "scene_decomposer")
+    workflow.set_entry_point("story_analyst") # Set the entry point to story_generator
+    workflow.add_conditional_edges(
+        "story_analyst",
+        should_expand_story,
+        {
+            "short_prompt": "story_generator",  # Go to story_generator if prompt is short
+            "full_story": "scene_decomposer",  # Skip to scene_decomposer if prompt is long enough
+        }
+    )
+    workflow.add_edge("story_generator", "scene_decomposer") # story_generator goes to scene_decomposer
+    #workflow.add_edge("story_generator", END) # story_generator goes to scene_decomposer
     workflow.add_edge("scene_decomposer", "layout_planner") # scene_decomposer now goes to layout_planner
     workflow.add_edge("layout_planner", "prompt_engineer") # layout_planner goes to prompt_engineer
     workflow.add_edge("prompt_engineer", "image_generator")
