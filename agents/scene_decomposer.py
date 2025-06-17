@@ -27,9 +27,13 @@ def build_scene_prompt(
         char_desc_str = str(character_descriptions)
 
     return f"""
-You are a professional comic book storyboard artist. Break down the following story into exactly {panel_count} comic panels, suitable for AI-assisted image generation.
+You are a professional comic book storyboard artist. Your task is to break down the following story into exactly {panel_count} comic panels, suitable for AI-assisted image generation.
 
-Use the provided character descriptions to maintain visual consistency across all panels. Always refer to characters using the same names and appearances.
+**Important Instructions:**
+- You MUST return exactly {panel_count} panel entries. Do NOT return fewer or more. If the story is too long, summarize or combine moments. If too short, expand visually or show different angles.
+- If you reach the end of the story before {panel_count} panels, invent visually interesting filler panels or alternate angles to reach the required count.
+- If you run out of content, repeat the last scene with a different visual perspective or focus on a character's reaction.
+- Do NOT stop or truncate the output early. Always output all {panel_count} panels.
 
 ---
 
@@ -55,7 +59,7 @@ Include ambient sound effects (e.g., alarms, barks, footsteps, doors creaking) w
 ---
 
 Output Constraints:
-- Return exactly {panel_count} panel entries — no more, no fewer. If the story is long, summarize or combine moments. If short, expand visually or show different angles.
+- Return exactly {panel_count} panel entries — no more, no fewer.
 - Every panel must include:
   - A non-empty, highly detailed "description"
   - At least one "caption" or "dialogue" in the "captions" list (if possible)
@@ -88,7 +92,7 @@ Output Format Example:
   // ... more panels ...
 ]
 
-Return only the JSON array as shown above. Do not include any extra text, comments, or explanations. All property names and string values must use double quotes (") as per JSON standard.
+Return only the JSON array as shown above. Do not include any extra text, comments, or explanations. All property names and string values must use double quotes (") as per JSON standard. Output MUST include all {panel_count} panels, even if you need to invent filler or alternate perspectives.
 """.strip()
 
 def scene_decomposer(state: ComicGenerationState) -> Dict[str, Any]:
@@ -130,7 +134,7 @@ def scene_decomposer(state: ComicGenerationState) -> Dict[str, Any]:
         llm_response = hf_client.generate_conversation(
             messages=messages,
             model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-            max_tokens=1800,
+            max_tokens=2500,
         )
         logger.info("LLM response received. Parsing output...")
         # Extract the content string from the ChatCompletionOutput object
