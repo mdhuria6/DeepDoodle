@@ -1,152 +1,187 @@
 import logging
+import json
 from typing import Dict, Any, List
 from models.comic_generation_state import ComicGenerationState
 from utils.huggingface_utils import get_hf_client
 
+# Setup logger
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def scene_decomposer(state: ComicGenerationState) -> Dict[str, Any]:
+def build_scene_prompt(
+    story_text: str,
+    panel_count: int,
+    artistic_style: str,
+    mood: str,
+    character_descriptions: List[Dict[str, str]]
+) -> str:
     """
-    Decompose the story into exactly panel_count comic panels, each with a detailed description and (if possible) captions/dialogue.
+    Constructs the full prompt for panel generation using story and metadata.
     """
-    story_text = state['story_text']
-    panel_count = state['panel_count']
-    artistic_style = state.get('artistic_style', 'comic book style')
-    mood = state.get('mood', 'neutral')
+    # Convert character_descriptions (list of dicts) to a readable string for the LLM prompt
+    if isinstance(character_descriptions, list) and character_descriptions and isinstance(character_descriptions[0], dict):
+        char_desc_str = "\n".join(
+            f'- "{c["name"]}": "{c["description"]}"' for c in character_descriptions if c.get('name') and c.get('description')
+        )
+    else:
+        char_desc_str = str(character_descriptions)
 
-    prompt = f"""
-You are a professional comic book storyboard artist. Break the following story into exactly {panel_count} comic panels for AI image generation.
+    return f"""
+You are a professional comic book storyboard artist. Break down the following story into exactly {panel_count} comic panels, suitable for AI-assisted image generation.
 
+Use the provided character descriptions to maintain visual consistency across all panels. Always refer to characters using the same names and appearances.
+
+---
+
+Character Descriptions:
+{char_desc_str}
+
+---
+
+Instructions for Each Panel:
 For each panel, provide:
-- A mandatory, detailed, visual description (focus on characters, setting, and action; avoid abstract/emotional language)
-- Captions and/or dialogue (as a list of objects with type, speaker, and text; include at least one per panel if possible)
-- The panel number (as a field only, do NOT mention it in the description or captions)
+- A mandatory, detailed visual description focusing on characters, environment, and specific actions. Avoid vague or emotional language. Be specific about positioning, expressions, clothing, props, and background elements.
+- A list of captions and/or dialogue, where each item is an object containing:
+  - "type": Either "caption" or "dialogue" (use "caption" for narration, sounds, or ambient descriptions)
+  - "speaker": The character’s name, "Narrator", or sound source (e.g., "Alarm Clock", "Dog")
+  - "text": The caption or dialogue content
+- A "panel" field with the panel number (as an integer). This number must not appear in the description or captions.
 
-**Important:**
-- Do NOT include the panel number in the description or captions text. Only use the 'panel' field for numbering.
-- You MUST return exactly {panel_count} panels. Do not return more or fewer. If the story is too long, summarize or combine events. If too short, split visually.
-- Each object in the array MUST have these keys: panel (int), description (string, must be non-empty and detailed), captions (list of objects with type, speaker, text; at least one per panel if possible).
-- Every panel MUST have a non-empty, detailed description. Do not leave any description blank or generic.
-- Return ONLY a valid JSON array, no extra text or commentary.
-- Do NOT include trailing commas.
-- Use consistent character names and visual cues.
+---
 
-Story:
-"""
-    prompt += story_text
-    prompt += f"""
+Sound Effects:
+Include ambient sound effects (e.g., alarms, barks, footsteps, doors creaking) where appropriate. Use caption entries for these, with the speaker being the source (e.g., "Alarm Clock" or "Dog"), and the text in onomatopoeia form (e.g., "BEEP BEEP!", "Woof!", "Creeeak...").
 
-Artistic Style: {artistic_style}
+---
+
+Output Constraints:
+- Return exactly {panel_count} panel entries — no more, no fewer. If the story is long, summarize or combine moments. If short, expand visually or show different angles.
+- Every panel must include:
+  - A non-empty, highly detailed "description"
+  - At least one "caption" or "dialogue" in the "captions" list (if possible)
+- Output must be a valid JSON array, with no extra commentary or text.
+- All property names and string values must use double quotes (") as per JSON standard.
+- Ensure visual and naming consistency throughout.
+- No trailing commas allowed.
+
+---
+
+Input Story:
+{story_text}
+
+Artistic Style: {artistic_style}  
 Overall Mood: {mood}
 
-Format example:
+---
+
+Output Format Example:
 [
   {{
     "panel": 1,
-    "description": "A close-up of the main character, Alex, holding a glowing spellbook in a dusty library. Magical sparkles fill the air.",
+    "description": "A close-up of Alex holding a glowing spellbook inside a dusty, candle-lit library. Magical runes shimmer in the air around him. Cobwebs cling to nearby shelves filled with ancient tomes.",
     "captions": [
-      {{"type": "caption", "speaker": "Narrator", "text": "Alex discovers an ancient spellbook."}},
-      {{"type": "dialogue", "speaker": "Alex", "text": "What secrets do you hold?"}}
+      {{ "type": "caption", "speaker": "Narrator", "text": "Alex discovers an ancient spellbook." }},
+      {{ "type": "dialogue", "speaker": "Alex", "text": "What secrets do you hold?" }},
+      {{ "type": "caption", "speaker": "Clock", "text": "Tick-tock... Tick-tock..." }}
     ]
-  }},
-  ...
+  }}
+  // ... more panels ...
 ]
 
-Return ONLY the JSON array, nothing else.
-"""
+Return only the JSON array as shown above. Do not include any extra text, comments, or explanations. All property names and string values must use double quotes (") as per JSON standard.
+""".strip()
 
+def scene_decomposer(state: ComicGenerationState) -> Dict[str, Any]:
+    """
+    Decomposes the input story into comic panels with visual descriptions and captions/dialogue.
+    """
+    logger.info("AGENT: Scene Decomposer started.")
+
+    # Extract and validate required fields
+    story_text = state.get('story_text')
+    panel_count = state.get('panel_count', 4)
+    artistic_style = state.get('artistic_style', 'comic book style')
+    mood = state.get('mood', 'neutral')
+    character_descriptions = state.get('character_descriptions', [])
+
+    if not story_text:
+        logger.error("Missing required key 'story_text' in state.")
+        raise ValueError("Missing required key 'story_text' in state.")
+
+    logger.info(f"Generating {panel_count} comic panels.")
+
+    # Construct prompt
+    prompt = build_scene_prompt(
+        story_text=story_text,
+        panel_count=panel_count,
+        artistic_style=artistic_style,
+        mood=mood,
+        character_descriptions=character_descriptions
+    )
+
+    # Call LLM via HuggingFace client
     hf_client = get_hf_client()
     messages = [
         {"role": "system", "content": "You are a professional comic book storyboard artist."},
         {"role": "user", "content": prompt}
     ]
-    llm_response = hf_client.generate_conversation(
-        messages=messages,
-        model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-        max_tokens=1800,
-        temperature=0.7
-    )
-    logger.debug(f"LLM Response: {llm_response[:300]}...")
-    scenes = hf_client.parse_json_response(llm_response)
 
-    # Strict post-processing: ensure exactly panel_count, no empty descriptions, at least one caption/dialogue
-    filtered_scenes = []
-    for i in range(panel_count):
-        if isinstance(scenes, list) and i < len(scenes):
-            scene = scenes[i]
-            desc = scene.get("description", "").strip()
-            captions = scene.get("captions")
-            if not desc:
-                reprompt = f"Write a detailed, visual comic panel description for panel {i+1} of this story.\nStory: {story_text}"
-                reprompt_msgs = [
-                    {"role": "system", "content": "You are a professional comic book storyboard artist."},
-                    {"role": "user", "content": reprompt}
-                ]
-                desc = hf_client.generate_conversation(
-                    messages=reprompt_msgs,
-                    model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-                    max_tokens=120,
-                    temperature=0.7
-                ).strip()
-            if not isinstance(captions, list) or len(captions) == 0:
-                reprompt = f"Write a short comic panel caption or dialogue for panel {i+1} of this story.\nStory: {story_text}"
-                reprompt_msgs = [
-                    {"role": "system", "content": "You are a professional comic book storyboard artist."},
-                    {"role": "user", "content": reprompt}
-                ]
-                cap_text = hf_client.generate_conversation(
-                    messages=reprompt_msgs,
-                    model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-                    max_tokens=60,
-                    temperature=0.7
-                ).strip()
-                captions = [{"type": "caption", "speaker": "Narrator", "text": cap_text}]
-            filtered_scenes.append({
-                "panel": i+1,
-                "description": desc,
-                "captions": captions
-            })
+    try:
+        llm_response = hf_client.generate_conversation(
+            messages=messages,
+            model="mistralai/Mixtral-8x7B-Instruct-v0.1",
+            max_tokens=1800,
+        )
+        logger.info("LLM response received. Parsing output...")
+        # Extract the content string from the ChatCompletionOutput object
+        if hasattr(llm_response, "choices"):
+            llm_content = llm_response.choices[0].message.content
         else:
-            reprompt = f"Write a detailed, visual comic panel description for panel {i+1} of this story.\nStory: {story_text}"
-            reprompt_msgs = [
-                {"role": "system", "content": "You are a professional comic book storyboard artist."},
-                {"role": "user", "content": reprompt}
-            ]
-            desc = hf_client.generate_conversation(
-                messages=reprompt_msgs,
-                model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-                max_tokens=120,
-                temperature=0.7
-            ).strip()
-            reprompt = f"Write a short comic panel caption or dialogue for panel {i+1} of this story.\nStory: {story_text}"
-            reprompt_msgs = [
-                {"role": "system", "content": "You are a professional comic book storyboard artist."},
-                {"role": "user", "content": reprompt}
-            ]
-            cap_text = hf_client.generate_conversation(
-                messages=reprompt_msgs,
-                model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-                max_tokens=60,
-                temperature=0.7
-            ).strip()
-            filtered_scenes.append({
-                "panel": i+1,
-                "description": desc,
-                "captions": [{"type": "caption", "speaker": "Narrator", "text": cap_text}]
-            })
-    logger.info(f"Final scene count: {len(filtered_scenes)}")
-    logger.info(f"Scenes: {filtered_scenes}")
-    logger.info("\nScene decomposition complete.\n")
-    
-    # Post-process to remove any panel numbers from description/captions
-    import re
-    for scene in filtered_scenes:
-        # Remove 'Panel X:' or 'Panel X -' or similar from description
-        scene['description'] = re.sub(r"^[Pp]anel\s*\d+[:\-\.]?\s*", "", scene['description']).strip()
-        # Remove panel numbers from captions
-        for cap in scene['captions']:
-            if isinstance(cap.get('text'), str):
-                cap['text'] = re.sub(r"^[Pp]anel\s*\d+[:\-\.]?\s*", "", cap['text']).strip()
+            llm_content = llm_response  # fallback if already a string
 
-    return {"scenes": filtered_scenes, "current_panel_index": state.get("current_panel_index", 0)}
+    except Exception as e:
+        logger.exception("Failed during LLM conversation generation.")
+        raise RuntimeError("LLM conversation failed.") from e
+
+    # Parse JSON response
+    try:
+        scenes = json.loads(llm_content)
+        if not isinstance(scenes, list):
+            raise ValueError("Expected a JSON array from model.")
+    except json.JSONDecodeError as e:
+        logger.error("Invalid JSON returned by the LLM.")
+        logger.info(f"Raw LLM output:\n{llm_content}")
+        raise ValueError("Could not parse JSON from model response.") from e
+
+    # Sanitize and validate panel content
+    panel_map = {
+        int(scene["panel"]): scene
+        for scene in scenes
+        if isinstance(scene, dict) and "panel" in scene
+    }
+    final_scenes: List[Dict[str, Any]] = []
+
+    for i in range(1, panel_count + 1):
+        scene = panel_map.get(i, {})
+        description = scene.get("description", "").strip()
+        captions = scene.get("captions", [])
+
+        if not description:
+            description = f"A detailed visual scene for panel {i} could not be generated."
+
+        if not isinstance(captions, list) or not captions:
+            captions = [{"type": "caption", "speaker": "Narrator", "text": f"Panel {i}."}]
+
+        final_scenes.append({
+            "panel": i,
+            "description": description,
+            "captions": captions
+        })
+
+    logger.info(f"{len(final_scenes)} panels processed successfully.")
+    logger.info(f"Final scenes: {json.dumps(final_scenes, indent=2)}")
+
+    return {
+        "scenes": final_scenes,
+        "current_panel_index": state.get("current_panel_index", 0)
+    }
