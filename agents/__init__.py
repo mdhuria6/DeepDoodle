@@ -8,12 +8,12 @@ from .panel_sizer import panel_sizer
 from .layout_planner import layout_planner
 
 __all__ = [
-    "story_analyst",
-    "scene_decomposer",
-    "prompt_engineer",
+    "story_analyst1",
+    "scene_decomposer1",
+    "prompt_engineer1",
     "layout_planner", 
     "image_generator",
     "panel_sizer",
-    "captioner",
+    "captioner1",
     "page_composer",
 ]

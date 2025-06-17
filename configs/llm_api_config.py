@@ -1,5 +1,5 @@
 # configs/llm_api_config.py
-# OPENAI_API_KEY is loaded and available from configs.base_config
+# HUGGINGFACE_API_TOKEN is loaded and available from configs.base_config
 
 # --- Image Generation Configuration ---
 # Flag to enable/disable Bedrock image generation
