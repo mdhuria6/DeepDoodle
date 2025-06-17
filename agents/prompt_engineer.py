@@ -55,10 +55,28 @@ def prompt_engineer(state: ComicGenerationState) -> dict:
             logger.warning(
                 f"Style preset '{artistic_style_preset}' not found in STYLE_CONFIGS. Using defaults and preset name."
             )
-            style_keywords = f"in the style of {artistic_style_preset}, "
+            style_keywords = [f"in the style of {artistic_style_preset}"]
             lighting_keywords = DEFAULT_LIGHTING_KEYWORDS
             additional_details = DEFAULT_ADDITIONAL_DETAILS
             prompt_suffix = DEFAULT_PROMPT_SUFFIX
+
+        # Fix: Join style keywords, lighting keywords, or additional details if they are lists of single characters
+        def join_if_char_list(val):
+            if isinstance(val, list) and all(isinstance(x, str) and len(x) == 1 for x in val):
+                return ''.join(val).replace('  ', ' ').strip()
+            return val
+
+        style_keywords = join_if_char_list(style_keywords)
+        lighting_keywords = join_if_char_list(lighting_keywords)
+        additional_details = join_if_char_list(additional_details)
+
+        # If style_keywords is a string, wrap in list for join below
+        if isinstance(style_keywords, str):
+            style_keywords = [style_keywords]
+        if isinstance(lighting_keywords, str):
+            lighting_keywords = lighting_keywords
+        if isinstance(additional_details, str):
+            additional_details = additional_details
 
         # Get all character descriptions from state
         character_descriptions = state.get('character_descriptions', [])
@@ -115,43 +133,27 @@ def prompt_engineer(state: ComicGenerationState) -> dict:
             for caption in captions:
                 text = caption.get('text', '').strip()
                 speaker = caption.get('speaker', 'Narrator')
-                # Try to extract character dialogue: e.g., Grandma: "..."
-                match = re.match(r'([A-Za-z0-9 _-]+):\s*"(.*)"', text)
-                if match:
-                    dialogue = match.group(2).strip()
+                if text:
                     prompt = (
-                        f"Comic panel featuring: {speaker}. "
+                        f"Comic panel featuring: {character_names_str}. "
                         f"{character_context}"
                         f"Speaker: {speaker}. "
-                        f"Dialogue: \"{dialogue}\". "
+                        f"Dialogue: \"{text}\". "
                         f"Scene: {scene_desc}. "
-                        f"Art Style: {style_keywords}, {lighting_keywords}, {additional_details}. "
+                        f"Art Style: {', '.join(style_keywords)}, {lighting_keywords}, {additional_details}. "
                         f"Mood: {state.get('mood', 'neutral')}. "
                         f"{prompt_suffix}"
                     )
-                    logger.info(f"Generated dialogue prompt: {prompt}")
-                    panel_prompts.append(prompt)
-                else:
-                    prompt = (
-                        f"Comic panel featuring: {speaker}. "
-                        f"{character_context}"
-                        f"Speaker: {speaker}. "
-                        f"Narration: \"{text}\". "
-                        f"Scene: {scene_desc}. "
-                        f"Art Style: {style_keywords}, {lighting_keywords}, {additional_details}. "
-                        f"Mood: {state.get('mood', 'neutral')}. "
-                        f"{prompt_suffix}"
-                    )
-                    logger.info(f"Generated narration prompt: {prompt}")
+                    logger.info(f"Generated prompt: {prompt}")
                     panel_prompts.append(prompt)
         else:
             # No captions, just a narrator prompt
             full_prompt = (
-                f"Comic panel featuring: Narrator. "
+                f"Comic panel featuring: {character_names_str}. "
                 f"{character_context}"
                 f"Speaker: Narrator. "
                 f"Narration: \"{scene_desc}\". "
-                f"Art Style: {style_keywords}, {lighting_keywords}, {additional_details}. "
+                f"Art Style: {', '.join(style_keywords)}, {lighting_keywords}, {additional_details}. "
                 f"Mood: {state.get('mood', 'neutral')}. "
                 f"{prompt_suffix}"
             )
@@ -161,5 +163,5 @@ def prompt_engineer(state: ComicGenerationState) -> dict:
         return {"panel_prompts": panel_prompts}
 
     except Exception as e:
-        logger.error(f"Exception in prompt_engineer: {e}")
+        logger.error(f"Exception in prompt_engineer: {e}", exc_info=True)
         return {"panel_prompts": state.get("panel_prompts", [])}

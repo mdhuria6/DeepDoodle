@@ -149,7 +149,12 @@ def scene_decomposer(state: ComicGenerationState) -> Dict[str, Any]:
 
     # Parse JSON response
     try:
-        scenes = json.loads(llm_content)
+        if isinstance(llm_content, str):
+            logger.info("Parsing LLM output as JSON, as the content is a string.")
+            scenes = json.loads(llm_content)
+        else:
+            logger.info("Not parsing the llm outpu, as the content is already a dict.")
+            scenes = llm_content
         if not isinstance(scenes, list):
             raise ValueError("Expected a JSON array from model.")
     except json.JSONDecodeError as e:
@@ -163,6 +168,8 @@ def scene_decomposer(state: ComicGenerationState) -> Dict[str, Any]:
         for scene in scenes
         if isinstance(scene, dict) and "panel" in scene
     }
+
+    logger.info(f"Panel map created with {len(panel_map)} entries.")
     final_scenes: List[Dict[str, Any]] = []
 
     for i in range(1, panel_count + 1):
@@ -174,7 +181,7 @@ def scene_decomposer(state: ComicGenerationState) -> Dict[str, Any]:
             description = f"A detailed visual scene for panel {i} could not be generated."
 
         if not isinstance(captions, list) or not captions:
-            captions = [{"type": "caption", "speaker": "Narrator", "text": f"Panel {i}."}]
+            captions = [{"type": "caption", "speaker": "Narrator", "text": f"A visual scene is depicted in panel {i}."}]
 
         final_scenes.append({
             "panel": i,

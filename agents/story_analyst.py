@@ -41,11 +41,7 @@ def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
         ################################################################################
         # Build the prompt for the LLM to analyze the story
         analysis_prompt = f"""
-        You are an expert in comic book adaptation and visual storytelling. Analyze the narrative provided below and extract the following information in a format suitable for a visual design pipeline:
-
-        1. **Artistic Style**: Identify the most visually appropriate comic art style (e.g., Modern Anime, Classic Comic, Ghibli Animation, Noir, Cartoon, Realistic, etc.) that aligns with the story’s tone and themes.
-        2. **Genre/Mood**: Determine the dominant genre or emotional tone of the story (e.g., Sci-Fi, Fantasy, Drama, Comedy, Horror, Adventure, Suspense, etc.).
-        3. **Character Descriptions**: Extract all named characters (including pets and animals). For each, provide a detailed visual description sufficient for consistent illustration, including:
+        You are an expert in comic book adaptation and visual storytelling. Analyze the narrative provided below and extract all named characters (including pets and animals). For each, provide a detailed visual description sufficient for consistent illustration, including:
         - Name
         - Age (if available)
         - Gender (if available)
@@ -58,9 +54,7 @@ def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
 
         **Output Format Requirements**:
         - Return the output strictly as a **valid JSON object**, with no additional text.
-        - The JSON must contain the following keys:
-        - `"artistic_style"`: A string indicating the recommended visual style.
-        - `"mood"`: A string indicating the genre or emotional tone.
+        - The JSON must contain the following key:
         - `"character_descriptions"`: A list of dictionaries, each containing:
             - `"name"`: The character’s name.
             - `"description"`: A detailed, visually focused character description.
@@ -72,8 +66,6 @@ def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
 
         **Example Output**:
         {{
-        "artistic_style": "Modern Anime",
-        "mood": "Adventure",
         "character_descriptions": [
             {{
             "name": "Alex",
@@ -115,26 +107,34 @@ def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
             logger.info("LLM response received successfully.")
             # Extract the content string from the ChatCompletionOutput object
             if hasattr(llm_response, "choices"):
-                llm_content = llm_response.choices[0].message.content
+                # OpenAI-like structure
+                try:
+                    llm_content = llm_response.choices[0].message.content
+                except AttributeError:
+                    # HuggingFace or other structure
+                    llm_content = getattr(llm_response.choices[0], "text", str(llm_response.choices[0]))
+            elif isinstance(llm_response, dict) and "generated_text" in llm_response:
+                llm_content = llm_response["generated_text"]
             else:
-                llm_content = llm_response  # fallback if already a string
+                llm_content = str(llm_response)  # fallback if already a string or unknown structure
 
-            logger.debug(f"LLM Response: {llm_content[:300]}...")  # Log only the first 300 characters for brevity
+            logger.debug(f"LLM Response: {llm_content[:100]}...")  # Log only the first 300 characters for brevity
             try:
-                # Parse the LLM response as JSON
-                analysis = json.loads(llm_content)
+                if isinstance(llm_content, str):
+                    logger.info("LLM response is a string, attempting to parse as JSON.")
+                    # Parse the LLM response as JSON if it's a string
+                    analysis = json.loads(llm_content)
+                else:
+                    logger.info("LLM response is not a string, using it directly.")
+                    analysis = llm_content
             except json.JSONDecodeError as e:
                 logger.error(f"JSON decoding failed: {e}")
+                logger.info(f"Raw LLM output:\n{llm_content}")
                 analysis = {}
             # Handle LLM analysis response
-            if isinstance(analysis, dict):
-                final_style = analysis.get('artistic_style') or artistic_style or 'Modern Comic Style'
-                final_mood = analysis.get('mood') or mood or 'Adventure'
-                character_descriptions = analysis.get('character_descriptions', [])
-            else:
-                final_style = artistic_style or 'Modern Comic Style'
-                final_mood = mood or 'Adventure'
-                character_descriptions = []
+            final_style = artistic_style or 'Modern Comic Style'
+            final_mood = mood or 'Adventure'
+            character_descriptions = analysis.get('character_descriptions', []) if isinstance(analysis, dict) else []
             logger.info(f"LLM Analysis - Style: {final_style}, Mood: {final_mood}")
         except Exception as e:
             # Log any exception during LLM analysis
@@ -146,7 +146,7 @@ def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
         if not character_descriptions:
             character_descriptions = extract_fallback_character_descriptions(story_text)
 
-        layout_style = state.get('layout_style', 'grid_2x2') # Default layout style if not provided
+        layout_style = state.get('layout_style', 'grid_2x2')  # Default layout style if not provided.
 
         logger.info(f"Character Defined: {character_descriptions}")
         logger.info(f"Style set to: {final_style}")
