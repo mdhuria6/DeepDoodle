@@ -1,93 +1,191 @@
-from models.comic_generation_state import ComicGenerationState # Updated import
+import logging
+import json
+from typing import Dict, Any, List
+from models.comic_generation_state import ComicGenerationState
+from utils.huggingface_utils import get_hf_client
 
-def scene_decomposer(state: ComicGenerationState) -> dict:
+# Setup logger
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+def build_scene_prompt(
+    story_text: str,
+    panel_count: int,
+    artistic_style: str,
+    mood: str,
+    character_descriptions: List[Dict[str, str]]
+) -> str:
     """
-    Node 2: Decomposes the story into a sequence of visual scenes for each panel.
-    This is a placeholder for an LLM call.
+    Constructs the full prompt for panel generation using story and metadata.
     """
-    print("---AGENT: Scene Decomposer---")
+    # Convert character_descriptions (list of dicts) to a readable string for the LLM prompt
+    if isinstance(character_descriptions, list) and character_descriptions and isinstance(character_descriptions[0], dict):
+        char_desc_str = "\n".join(
+            f'- "{c["name"]}": "{c["description"]}"' for c in character_descriptions if c.get('name') and c.get('description')
+        )
+    else:
+        char_desc_str = str(character_descriptions)
 
-    # --- LLM Call Placeholder ---
-    # llm = ChatOpenAI(model="gpt-4-turbo", temperature=0.7)
-    # prompt = f"""Read... STORY: {state['story_text']}... Decompose into {state['panel_count']} scenes... Return JSON array."""
-    # response = llm.invoke(prompt)
-    # scenes = json.loads(response.content)
-    # --- End Placeholder ---
+    return f"""
+You are a professional comic book storyboard artist. Your task is to break down the following story into exactly {panel_count} comic panels, suitable for AI-assisted image generation.
 
-    # Placeholder result for demonstration
-    print(f"   > Decomposing story into {state['panel_count']} scenes...")
-    scenes = [
-      {
-        "panel": 1,
-        "description": "Elara in a space observatory, looking at a screen with static. Room has some equipment. Clear outlines, simple shapes.",
-        "captions": [
-            {"type": "caption", "speaker": "Narrator", "text": "The silent hum of the deep space observatory... a familiar vigil."},
-            {"type": "dialogue", "speaker": "Elara", "text": "(Muttering to self) Years of this... just static..."}
-        ]
-      },
-      {
-        "panel": 2,
-        "description": "Close up: Monitor screen shows a green sine wave through static. Elara's surprised face reflected. Simple line art.",
-        "captions": [
-            {"type": "caption", "speaker": "Narrator", "text": "Tonight, the void answered."},
-            {"type": "sfx", "speaker": None, "text": "*Ping!*"}
-        ]
-      },
-      {
-        "panel": 3,
-        "description": "Split panel: Left - Red alert lights in observatory. Right - Hologram of star exploding (supernova). Bold outlines.",
-        "captions": [
-            {"type": "sfx", "speaker": None, "text": "KLAXON! WARNING!"},
-            {"type": "dialogue", "speaker": "Observatory AI (voiceover)", "text": "Catastrophic stellar event imminent! Red Giant 7GL-F, unscheduled detonation!"}
-        ]
-      },
-      {
-        "panel": 4,
-        "description": "Elara looking at a transparent screen showing data: green sine wave over supernova shockwave. Clear, simple forms.",
-        "captions": [
-            {"type": "dialogue", "speaker": "Elara", "text": "The energy... it's being focused! The signal... it's riding the shockwave! An invitation..."}
-        ]
-      },
-      {
-        "panel": 5,
-        "description": "Elara (grey streaks in hair) on an alien planet with two suns. Simple plants around. Wears explorer suit. Line art style.",
-        "captions": [
-            {"type": "caption", "speaker": "Narrator", "text": "The journey was long, the destination, a revelation."},
-            {"type": "dialogue", "speaker": "Elara", "text": "(Awe-struck whisper) Incredible..."}
-        ]
-      },
-      {
-        "panel": 6,
-        "description": "Wide shot: Alien city in distance under two suns. Sleek buildings, simple shapes. Minimal shading.",
-        "captions": [
-            {"type": "caption", "speaker": "Narrator", "text": "A civilization that had mastered the stars, and sent a welcome."}
-        ]
-      },
-      {
-        "panel": 7,
-        "description": "Close up: Elara's hand holds a device showing a green sine wave on its screen. She smiles. Bold outlines.",
-        "captions": [
-            #{"type": "caption", "speaker": "Device Screen", "text": "Signal Source: Kepler-186f. Status: Welcome Home."},
-            {"type": "dialogue", "speaker": "Elara", "text": "(Softly) So this is it. Home."}
-        ]
-      },
-      {
-        "panel": 8,
-        "description": "Elara overlooking the alien city. Twin suns setting. Hopeful expression. Simple line art, clear landscape forms.",
-        "captions": [
-            {"type": "caption", "speaker": "Narrator", "text": "She was not just a discoverer, but the guest of honor. A new chapter for humanity, and for Elara, had begun."},
-            {"type": "dialogue", "speaker": "Elara", "text": "Let's see what tomorrow brings."}
-        ]
-      }
+**Important Instructions:**
+- You MUST return exactly {panel_count} panel entries. Do NOT return fewer or more. If the story is too long, summarize or combine moments. If too short, expand visually or show different angles.
+- If you reach the end of the story before {panel_count} panels, invent visually interesting filler panels or alternate angles to reach the required count.
+- If you run out of content, repeat the last scene with a different visual perspective or focus on a character's reaction.
+- Do NOT stop or truncate the output early. Always output all {panel_count} panels.
+
+---
+
+Character Descriptions:
+{char_desc_str}
+
+---
+
+Instructions for Each Panel:
+For each panel, provide:
+- A mandatory, detailed visual description focusing on characters, environment, and specific actions. Avoid vague or emotional language. Be specific about positioning, expressions, clothing, props, and background elements.
+- A list of captions and/or dialogue, where each item is an object containing:
+  - "type": Either "caption" or "dialogue" (use "caption" for narration, sounds, or ambient descriptions)
+  - "speaker": The character’s name, "Narrator", or sound source (e.g., "Alarm Clock", "Dog")
+  - "text": The caption or dialogue content
+- A "panel" field with the panel number (as an integer). This number must not appear in the description or captions.
+
+---
+
+Sound Effects:
+Include ambient sound effects (e.g., alarms, barks, footsteps, doors creaking) where appropriate. Use caption entries for these, with the speaker being the source (e.g., "Alarm Clock" or "Dog"), and the text in onomatopoeia form (e.g., "BEEP BEEP!", "Woof!", "Creeeak...").
+
+---
+
+Output Constraints:
+- Return exactly {panel_count} panel entries — no more, no fewer.
+- Every panel must include:
+  - A non-empty, highly detailed "description"
+  - At least one "caption" or "dialogue" in the "captions" list (if possible)
+- Output must be a valid JSON array, with no extra commentary or text.
+- All property names and string values must use double quotes (") as per JSON standard.
+- Ensure visual and naming consistency throughout.
+- No trailing commas allowed.
+
+---
+
+Input Story:
+{story_text}
+
+Artistic Style: {artistic_style}  
+Overall Mood: {mood}
+
+---
+
+Output Format Example:
+[
+  {{
+    "panel": 1,
+    "description": "A close-up of Alex holding a glowing spellbook inside a dusty, candle-lit library. Magical runes shimmer in the air around him. Cobwebs cling to nearby shelves filled with ancient tomes.",
+    "captions": [
+      {{ "type": "caption", "speaker": "Narrator", "text": "Alex discovers an ancient spellbook." }},
+      {{ "type": "dialogue", "speaker": "Alex", "text": "What secrets do you hold?" }},
+      {{ "type": "caption", "speaker": "Clock", "text": "Tick-tock... Tick-tock..." }}
+    ]
+  }}
+  // ... more panels ...
+]
+
+Return only the JSON array as shown above. Do not include any extra text, comments, or explanations. All property names and string values must use double quotes (") as per JSON standard. Output MUST include all {panel_count} panels, even if you need to invent filler or alternate perspectives.
+""".strip()
+
+def scene_decomposer(state: ComicGenerationState) -> Dict[str, Any]:
+    """
+    Decomposes the input story into comic panels with visual descriptions and captions/dialogue.
+    """
+    logger.info("AGENT: Scene Decomposer started.")
+
+    # Extract and validate required fields
+    story_text = state.get('story_text')
+    panel_count = state.get('panel_count', 4)
+    artistic_style = state.get('artistic_style', 'comic book style')
+    mood = state.get('mood', 'neutral')
+    character_descriptions = state.get('character_descriptions', [])
+
+    if not story_text:
+        logger.error("Missing required key 'story_text' in state.")
+        raise ValueError("Missing required key 'story_text' in state.")
+
+    logger.info(f"Generating {panel_count} comic panels.")
+
+    # Construct prompt
+    prompt = build_scene_prompt(
+        story_text=story_text,
+        panel_count=panel_count,
+        artistic_style=artistic_style,
+        mood=mood,
+        character_descriptions=character_descriptions
+    )
+
+    # Call LLM via HuggingFace client
+    hf_client = get_hf_client()
+    messages = [
+        {"role": "system", "content": "You are a professional comic book storyboard artist."},
+        {"role": "user", "content": prompt}
     ]
 
-    # Ensure the number of scenes matches the requested panel count
-    final_scenes = scenes[:state['panel_count']]
+    try:
+        llm_response = hf_client.generate_conversation(
+            messages=messages,
+            model="mistralai/Mixtral-8x7B-Instruct-v0.1",
+            max_tokens=2500,
+        )
+        logger.info("LLM response received. Parsing output...")
+        # Extract the content string from the ChatCompletionOutput object
+        if hasattr(llm_response, "choices"):
+            llm_content = llm_response.choices[0].message.content
+        else:
+            llm_content = llm_response  # fallback if already a string
 
-    # Initialize the state for the panel generation loop
+    except Exception as e:
+        logger.exception("Failed during LLM conversation generation.")
+        raise RuntimeError("LLM conversation failed.") from e
+
+    # Parse JSON response
+    try:
+        scenes = json.loads(llm_content)
+        if not isinstance(scenes, list):
+            raise ValueError("Expected a JSON array from model.")
+    except json.JSONDecodeError as e:
+        logger.error("Invalid JSON returned by the LLM.")
+        logger.info(f"Raw LLM output:\n{llm_content}")
+        raise ValueError("Could not parse JSON from model response.") from e
+
+    # Sanitize and validate panel content
+    panel_map = {
+        int(scene["panel"]): scene
+        for scene in scenes
+        if isinstance(scene, dict) and "panel" in scene
+    }
+    final_scenes: List[Dict[str, Any]] = []
+
+    for i in range(1, panel_count + 1):
+        scene = panel_map.get(i, {})
+        description = scene.get("description", "").strip()
+        captions = scene.get("captions", [])
+
+        if not description:
+            description = f"A detailed visual scene for panel {i} could not be generated."
+
+        if not isinstance(captions, list) or not captions:
+            captions = [{"type": "caption", "speaker": "Narrator", "text": f"Panel {i}."}]
+
+        final_scenes.append({
+            "panel": i,
+            "description": description,
+            "captions": captions
+        })
+
+    logger.info(f"{len(final_scenes)} panels processed successfully.")
+    logger.info(f"Final scenes: {json.dumps(final_scenes, indent=2)}")
+
     return {
         "scenes": final_scenes,
-        "current_panel_index": 0,
-        "panel_prompts": [],
-        "panel_images": [],
+        "current_panel_index": state.get("current_panel_index", 0)
     }

@@ -3,3 +3,5 @@ output/
 data/samples/images/
 .DS_Store
 **/__pycache__/
+.venv/
+.python-version

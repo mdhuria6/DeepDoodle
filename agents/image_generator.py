@@ -4,15 +4,16 @@ import json
 import base64
 import boto3
 from botocore.exceptions import ClientError
-
+from typing import Optional
+from huggingface_hub import InferenceClient
 from configs import (
     RAW_PANELS_DIR, USE_BEDROCK_IMAGE_GENERATION,
     BEDROCK_AWS_REGION, BEDROCK_IMAGE_MODEL_ID, OPENAI_API_KEY
 )
-
 from models.comic_generation_state import ComicGenerationState
-
 import random
+
+client = InferenceClient(token=os.getenv("HUGGINGFACE_API_TOKEN"))
 
 def _draw_grid(image: Image.Image, grid_spacing: int = 50, line_color="gray"):
     """Draws a grid on the given PIL Image."""
@@ -134,6 +135,7 @@ def image_generator(state: ComicGenerationState) -> dict:
     panel_index = state['current_panel_index']
     panel_layout_details = state['panel_layout_details']
     panel_prompts = state.get("panel_prompts", [])
+    style = state.get("style_preset", "manga")
 
     if not panel_prompts or panel_index >= len(panel_prompts):
         print(f"Error: No prompt found for panel {panel_index + 1}. Cannot generate image.")
@@ -173,11 +175,49 @@ def image_generator(state: ComicGenerationState) -> dict:
             aws_region=BEDROCK_AWS_REGION
         )
     else:
-        print(f"   > Generating placeholder image with grid ({target_w}x{target_h})...")
-        _generate_placeholder_image(target_w, target_h, image_path)
+        # print(f"   > Generating placeholder image with grid ({target_w}x{target_h})...")
+        # _generate_placeholder_image(target_w, target_h, image_path)
+        print(f"   > Generating image with HuggingFace InferenceClient ({target_w}x{target_h})...")
+        generate_image(current_panel_prompt, target_w, target_h, style, output_path=image_path)
 
     paths = state.get("panel_image_paths") or []
     return {
         "panel_image_paths": paths + [image_path], 
         "current_panel_index": panel_index + 1
     }
+
+def generate_image(prompt: str, width: int, height: int, style: Optional[str] = "manga", output_path: Optional[str] = None) -> str:
+    """
+    Generate an image from a text prompt using Hugging Face Inference API.
+
+    Args:
+        prompt (str): The text prompt describing the scene.
+        width (int): Target image width.
+        height (int): Target image height.
+        style (str, optional): Artistic style to condition on. Defaults to "manga".
+        output_path (str, optional): Where to save the image. If None, auto-generate.
+
+    Returns:
+        str: Path to the saved generated image file.
+    """
+    full_prompt = f"{prompt}, style: {style}"
+
+    # Call text-to-image model inference
+    response = client.text_to_image(full_prompt, width=width, height=height)
+
+    # Handle possible response types
+    if isinstance(response, Image.Image):
+        img = response
+    elif isinstance(response, bytes):
+        img = Image.open(io.BytesIO(response))
+    else:
+        raise RuntimeError("Unexpected response type from Hugging Face Inference API.")
+
+    if output_path is None:
+        output_dir = "output/panels"
+        os.makedirs(output_dir, exist_ok=True)
+        filename = f"{output_dir}/generated_{hash(full_prompt) & 0xffffffff:x}.png"
+    else:
+        filename = output_path
+    img.save(filename)
+    return filename

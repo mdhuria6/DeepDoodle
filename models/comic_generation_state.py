@@ -15,7 +15,7 @@ class ComicGenerationState(TypedDict):
     layout_style: Optional[str] # This might be used to guide the layout_planner or be superseded by its logic
 
     # Derived state added by agents
-    character_description: str
+    character_descriptions: List[Dict[str, str]]
     artistic_style: str # This key is created by the story_analyst
     mood: str           # This key is also created by the story_analyst
     scenes: List[Scene] # Updated to use the Scene TypedDict
