@@ -1,3 +1,4 @@
+from .story_generator import story_generator
 from .story_analyst import story_analyst
 from .scene_decomposer import scene_decomposer
 from .prompt_engineer import prompt_engineer
@@ -8,6 +9,7 @@ from .panel_sizer import panel_sizer
 from .layout_planner import layout_planner
 
 __all__ = [
+    "story_generator",
     "story_analyst",
     "scene_decomposer",
     "prompt_engineer",
