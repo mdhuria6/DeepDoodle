@@ -1,10 +1,10 @@
 import requests
 import json
 import re
+import os
 import logging
 from typing import Dict, List, Any
 from models.comic_generation_state import ComicGenerationState
-from configs import HUGGINGFACE_API_TOKEN
 
 # Set up logging configuration
 logging.basicConfig(level=logging.INFO)
@@ -14,12 +14,13 @@ def call_mistral_api(prompt: str, max_tokens: int = 1000) -> str:
     """
     Calls the Mistral AI model via Hugging Face API to extract information from text.
     """
-    if not HUGGINGFACE_API_TOKEN:
+    token = os.getenv("HUGGINGFACE_API_TOKEN")
+    if not token:
         logger.warning("HUGGINGFACE_API_TOKEN not found. Cannot use Mistral AI.")
         return ""
     
     API_URL = "https://api-inference.huggingface.co/models/mistralai/Mixtral-8x7B-Instruct-v0.1"
-    headers = {"Authorization": f"Bearer {HUGGINGFACE_API_TOKEN}"}
+    headers = {"Authorization": f"Bearer {token}"}
     
     payload = {
         "inputs": prompt,

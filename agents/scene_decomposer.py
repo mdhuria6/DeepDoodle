@@ -134,7 +134,7 @@ def scene_decomposer(state: ComicGenerationState) -> Dict[str, Any]:
         llm_response = hf_client.generate_conversation(
             messages=messages,
             model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-            max_tokens=2500,
+            max_tokens=5000,
         )
         logger.info("LLM response received. Parsing output...")
         # Extract the content string from the ChatCompletionOutput object
