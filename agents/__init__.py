@@ -1,5 +1,5 @@
 from .story_generator import story_generator
-from .story_analyst import story_analyst
+from .story_analyst1 import story_analyst
 from .scene_decomposer import scene_decomposer
 from .prompt_engineer import prompt_engineer
 from .image_generator import image_generator

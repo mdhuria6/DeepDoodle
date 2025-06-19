@@ -1,211 +1,383 @@
-import logging
-from typing import Dict, Any
-from models.comic_generation_state import ComicGenerationState
-from utils.huggingface_utils import get_hf_client
+import requests
 import json
 import re
+import logging
+from typing import Dict, List, Any
+from models.comic_generation_state import ComicGenerationState
+from configs import HUGGINGFACE_API_TOKEN
 
 # Set up logging configuration
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+def call_mistral_api(prompt: str, max_tokens: int = 1000) -> str:
+    """
+    Calls the Mistral AI model via Hugging Face API to extract information from text.
+    """
+    if not HUGGINGFACE_API_TOKEN:
+        logger.warning("HUGGINGFACE_API_TOKEN not found. Cannot use Mistral AI.")
+        return ""
+    
+    API_URL = "https://api-inference.huggingface.co/models/mistralai/Mixtral-8x7B-Instruct-v0.1"
+    headers = {"Authorization": f"Bearer {HUGGINGFACE_API_TOKEN}"}
+    
+    payload = {
+        "inputs": prompt,
+        "parameters": {
+            "max_new_tokens": max_tokens,
+            "temperature": 0.1,  # Lower temperature for more consistent character extraction
+            "do_sample": True,
+            "top_p": 0.8,
+            "return_full_text": False
+        }
+    }
+    
+    try:
+        response = requests.post(API_URL, headers=headers, json=payload, timeout=60)
+        
+        if response.status_code == 200:
+            result = response.json()
+            if isinstance(result, list) and len(result) > 0:
+                return result[0].get('generated_text', '').strip()
+            else:
+                logger.error(f"Unexpected Mistral API response format: {result}")
+                return ""
+        else:
+            logger.error(f"Mistral API error: {response.status_code} - {response.text}")
+            return ""
+            
+    except Exception as e:
+        logger.exception(f"Error calling Mistral API: {e}")
+        return ""
+
+def extract_characters_with_mistral(story_text: str) -> Dict[str, str]:
+    """
+    Uses Mistral AI to extract EXTREMELY detailed character information with explicit gender
+    and appearance details for absolute visual consistency across all panels.
+    """
+    logger.info("Using Mistral AI to extract detailed character information with gender specifics...")
+    
+    character_extraction_prompt = f"""<s>[INST] You are a character design expert for comic books. Your task is to extract EXTREMELY DETAILED visual descriptions of ALL characters mentioned in this story. Focus on creating consistent character designs that will look the same in every comic panel.
+
+For each character, provide:
+1. **Name**: The character's name
+2. **Gender**: EXPLICITLY state Male/Female/Other - this is CRITICAL
+3. **Age**: Specific age or age range
+4. **Physical Features**:
+   - Hair: Exact color, length, style (e.g., "shoulder-length brown hair in a ponytail")
+   - Eyes: Color and shape
+   - Skin tone: Specific description
+   - Height/Build: Tall, short, slim, etc.
+   - Facial features: Any distinctive features
+5. **Clothing**: EXACT outfit description that will remain consistent
+   - Top: Color, style, details
+   - Bottom: Color, style, details  
+   - Shoes: Type and color
+   - Accessories: Any jewelry, hats, bags, etc.
+6. **Distinctive Features**: Anything that makes them unique
+
+**CRITICAL REQUIREMENTS:**
+- EXPLICITLY state gender (Male/Female/Other) for each character
+- Be EXTREMELY specific about clothing colors and styles
+- Describe hairstyles in detail (length, color, how it's worn)
+- Include age-appropriate features
+- Make descriptions detailed enough for an artist to draw the same character repeatedly
+- If multiple characters exist, make them visually distinct
+- Focus on visual elements that will be consistent across all panels
+- Add "CONSISTENCY CRITICAL:" at the start of each description
+
+**Example Format:**
+{{
+    "Riya": "CONSISTENCY CRITICAL: Riya is FEMALE, 7-year-old girl with shoulder-length curly black hair tied in two small pigtails with red ribbons. She has large brown eyes, light brown skin, and a cheerful round face. She wears a bright yellow t-shirt with a small flower pattern, blue denim overalls with silver buckles, white sneakers with pink laces, and carries a small green backpack. She is petite for her age with a energetic, curious expression.",
+    "Aarav": "CONSISTENCY CRITICAL: Aarav is MALE, 8-year-old boy with short straight black hair neatly combed to the side. He has dark brown eyes, light brown skin, and a serious but kind face. He wears a light blue collared shirt with short sleeves, dark blue shorts that reach his knees, brown leather sandals, and a digital watch on his left wrist. He is slightly taller than average for his age with a thoughtful expression."
+}}
+
+**Story to analyze:**
+{story_text}
+
+Provide ONLY the JSON response with extremely detailed character descriptions, no additional text.[/INST]"""
+
+    mistral_response = call_mistral_api(character_extraction_prompt, max_tokens=2500)
+    
+    if not mistral_response:
+        logger.warning("Mistral AI failed, using fallback character extraction")
+        return extract_characters_fallback(story_text)
+    
+    try:
+        # Try to parse the JSON response
+        json_start = mistral_response.find('{')
+        json_end = mistral_response.rfind('}') + 1
+        
+        if json_start != -1 and json_end > json_start:
+            json_str = mistral_response[json_start:json_end]
+            characters = json.loads(json_str)
+            
+            if isinstance(characters, dict) and characters:
+                logger.info(f"Successfully extracted {len(characters)} characters with detailed descriptions")
+                
+                # Validate and enhance character descriptions
+                enhanced_characters = {}
+                for name, desc in characters.items():
+                    # Ensure gender is explicitly mentioned
+                    if "MALE" not in desc.upper() and "FEMALE" not in desc.upper():
+                        # Try to infer gender from pronouns
+                        if "he " in desc.lower() or "his " in desc.lower() or "him " in desc.lower():
+                            gender = "MALE"
+                        elif "she " in desc.lower() or "her " in desc.lower():
+                            gender = "FEMALE"
+                        else:
+                            gender = "UNSPECIFIED"
+                        
+                        # Add gender explicitly
+                        if "CONSISTENCY CRITICAL:" in desc:
+                            desc = desc.replace("CONSISTENCY CRITICAL:", f"CONSISTENCY CRITICAL: {name} is {gender},")
+                        else:
+                            desc = f"CONSISTENCY CRITICAL: {name} is {gender}, " + desc
+                    
+                    # Add panel consistency reminder
+                    if "MUST APPEAR IDENTICAL IN ALL PANELS" not in desc.upper():
+                        desc += " MUST APPEAR IDENTICAL IN ALL PANELS."
+                    
+                    enhanced_characters[name] = desc
+                    logger.debug(f"{name}: {desc[:100]}...")
+                
+                return enhanced_characters
+            else:
+                logger.warning("Mistral returned empty or invalid character data")
+                return extract_characters_fallback(story_text)
+        else:
+            logger.warning("Could not find valid JSON in Mistral response")
+            return extract_characters_fallback(story_text)
+            
+    except json.JSONDecodeError as e:
+        logger.error(f"Error parsing Mistral JSON response: {e}")
+        logger.debug(f"Raw response: {mistral_response[:200]}...")
+        return extract_characters_fallback(story_text)
+
+def extract_characters_fallback(story_text: str) -> Dict[str, str]:
+    """
+    Enhanced fallback method with more detailed character descriptions including explicit gender.
+    """
+    logger.info("Using enhanced fallback character extraction method with gender specifics")
+    characters = {}
+    
+    # Look for common names and create detailed descriptions
+    common_names = ['Riya', 'Aarav', 'Maya', 'Arjun', 'Priya', 'Rohan', 'Ananya', 'Karan']
+    story_lower = story_text.lower()
+    
+    found_names = []
+    for name in common_names:
+        if name.lower() in story_lower:
+            found_names.append(name)
+    
+    # If no common names found, extract from dialogue patterns
+    if not found_names:
+        dialogue_pattern = r'([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*):\s*["\']'
+        names = re.findall(dialogue_pattern, story_text)
+        exclude_words = {'Scene', 'Narration', 'Narrator', 'Title', 'Panel'}
+        found_names = [name for name in names if name not in exclude_words]
+    
+    # Create detailed character descriptions with explicit gender
+    if len(found_names) >= 2:
+        # Two main characters
+        characters[found_names[0]] = f"CONSISTENCY CRITICAL: {found_names[0]} is FEMALE, 7-year-old girl with shoulder-length curly black hair in pigtails with colorful ribbons. She has bright brown eyes, warm brown skin, and wears a cheerful yellow t-shirt, blue denim overalls, and white sneakers. She carries a small colorful backpack and has an energetic, curious personality. MUST APPEAR IDENTICAL IN ALL PANELS."
+        characters[found_names[1]] = f"CONSISTENCY CRITICAL: {found_names[1]} is MALE, 8-year-old boy with short neat black hair combed to the side. He has dark brown eyes, light brown skin, and wears a light blue collared shirt, dark blue shorts, and brown sandals. He wears a simple digital watch and has a thoughtful, kind expression. MUST APPEAR IDENTICAL IN ALL PANELS."
+    elif len(found_names) == 1:
+        # Single main character - try to infer gender from pronouns
+        gender = "UNSPECIFIED"
+        if "he " in story_lower or "his " in story_lower or "him " in story_lower:
+            gender = "MALE"
+        elif "she " in story_lower or "her " in story_lower:
+            gender = "FEMALE"
+        
+        characters[found_names[0]] = f"CONSISTENCY CRITICAL: {found_names[0]} is {gender}, young child with distinctive features including neat dark hair, bright eyes, and colorful casual clothing that remains consistent throughout the story. They have an expressive face and energetic personality. MUST APPEAR IDENTICAL IN ALL PANELS."
+    else:
+        # Generic characters
+        characters["MainCharacter"] = "CONSISTENCY CRITICAL: MainCharacter is UNSPECIFIED, young child with distinctive dark hair, bright eyes, and consistent casual clothing including a colorful shirt and comfortable pants. They maintain the same appearance throughout the entire story. MUST APPEAR IDENTICAL IN ALL PANELS."
+    
+    # Check for fairy or magical characters
+    if "fairy" in story_lower or "magical being" in story_lower or "sprite" in story_lower:
+        characters["The Fairy"] = "CONSISTENCY CRITICAL: The Fairy is FEMALE, a tiny magical being with delicate translucent wings that shimmer with rainbow colors. She has long flowing silver hair that sparkles, bright emerald green eyes, and luminescent pale skin. She wears a flowing dress made of flower petals in shades of pink and purple, and carries a golden wand with a star tip. She has a graceful, ethereal appearance and a kind expression. MUST APPEAR IDENTICAL IN ALL PANELS."
+    
+    return characters
+
+def detect_mood_with_mistral(story_text: str, genre_preset: str) -> str:
+    """
+    Uses Mistral AI to detect the mood/genre of the story.
+    """
+    # If user already specified a mood, use it
+    if genre_preset and genre_preset != "auto":
+        logger.info(f"Using user-specified mood: {genre_preset}")
+        return genre_preset
+    
+    logger.info("Using Mistral AI to detect story mood...")
+    
+    mood_detection_prompt = f"""<s>[INST] You are a story analysis expert. Analyze the following story and determine its primary mood/genre.
+
+Choose ONE of the following moods that best fits the story:
+- Fantasy (magical elements, wizards, fairies, enchanted worlds)
+- Sci-Fi (space, technology, robots, future, aliens)
+- Adventure (journeys, quests, exploration, exciting action)
+- Comedy (funny, humorous, lighthearted, silly)
+- Horror (scary, dark, monsters, fear, suspense)
+- Mystery (puzzles, clues, detective work, secrets)
+- Whimsical (playful, childlike, innocent, colorful)
+- Drama (emotional, serious, realistic, character-driven)
+- Romance (love, relationships, emotional connections)
+
+Respond with ONLY the mood name, nothing else.
+
+Story to analyze:
+{story_text}[/INST]"""
+
+    mistral_response = call_mistral_api(mood_detection_prompt, max_tokens=50)
+    
+    if mistral_response:
+        # Clean up the response and check if it's a valid mood
+        detected_mood = mistral_response.strip().title()
+        valid_moods = ["Fantasy", "Sci-Fi", "Adventure", "Comedy", "Horror", "Mystery", "Whimsical", "Drama", "Romance"]
+        
+        if detected_mood in valid_moods:
+            logger.info(f"Mistral AI detected mood: {detected_mood}")
+            return detected_mood
+        else:
+            logger.warning(f"Mistral returned invalid mood '{detected_mood}', using fallback")
+    
+    # Fallback mood detection
+    return detect_mood_fallback(story_text)
+
+def detect_mood_fallback(story_text: str) -> str:
+    """
+    Fallback method to detect mood when Mistral AI is not available.
+    """
+    logger.info("Using fallback mood detection")
+    story_lower = story_text.lower()
+    
+    # Keyword-based mood detection
+    if any(word in story_lower for word in ['magic', 'fairy', 'wizard', 'enchant', 'spell', 'magical']):
+        return "Fantasy"
+    elif any(word in story_lower for word in ['space', 'robot', 'future', 'alien', 'technology', 'spaceship']):
+        return "Sci-Fi"
+    elif any(word in story_lower for word in ['funny', 'laugh', 'joke', 'silly', 'giggle', 'humor']):
+        return "Comedy"
+    elif any(word in story_lower for word in ['scary', 'ghost', 'monster', 'fear', 'dark', 'horror']):
+        return "Horror"
+    elif any(word in story_lower for word in ['mystery', 'clue', 'detective', 'solve', 'secret', 'investigate']):
+        return "Mystery"
+    elif any(word in story_lower for word in ['adventure', 'journey', 'explore', 'quest', 'travel', 'expedition']):
+        return "Adventure"
+    elif any(word in story_lower for word in ['garden', 'flower', 'butterfly', 'children', 'play', 'colorful']):
+        return "Whimsical"
+    else:
+        return "Drama"
+
+def validate_character_consistency(character_details: Dict[str, str]) -> Dict[str, str]:
+    """
+    Validates and enhances character descriptions to ensure absolute consistency across panels.
+    """
+    logger.info("Validating character consistency for image generation...")
+    
+    validated_characters = {}
+    
+    for name, description in character_details.items():
+        enhanced_desc = description
+        
+        # Ensure consistency markers are present
+        if "CONSISTENCY CRITICAL" not in enhanced_desc:
+            enhanced_desc = f"CONSISTENCY CRITICAL: {enhanced_desc}"
+        
+        # Ensure gender is explicitly mentioned
+        if "MALE" not in enhanced_desc.upper() and "FEMALE" not in enhanced_desc.upper():
+            # Try to infer gender from pronouns in the description
+            if "he " in enhanced_desc.lower() or "his " in enhanced_desc.lower() or "him " in enhanced_desc.lower():
+                gender = "MALE"
+            elif "she " in enhanced_desc.lower() or "her " in enhanced_desc.lower():
+                gender = "FEMALE"
+            else:
+                gender = "UNSPECIFIED"
+            
+            # Add gender explicitly
+            if "CONSISTENCY CRITICAL:" in enhanced_desc:
+                enhanced_desc = enhanced_desc.replace("CONSISTENCY CRITICAL:", f"CONSISTENCY CRITICAL: {name} is {gender},")
+            else:
+                enhanced_desc = f"CONSISTENCY CRITICAL: {name} is {gender}, " + enhanced_desc
+        
+        # Ensure panel consistency reminder
+        if "MUST APPEAR IDENTICAL IN ALL PANELS" not in enhanced_desc.upper():
+            enhanced_desc += " MUST APPEAR IDENTICAL IN ALL PANELS."
+        
+        # Add visual consistency emphasis
+        if "SAME EXACT APPEARANCE" not in enhanced_desc.upper():
+            enhanced_desc += " Character MUST maintain the SAME EXACT APPEARANCE in every panel (same clothes, hair, colors, etc)."
+        
+        validated_characters[name] = enhanced_desc
+    
+    return validated_characters
+
 def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
     """
-    Analyzes the story and sets up initial style, mood, and character using HuggingFace LLM.
-    Returns a dictionary with keys: character_descriptions, artistic_style, mood, layout_style.
+    Enhanced story analyst that analyzes the story using Mistral AI to extract detailed character 
+    information with explicit gender identification and strict visual consistency enforcement.
+    
+    Returns a dictionary with keys: character_descriptions, character_details, artistic_style, mood, layout_style.
     """
-    logger.info("------AGENT: Story Analyst--------")
+    logger.info("------AGENT: Story Analyst (Enhanced Character Consistency with Gender)------")
+
     try:
-        # Retrieve the story text from the state
-        story_text = state.get('story_text', '')
-
-        logger.info(f"Input Story Text: {story_text}")
-        logger.info(f"Input Story Text Length: {len(story_text)}")
-
-        ##############################################################################
-        # Check if story_text is empty or None
-        if not story_text:
-            logger.warning("No story_text found in state or story_text is empty.")
-            # Return fallback values if no story text is provided
-            return {
-                "character_descriptions": [{"name": "Main character", "description": "Main character from the story"}],
-                "artistic_style": state.get('style_preset', 'Modern Comic Style'),
-                "mood": state.get('genre_preset', 'Adventure'),
-                "layout_style": state.get('layout_style', 'grid_2x2')
-            }
-        # Get style and mood presets from state if available
-        artistic_style = state.get('style_preset', None)
-        mood = state.get('genre_preset', None)
-        logger.info(f"Using provided presets - Style: {artistic_style}, Mood: {mood}")
-
-        ################################################################################
-        # Build the prompt for the LLM to analyze the story
-        analysis_prompt = f"""
-        You are an expert in comic book adaptation and visual storytelling. Analyze the narrative provided below and extract the following information in a format suitable for a visual design pipeline:
-
-        1. **Artistic Style**: Identify the most visually appropriate comic art style (e.g., Modern Anime, Classic Comic, Ghibli Animation, Noir, Cartoon, Realistic, etc.) that aligns with the story’s tone and themes.
-        2. **Genre/Mood**: Determine the dominant genre or emotional tone of the story (e.g., Sci-Fi, Fantasy, Drama, Comedy, Horror, Adventure, Suspense, etc.).
-        3. **Character Descriptions**: Extract all named characters (including pets and animals). For each, provide a detailed visual description sufficient for consistent illustration, including:
-        - Name
-        - Age (if available)
-        - Gender (if available)
-        - Physical appearance (hair, eyes, build, height, skin tone)
-        - Clothing
-        - Personality traits
-        - Distinctive features or props
-
-        If the character is an animal, include breed, color, and behavioral traits.
-
-        **Output Format Requirements**:
-        - Return the output strictly as a **valid JSON object**, with no additional text.
-        - The JSON must contain the following keys:
-        - `"artistic_style"`: A string indicating the recommended visual style.
-        - `"mood"`: A string indicating the genre or emotional tone.
-        - `"character_descriptions"`: A list of dictionaries, each containing:
-            - `"name"`: The character’s name.
-            - `"description"`: A detailed, visually focused character description.
-
-        - Ensure **no trailing commas** in the JSON output.
-
-        **Input Story**:
-        {story_text}
-
-        **Example Output**:
-        {{
-        "artistic_style": "Modern Anime",
-        "mood": "Adventure",
-        "character_descriptions": [
-            {{
-            "name": "Alex",
-            "description": "12-year-old boy with messy brown hair, blue eyes, slim build, wears a blue hoodie and jeans, curious and energetic."
-            }},
-            {{
-            "name": "Grandma Edna",
-            "description": "Elderly woman with gray hair in a bun, glasses, floral apron over a dress, sharp eyes, warm but strict demeanor."
-            }},
-            {{
-            "name": "Mittens",
-            "description": "Small gray tabby cat with green eyes, mischievous and agile, always alert."
-            }}
-        ]
-        }}
-
-        Return **only** the JSON object shown above. No additional commentary or formatting.
-        """
-        logger.info("Submitting analysis prompt to the language model for story analysis...")
+        story_text = state.get('story_text', '').strip()
         
-        ################################################################################
-        analysis_prompt = analysis_prompt.strip()
-        try:
-            # Get the HuggingFace client
-            hf_client = get_hf_client()
-            # Prepare the conversation for the LLM
-            messages = [
-                {"role": "system", "content": "You are an expert in comic book adaptation and visual storytelling."},
-                {"role": "user", "content": analysis_prompt}
-            ]
-            # Generate the LLM response
-            llm_response = hf_client.generate_conversation(
-                messages=messages,
-                model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-                max_tokens=800,
-                temperature=0.3
-            )
+        if not story_text:
+            logger.warning("No story text provided. Using default placeholder.")
+            story_text = "A simple story about adventure and discovery."
+        
+        logger.info(f"Analyzing story for character consistency and gender: {story_text[:100]}...")
+        
+        # Extract characters with extreme detail for visual consistency
+        character_details = extract_characters_with_mistral(story_text)
+        
+        # Validate and enhance character descriptions for absolute consistency
+        character_details = validate_character_consistency(character_details)
+        
+        # Create character descriptions list for backward compatibility
+        character_descriptions = []
+        for name, desc in character_details.items():
+            character_descriptions.append({
+                "name": name,
+                "description": f"CRITICAL VISUAL CONSISTENCY: {name} MUST ALWAYS appear exactly as: {desc}"
+            })
+            logger.debug(f"{name}: {desc[:150]}...")
+        
+        # Detect mood using Mistral AI
+        genre_preset = state.get('genre_preset', 'auto')
+        mood = detect_mood_with_mistral(story_text, genre_preset)
+        
+        # Pass through the style from input
+        artistic_style = state.get('style_preset', 'Simple Line Art Comic')
+        layout_style = state.get('layout_style', 'grid_2x2')
 
-            logger.info("LLM response received successfully.")
-            # Extract the content string from the ChatCompletionOutput object
-            if hasattr(llm_response, "choices"):
-                llm_content = llm_response.choices[0].message.content
-            else:
-                llm_content = llm_response  # fallback if already a string
-
-            logger.debug(f"LLM Response: {llm_content[:300]}...")  # Log only the first 300 characters for brevity
-            try:
-                # Parse the LLM response as JSON
-                analysis = json.loads(llm_content)
-            except json.JSONDecodeError as e:
-                logger.error(f"JSON decoding failed: {e}")
-                analysis = {}
-            # Handle LLM analysis response
-            if isinstance(analysis, dict):
-                final_style = analysis.get('artistic_style') or artistic_style or 'Modern Comic Style'
-                final_mood = analysis.get('mood') or mood or 'Adventure'
-                character_descriptions = analysis.get('character_descriptions', [])
-            else:
-                final_style = artistic_style or 'Modern Comic Style'
-                final_mood = mood or 'Adventure'
-                character_descriptions = []
-            logger.info(f"LLM Analysis - Style: {final_style}, Mood: {final_mood}")
-        except Exception as e:
-            # Log any exception during LLM analysis
-            logger.exception(f"Error in LLM story analysis: {e}")
-            final_style = artistic_style or 'Modern Comic Style'
-            final_mood = mood or 'Adventure'
-            character_descriptions = []
-        # If no character descriptions were found, use fallback extraction
-        if not character_descriptions:
-            character_descriptions = extract_fallback_character_descriptions(story_text)
-
-        layout_style = state.get('layout_style', 'grid_2x2') # Default layout style if not provided
-
-        logger.info(f"Character Defined: {character_descriptions}")
-        logger.info(f"Style set to: {final_style}")
-        logger.info(f"Mood set to: {final_mood}")
+        logger.info(f"Final mood: {mood}")
+        logger.info(f"Style set to: {artistic_style}")
         logger.info(f"Layout style set to: {layout_style}")
+        logger.info(f"Total characters extracted: {len(character_details)}")
+        logger.info("CHARACTER CONSISTENCY EMPHASIS: All characters must maintain exact same appearance across ALL panels")
+        logger.info("GENDER IDENTIFICATION: All characters have explicit gender markers")
 
-        ################################################################################
-        # Return the final analysis result
+        # Return all the necessary keys for the downstream nodes (maintaining backward compatibility)
         return {
-            "character_descriptions": character_descriptions,
-            "artistic_style": final_style,
-            "mood": final_mood,
+            "character_descriptions": character_descriptions,  # List format for backward compatibility
+            "character_details": character_details,  # Dict format with detailed descriptions
+            "artistic_style": artistic_style,
+            "mood": mood,
             "layout_style": layout_style
         }
+        
     except Exception as e:
         # Log any exception in the main function and return fallback values
-        logger.exception("Exception in story_analyst:")
+        logger.exception("Exception in enhanced story_analyst:")
         return {
             "character_descriptions": [{"name": "Main character", "description": "Main character from the story"}],
-            "artistic_style": state.get('style_preset', 'Modern Comic Style'),
+            "character_details": {"MainCharacter": "CONSISTENCY CRITICAL: MainCharacter is UNSPECIFIED, main character from the story. MUST APPEAR IDENTICAL IN ALL PANELS."},
+            "artistic_style": state.get('style_preset', 'Simple Line Art Comic'),
             "mood": state.get('genre_preset', 'Adventure'),
             "layout_style": state.get('layout_style', 'grid_2x2')
         }
-
-########################################################################
-# Heuristic fallback for character extraction
-def extract_fallback_character_descriptions(story_text):
-    """
-    Heuristically extracts possible character names from the story text if the LLM fails to provide character descriptions.
-    Args:
-        story_text (str): The story text from which to extract character names.
-    Returns:
-        list: A list of dictionaries, each containing 'name' and 'description' keys for each detected character.
-    """
-    # List of common capitalized words to ignore as character names
-    common_words = {
-        "The", "Once", "When", "He", "She", "It", "They", "His", "Her", "A", "An", "In", "On", "At",
-        "And", "But", "Or", "If", "As", "By", "For", "With", "Of", "To", "From"
-    }
-    # Find all capitalized words not at the start of a sentence
-    candidates = re.findall(r'(?<![.!?]\s)(?<!^)(\b[A-Z][a-z]+\b)', story_text)
-    # Filter out common words
-    character_names = [name for name in candidates if name not in common_words]
-    if character_names:
-        # Remove duplicates while preserving order
-        seen = set()
-        unique_names = []
-        for name in character_names:
-            if name not in seen:
-                seen.add(name)
-                unique_names.append(name)
-        # Return a unique description for each character
-        return [
-            {
-                "name": name,
-                "description": f"{name} is a key character in the story. Their appearance and personality are important to the plot."
-            }
-            for name in unique_names
-        ]
-    else:
-        # Fallback if no character names are found
-        return [{"name": "Main character", "description": "Main character from the story"}]
