@@ -10,3 +10,6 @@ langchain-openai
 langchain_mistralai
 langchain-google-genai
 boto3
+transformers
+torch
+huggingface_hub

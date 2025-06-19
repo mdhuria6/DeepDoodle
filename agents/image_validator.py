@@ -12,14 +12,16 @@ class ImageValidator:
             else "cuda" if torch.cuda.is_available()
             else "cpu"
         )
-        print(f"[AGENT INIT] Loading CLIP model on {self.device}")
+        print(f"[VALIDATOR AGENT INIT] Loading CLIP model on {self.device}")
 
         # Load the CLIP model and processor
         try:
-            self.model = CLIPModel.from_pretrained(model_name).to(self.device)
+            self.device = "cpu" # Force CPU if you keep getting meta tensor errors
+            self.model = CLIPModel.from_pretrained(model_name, torch_dtype=torch.float32)
             self.processor = CLIPProcessor.from_pretrained(model_name)
+            self.threshold = threshold
         except Exception as e:
-            raise RuntimeError(f"Failed to load model or processor: {e}")
+            raise RuntimeError(f"VALIDATOR Failed to load model or processor: {e}")
 
         # Set default threshold for passing a prompt match
         self.default_threshold = threshold
@@ -34,7 +36,7 @@ class ImageValidator:
                 padding=True
             ).to(self.device)
         except Exception as e:
-            raise ValueError(f"Failed to preprocess inputs: {e}")
+            raise ValueError(f"VALIDATOR Failed to preprocess inputs: {e}")
 
         # Compute cosine similarities between image and text features
         try:
@@ -53,7 +55,7 @@ class ImageValidator:
                 similarities = (image_features * text_features).sum(dim=-1)
                 return similarities.tolist()
         except Exception as e:
-            raise RuntimeError(f"Failed to compute similarities: {e}")
+            raise RuntimeError(f"VALIDATOR Failed to compute similarities: {e}")
 
     def run(self, task):
         print(f"[AGENT RUN] Validating image: {task['image_path']}")
@@ -138,4 +140,5 @@ class ImageValidator:
         results["final_score"] = round(weighted_score, 4)
         results["final_decision"] = "✅ PASS" if weighted_score >= self.default_threshold else "❌ FAIL"
         results["image"] = task["image_path"]
+        print(f"[VALIDATOR AGENT ] Loading CLIP model on", results)
         return results

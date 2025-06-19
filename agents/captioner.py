@@ -141,6 +141,11 @@ def captioner(state: ComicGenerationState) -> dict:
         except Exception as e:
             print(f"Error saving captioned image {output_path_captioned}: {e}")
 
+    print("cdfdvdfv",{
+        "panel_images_with_captions_paths": panel_images_with_captions_paths,
+        "scenes": scenes_data,
+        "layout_style": layout_style
+    })
     return {
         "panel_images_with_captions_paths": panel_images_with_captions_paths,
         "scenes": scenes_data,
