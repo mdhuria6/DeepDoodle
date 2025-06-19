@@ -26,6 +26,23 @@ def build_scene_prompt(
     else:
         char_desc_str = str(character_descriptions)
 
+    error_message = """
+        ERROR:agents.scene_decomposer:Invalid JSON returned by the LLM.
+        INFO:agents.scene_decomposer:Raw LLM output:
+        [
+        {
+            "panel": 1,
+            "description": "Rian, a man in his 20s-30s with short hair, wearing a suit jacket, sits at a desk in a home office. He confidently adjusts his tie and looks at a computer screen displaying the Zoom interface.",
+            "captions": [
+            { "type": "caption", "speaker": "Narrator", "text": "Rian prepared for his company's big virtual presentation." }
+            ]
+        },
+        {
+            "panel": 2,
+        Uncaught app execution
+        json.decoder.JSONDecodeError: Expecting property name enclosed in double quotes
+        ValueError: Could not parse JSON from model response.
+    """
     return f"""
 You are a professional comic book storyboard artist. Your task is to break down the following story into exactly {panel_count} comic panels, suitable for AI-assisted image generation.
 
@@ -64,6 +81,8 @@ Output Constraints:
   - A non-empty, highly detailed "description"
   - At least one "caption" or "dialogue" in the "captions" list (if possible)
 - Output must be a valid JSON array, with no extra commentary or text.
+- Text in Each Caption should be a valid JSON string, properly escaped.
+- Each Panel Description must be a valid JSON string, properly escaped.
 - All property names and string values must use double quotes (") as per JSON standard.
 - Ensure visual and naming consistency throughout.
 - No trailing commas allowed.
@@ -84,15 +103,16 @@ Output Format Example:
     "panel": 1,
     "description": "A close-up of Alex holding a glowing spellbook inside a dusty, candle-lit library. Magical runes shimmer in the air around him. Cobwebs cling to nearby shelves filled with ancient tomes.",
     "captions": [
-      {{ "type": "caption", "speaker": "Narrator", "text": "Alex discovers an ancient spellbook." }},
-      {{ "type": "dialogue", "speaker": "Alex", "text": "What secrets do you hold?" }},
-      {{ "type": "caption", "speaker": "Clock", "text": "Tick-tock... Tick-tock..." }}
+      {{ "type": "caption", "speaker": "Narrator", "text": {{"Alex discovers an ancient spellbook."}} }},
+      {{ "type": "dialogue", "speaker": "Alex", "text": {{"What secrets do you hold?"}} }},
+      {{ "type": "caption", "speaker": "Clock", "text": {{"Tick-tock... Tick-tock..."}} }}
     ]
   }}
   // ... more panels ...
 ]
 
 Return only the JSON array as shown above. Do not include any extra text, comments, or explanations. All property names and string values must use double quotes (") as per JSON standard. Output MUST include all {panel_count} panels, even if you need to invent filler or alternate perspectives.
+Review the error message occured during last try carefully to ensure you meet the requirements and donot repeat the mistake again. {error_message}.
 """.strip()
 
 def scene_decomposer(state: ComicGenerationState) -> Dict[str, Any]:
@@ -149,7 +169,12 @@ def scene_decomposer(state: ComicGenerationState) -> Dict[str, Any]:
 
     # Parse JSON response
     try:
-        scenes = json.loads(llm_content)
+        if isinstance(llm_content, str):
+            logger.info("Parsing LLM output as JSON, as the content is a string.")
+            scenes = json.loads(llm_content)
+        else:
+            logger.info("Not parsing the llm outpu, as the content is already a dict.")
+            scenes = llm_content
         if not isinstance(scenes, list):
             raise ValueError("Expected a JSON array from model.")
     except json.JSONDecodeError as e:
@@ -163,6 +188,8 @@ def scene_decomposer(state: ComicGenerationState) -> Dict[str, Any]:
         for scene in scenes
         if isinstance(scene, dict) and "panel" in scene
     }
+
+    logger.info(f"Panel map created with {len(panel_map)} entries.")
     final_scenes: List[Dict[str, Any]] = []
 
     for i in range(1, panel_count + 1):
@@ -174,7 +201,7 @@ def scene_decomposer(state: ComicGenerationState) -> Dict[str, Any]:
             description = f"A detailed visual scene for panel {i} could not be generated."
 
         if not isinstance(captions, list) or not captions:
-            captions = [{"type": "caption", "speaker": "Narrator", "text": f"Panel {i}."}]
+            captions = [{"type": "caption", "speaker": "Narrator", "text": f"A visual scene is depicted in panel {i}."}]
 
         final_scenes.append({
             "panel": i,

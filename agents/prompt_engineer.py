@@ -111,55 +111,23 @@ def prompt_engineer(state: ComicGenerationState) -> dict:
         else:
             character_context = ""
 
-        if captions and isinstance(captions, list):
-            for caption in captions:
-                text = caption.get('text', '').strip()
-                speaker = caption.get('speaker', 'Narrator')
-                # Try to extract character dialogue: e.g., Grandma: "..."
-                match = re.match(r'([A-Za-z0-9 _-]+):\s*"(.*)"', text)
-                if match:
-                    dialogue = match.group(2).strip()
-                    prompt = (
-                        f"Comic panel featuring: {speaker}. "
-                        f"{character_context}"
-                        f"Speaker: {speaker}. "
-                        f"Dialogue: \"{dialogue}\". "
-                        f"Scene: {scene_desc}. "
-                        f"Art Style: {style_keywords}, {lighting_keywords}, {additional_details}. "
-                        f"Mood: {state.get('mood', 'neutral')}. "
-                        f"{prompt_suffix}"
-                    )
-                    logger.info(f"Generated dialogue prompt: {prompt}")
-                    panel_prompts.append(prompt)
-                else:
-                    prompt = (
-                        f"Comic panel featuring: {speaker}. "
-                        f"{character_context}"
-                        f"Speaker: {speaker}. "
-                        f"Narration: \"{text}\". "
-                        f"Scene: {scene_desc}. "
-                        f"Art Style: {style_keywords}, {lighting_keywords}, {additional_details}. "
-                        f"Mood: {state.get('mood', 'neutral')}. "
-                        f"{prompt_suffix}"
-                    )
-                    logger.info(f"Generated narration prompt: {prompt}")
-                    panel_prompts.append(prompt)
-        else:
-            # No captions, just a narrator prompt
-            full_prompt = (
-                f"Comic panel featuring: Narrator. "
-                f"{character_context}"
-                f"Speaker: Narrator. "
-                f"Narration: \"{scene_desc}\". "
-                f"Art Style: {style_keywords}, {lighting_keywords}, {additional_details}. "
-                f"Mood: {state.get('mood', 'neutral')}. "
-                f"{prompt_suffix}"
-            )
-            logger.info(f"Generated default narrator prompt: {full_prompt}")
-            panel_prompts.append(full_prompt)
+        # Format captions as "speaker: text" for each caption
+        captions_str = ", ".join(
+            f"{caption.get('speaker', 'Unknown')}: {caption.get('text', '')}" for caption in captions
+        )
 
+        prompt = (
+            f"Comic panel featuring: {character_names_str}. "
+            f"{character_context}"
+            f"Scene: {scene_desc}. "
+            f"Captions: {captions_str}. "
+            f"Art Style: {style_keywords}, {lighting_keywords}, {additional_details}. "
+            f"Mood: {state.get('mood', 'neutral')}. "
+            f"{prompt_suffix}"
+        )
+        panel_prompts.append(prompt)
         return {"panel_prompts": panel_prompts}
 
     except Exception as e:
-        logger.error(f"Exception in prompt_engineer: {e}")
+        logger.error(f"Exception in prompt_engineer: {e}", exc_info=True)
         return {"panel_prompts": state.get("panel_prompts", [])}
