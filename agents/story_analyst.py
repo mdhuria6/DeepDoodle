@@ -14,7 +14,7 @@ def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
     Analyzes the story and sets up initial style, mood, and character using HuggingFace LLM.
     Returns a dictionary with keys: character_descriptions, artistic_style, mood, layout_style.
     """
-    logger.info("------AGENT: Story Analyst--------")
+    logger.info("------ AGENT: Story Analyst --------")
     try:
         # Retrieve the story text from the state
         story_text = state.get('story_text', '')
