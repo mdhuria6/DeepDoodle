@@ -1,3 +1,4 @@
+from .story_generator import story_generator
 from .story_analyst import story_analyst
 from .scene_decomposer import scene_decomposer
 from .prompt_engineer import prompt_engineer
@@ -10,6 +11,7 @@ from .sarvam import SarvamAgent
 
 sarvamAgent = SarvamAgent().run
 __all__ = [
+    "story_generator",
     "story_analyst",
     "scene_decomposer",
     "prompt_engineer",
