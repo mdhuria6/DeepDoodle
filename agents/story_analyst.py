@@ -15,7 +15,7 @@ def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
     Returns a dictionary with keys: character_descriptions, artistic_style, mood, layout_style.
     Raises RuntimeError on unrecoverable error.
     """
-    logger.info("------AGENT: Story Analyst--------")
+    logger.info("------ AGENT: Story Analyst --------")
     try:
         # Retrieve the story text from the state
         story_text = state.get('story_text', '')
