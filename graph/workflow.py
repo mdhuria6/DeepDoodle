@@ -21,7 +21,7 @@ def should_continue_generating(state: ComicGenerationState) -> str:
         print("   > NO, all panels have been generated.")
         return "compose_pages"
 
-def create_workflow():
+def create_workflow(entry_point: str = "story_analyst"):
     """Creates and compiles the LangGraph workflow."""
     workflow = StateGraph(ComicGenerationState)
     workflow.add_node("story_analyst", agents.story_analyst)
@@ -34,17 +34,9 @@ def create_workflow():
     workflow.add_node("captioner", agents.captioner) 
     workflow.add_node("page_composer", agents.page_composer)
     
-    workflow.set_entry_point("story_analyst") # Set the entry point to story_generator
-    workflow.add_conditional_edges(
-        "story_analyst",
-        should_expand_story,
-        {
-            "short_prompt": "story_generator",  # Go to story_generator if prompt is short
-            "full_story": "scene_decomposer",  # Skip to scene_decomposer if prompt is long enough
-        }
-    )
-    workflow.add_edge("story_generator", "scene_decomposer") # story_generator goes to scene_decomposer
-    #workflow.add_edge("story_generator", END) # story_generator goes to scene_decomposer
+    workflow.set_entry_point(entry_point)
+    workflow.add_edge("story_generator", "story_analyst") # story_generator goes to story_analyst
+    workflow.add_edge("story_analyst", "scene_decomposer") # story_analyst goes to scene_decomposer
     workflow.add_edge("scene_decomposer", "layout_planner") # scene_decomposer now goes to layout_planner
     workflow.add_edge("layout_planner", "prompt_engineer") # layout_planner goes to prompt_engineer
     workflow.add_edge("prompt_engineer", "image_generator")
