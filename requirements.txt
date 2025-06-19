@@ -8,3 +8,6 @@ python-dotenv
 huggingface-hub
 langchain-openai
 boto3
+transformers
+torch
+huggingface_hub

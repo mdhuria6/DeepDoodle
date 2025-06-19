@@ -17,6 +17,9 @@ from configs import (
 from models.comic_generation_state import ComicGenerationState # Import from models
 from graph.workflow import create_workflow # Added missing import
 
+from agents.image_validator import ImageValidator
+image_validator = ImageValidator()
+
 # --- Page Configuration ---
 st.set_page_config(page_title="DeepDoodle: AI Comic Generator", layout="wide", initial_sidebar_state="expanded")
 
@@ -79,6 +82,13 @@ with st.sidebar:
     mood_options = ["auto", "Sci-Fi", "Fantasy", "Horror", "Comedy", "Drama", "Mystery", "Adventure", "Whimsical", "Noir", "Cyberpunk", "Steampunk"]
     mood = st.selectbox("Select Mood", mood_options, index=0) # Default to 'auto'
     
+    # --- Add Sarvam language dropdown here ---
+    sarvam_languages = [
+        "English", "Hindi", "Spanish", "French", "German", "Chinese", "Japanese", "Korean", "Tamil", "Telugu"
+    ]
+    selected_sarvam_language = st.selectbox("Select Sarvam Output Language", sarvam_languages, index=0)
+    # -----------------------------------------
+
     st.header("📄 Page Layout")
     panel_count = st.slider("Number of Panels", min_value=1, max_value=8, value=4)
     layout_options = {
@@ -146,11 +156,39 @@ if st.session_state.result:
                     st.markdown(f"<p style='text-align: center; color: #888;'>Page {i + 1}</p>", unsafe_allow_html=True)
         
         # Display individual panels in an expander with a grid layout
-        with st.expander("Show Individual Panels"):
-            cols = st.columns(4) 
+        with st.expander("Show Individual Panels & Validation"):
+            cols = st.columns(4)
+            panel_captions = result.get("scenes", "")
+            style_prompt = result.get("style_preset", "")
+
+            weights = {"scene": 0.9, "style": 0.1}
+            thresholds = {"scene": 0.3, "style": 0.1}
+            # If you have detailed caption parts, use them; otherwise, just use the caption as "scene"
             for idx, panel_path in enumerate(result["panel_image_paths"]):
                 with cols[idx % 4]:
                     st.image(panel_path, caption=f"Panel {idx + 1}", use_container_width=True)
+
+                    task = {
+                        "image_path": panel_path,
+                        "caption_parts": {"scene": panel_captions[idx]["description"]},
+                        "style_prompt": style_prompt,
+                        "weights": weights,
+                        "thresholds": thresholds,
+                    }
+                    try:
+                        validation = image_validator.run(task)
+                        st.markdown(
+                            f"**Score:** {validation.get('final_score', 'N/A')}<br>"
+                            f"**Decision:** {validation.get('final_decision', 'N/A')}",
+                            unsafe_allow_html=True
+                        )
+                        for key in ["scene", "dialogue", "caption", "style"]:
+                            if key in validation:
+                                st.markdown(
+                                    f"{key.title()}: {validation[key]['cosine_similarity']} ({validation[key]['decision']})"
+                                )
+                    except Exception as e:
+                        st.error(f"Validation error: {e}")
 
     else:
         st.error("❌ An error occurred. The agents failed to generate the comic.")

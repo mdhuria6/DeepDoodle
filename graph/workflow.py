@@ -10,7 +10,7 @@ def should_expand_story(state: ComicGenerationState) -> str:
         return "short_prompt"
     else:
         return "full_story"
-    
+
 def should_continue_generating(state: ComicGenerationState) -> str:
     """Decides whether to continue generating panels or compose pages."""
     print("---CONDITION: Should we continue generating panels?---")
@@ -33,6 +33,7 @@ def create_workflow():
     workflow.add_node("panel_sizer", agents.panel_sizer) 
     workflow.add_node("captioner", agents.captioner) 
     workflow.add_node("page_composer", agents.page_composer)
+    workflow.add_node("sarvam", agents.sarvamAgent)
     
     workflow.set_entry_point("story_analyst") # Set the entry point to story_generator
     workflow.add_conditional_edges(
