@@ -1,3 +1,4 @@
+import agents.detailed_story_analyst
 from langgraph.graph import StateGraph, END
 from models.comic_generation_state import ComicGenerationState # Import from models
 import agents
@@ -21,10 +22,10 @@ def should_continue_generating(state: ComicGenerationState) -> str:
         print("   > NO, all panels have been generated.")
         return "compose_pages"
 
-def create_workflow(entry_point: str = "story_analyst"):
+def create_workflow(entry_point: str = "detailed_story_analyst"):
     """Creates and compiles the LangGraph workflow."""
     workflow = StateGraph(ComicGenerationState)
-    workflow.add_node("story_analyst", agents.story_analyst)
+    workflow.add_node("detailed_story_analyst", agents.detailed_story_analyst)
     workflow.add_node("story_generator", agents.story_generator)
     workflow.add_node("scene_decomposer", agents.scene_decomposer)
     workflow.add_node("layout_planner", agents.layout_planner)
@@ -36,8 +37,8 @@ def create_workflow(entry_point: str = "story_analyst"):
     workflow.add_node("sarvam", agents.sarvamAgent)
     
     workflow.set_entry_point(entry_point)
-    workflow.add_edge("story_generator", "story_analyst") # story_generator goes to story_analyst
-    workflow.add_edge("story_analyst", "scene_decomposer") # story_analyst goes to scene_decomposer
+    workflow.add_edge("story_generator", "detailed_story_analyst") # story_generator goes to detailed_story_analyst
+    workflow.add_edge("detailed_story_analyst", "scene_decomposer") # deatiled_story_analyst goes to scene_decomposer
     workflow.add_edge("scene_decomposer", "layout_planner") # scene_decomposer now goes to layout_planner
     workflow.add_edge("layout_planner", "prompt_engineer") # layout_planner goes to prompt_engineer
     workflow.add_edge("prompt_engineer", "image_generator")
