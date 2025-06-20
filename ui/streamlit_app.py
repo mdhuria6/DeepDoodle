@@ -185,6 +185,7 @@ if st.session_state.result:
                 with cols[idx % 4]:
                     st.image(panel_path, caption=f"Panel {idx + 1}", use_container_width=True)
 
+                    # commented out validation code for now
                     # task = {
                     #     "image_path": panel_path,
                     #     "caption_parts": {"scene": panel_captions[idx]["description"]},
