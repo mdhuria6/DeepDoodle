@@ -3,6 +3,7 @@ import shutil
 from graph import create_workflow
 from configs import OUTPUT_DIR
 from configs import STORY_EXPANSION_WORD_THRESHOLD
+import nltk
 
 def run_comic_generation_workflow(inputs: dict):
     """
@@ -46,6 +47,11 @@ def run_comic_generation_workflow(inputs: dict):
     return final_state
 
 if __name__ == "__main__":
+
+    nltk.download('punkt')
+    nltk.download('punkt_tab')
+    nltk.download('wordnet')
+    nltk.download('omw-1.4')
     # Example of how to run it directly, you might want to adjust this for direct script execution
     example_story = """
     In the silent hum of the deep space observatory, veteran astronomer Elara felt a familiar loneliness. 
