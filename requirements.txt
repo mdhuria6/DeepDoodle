@@ -7,4 +7,6 @@ langchain-community
 python-dotenv
 huggingface-hub
 langchain-openai
+langchain_mistralai
+langchain-google-genai
 boto3

@@ -67,6 +67,23 @@ def setup_directories():
 
 # --- Sidebar for Inputs ---
 with st.sidebar:
+    st.header("⚙️ Model Configuration")
+    text_engine_options = {
+        "OpenAI (gpt-4o)": "openai_gpt4o",
+        "OpenAI (gpt-4-turbo)": "openai_gpt4",
+        "Mistral AI (Mixtral-8x7B-Instruct)": "mistral_mixtral_8x7b_instruct",
+        "Google (Gemini 1.5 Flash)": "gemini_1.5_flash",
+    }
+    selected_text_engine_name = st.selectbox("Select Text Engine", list(text_engine_options.keys()))
+    text_engine = text_engine_options[selected_text_engine_name]
+
+    image_engine_options = {
+        "Black Forest Labs (FLUX.1-schnell)": "flux.1-schnell",
+        "Stability AI (stable-diffusion-2-1)": "sd21",
+    }
+    selected_image_engine_name = st.selectbox("Select Image Engine", list(image_engine_options.keys()))
+    image_engine = image_engine_options[selected_image_engine_name]
+
     st.header("🎨 Story & Style")
     story_input = st.text_area("Write or paste your story here:", height=250, 
                                placeholder="A curious fox enters a haunted library...")
@@ -116,15 +133,15 @@ if generate_button:
     if is_valid:
         with st.spinner("🧙‍♂️ The AI agents are doodling... Please wait."):
             setup_directories()
-            
             inputs = {
                 "story_text": story_input,
                 "panel_count": panel_count,
                 "style_preset": style if style != "auto" else "Gritty Noir Comic Art",
                 "genre_preset": mood if mood != "auto" else "Suspenseful",
                 "layout_style": layout,
+                "text_engine": text_engine,
+                "image_engine": image_engine,
             }
-
             app = create_workflow()
             st.session_state.result = app.invoke(inputs)
     else:

@@ -1,4 +1,5 @@
 import os
+import io
 from PIL import Image, ImageDraw
 import json
 import base64
@@ -66,7 +67,7 @@ def _generate_image_with_bedrock(
             "taskType": "TEXT_IMAGE",
             "textToImageParams": {
                 "text": prompt,
-                # "negativeText": "low quality, blurry, bad anatomy" # Optional
+                "negativeText": "text, words, letters, characters, writing, signature, watermark, font, typography, low quality, blurry, bad anatomy, distorted, poorly drawn, artifacts"
             },
             "imageGenerationConfig": {
                 "numberOfImages": 1,
@@ -79,18 +80,17 @@ def _generate_image_with_bedrock(
         }
     elif "stability.stable-diffusion" in model_id: # Example for Stable Diffusion
         request_body = {
-            "text_prompts": [{"text": prompt}],
-            "cfg_scale": 10, # Increased from default (often 7) to encourage stricter prompt adherence
+            "cfg_scale": 8, # Increased from default (often 7) to encourage stricter prompt adherence
             "steps": 40,  # Slightly reduced from default (often 50) to potentially simplify
             "seed": random.randint(0, 1000000), # Keep seed random for now
             # Add other parameters like style_preset if supported and desired for this model
             # For Stable Diffusion, negative prompts are usually part of the main text_prompts array
             # with negative weights, or a separate parameter if the API supports it.
             # Bedrock's API for Stability atext_prompts with negative weight.
-            # Let's add common negative prompts for line art.
+            # Let's add common negative prompts for quality and to avoid text, but not restrict style.
             "text_prompts": [
                 {"text": prompt, "weight": 1.0},
-                {"text": "photorealistic, photography, 3D render, complex textures, painterly, intricate details, excessive shading, shadows, realistic lighting, oil painting, watercolor, realistic, detailed", "weight": -1.0}
+                {"text": "text, words, letters, characters, writing, signature, watermark, font, typography, low quality, blurry, bad anatomy, distorted, poorly drawn, artifacts", "weight": -1.0}
             ],
         }
     else:
