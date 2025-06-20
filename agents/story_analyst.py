@@ -16,6 +16,7 @@ def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
     Raises RuntimeError on unrecoverable error.
     """
     logger.info("------ AGENT: Story Analyst --------")
+    logger.info("------ AGENT: Story Analyst --------")
     try:
         # Retrieve the story text from the state
         story_text = state.get('story_text', '')
@@ -111,6 +112,7 @@ def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
         if not character_descriptions:
             character_descriptions = extract_fallback_character_descriptions(story_text)
 
+        layout_style = state.get('layout_style', 'grid_2x2')  # Default layout style if not provided.
         layout_style = state.get('layout_style', 'grid_2x2')  # Default layout style if not provided.
 
         logger.info(f"Character Defined: {character_descriptions}")

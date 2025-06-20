@@ -13,3 +13,9 @@ boto3
 transformers
 torch
 huggingface_hub
+bert-score 
+rouge-score 
+nltk
+seaborn
+requests
+bs4

@@ -32,6 +32,7 @@ Genre: {mood}
 Style: {artistic_style}
 
 Write the full story. No additional commentary or formatting.
+Write the full story. No additional commentary or formatting.
 """
         logger.info(f" Prompt is  : {expansion_prompt}")
         expanded_story = llm.generate_text(expansion_prompt, max_tokens=600, temperature=0.8)

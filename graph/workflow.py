@@ -11,6 +11,7 @@ def should_expand_story(state: ComicGenerationState) -> str:
     else:
         return "full_story"
 
+
 def should_continue_generating(state: ComicGenerationState) -> str:
     """Decides whether to continue generating panels or compose pages."""
     print("---CONDITION: Should we continue generating panels?---")
@@ -21,6 +22,7 @@ def should_continue_generating(state: ComicGenerationState) -> str:
         print("   > NO, all panels have been generated.")
         return "compose_pages"
 
+def create_workflow(entry_point: str = "story_analyst"):
 def create_workflow(entry_point: str = "story_analyst"):
     """Creates and compiles the LangGraph workflow."""
     workflow = StateGraph(ComicGenerationState)
