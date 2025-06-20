@@ -3,7 +3,8 @@ import shutil
 from graph import create_workflow
 from configs import OUTPUT_DIR
 from configs import STORY_EXPANSION_WORD_THRESHOLD
-import nltkfrom configs import STORY_EXPANSION_WORD_THRESHOLD
+import nltk 
+from configs import STORY_EXPANSION_WORD_THRESHOLD
 
 def run_comic_generation_workflow(inputs: dict):
     """

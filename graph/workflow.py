@@ -23,7 +23,6 @@ def should_continue_generating(state: ComicGenerationState) -> str:
         return "compose_pages"
 
 def create_workflow(entry_point: str = "story_analyst"):
-def create_workflow(entry_point: str = "story_analyst"):
     """Creates and compiles the LangGraph workflow."""
     workflow = StateGraph(ComicGenerationState)
     workflow.add_node("story_analyst", agents.story_analyst)
