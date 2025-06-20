@@ -1,4 +1,5 @@
 from image_validator import ImageValidator
+
 if __name__ == "__main__":
     agent = ImageValidator(threshold=0.3)
 

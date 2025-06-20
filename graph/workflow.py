@@ -33,7 +33,7 @@ def create_workflow(entry_point: str = "story_analyst"):
     workflow.add_node("panel_sizer", agents.panel_sizer) 
     workflow.add_node("captioner", agents.captioner) 
     workflow.add_node("page_composer", agents.page_composer)
-    workflow.add_node("sarvam", agents.sarvamAgent)
+    # workflow.add_node("sarvam", agents.sarvamAgent)
     
     workflow.set_entry_point(entry_point)
     workflow.add_edge("story_generator", "story_analyst") # story_generator goes to story_analyst
