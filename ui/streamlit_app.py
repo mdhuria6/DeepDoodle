@@ -17,8 +17,8 @@ from configs import (
 from models.comic_generation_state import ComicGenerationState # Import from models
 from graph.workflow import create_workflow # Added missing import
 
-from agents.image_validator import ImageValidator
-image_validator = ImageValidator()
+# from agents.image_validator import ImageValidator
+# image_validator = ImageValidator()
 
 # --- Page Configuration ---
 st.set_page_config(page_title="DeepDoodle: AI Comic Generator", layout="wide", initial_sidebar_state="expanded")
@@ -70,6 +70,23 @@ def setup_directories():
 
 # --- Sidebar for Inputs ---
 with st.sidebar:
+    st.header("⚙️ Model Configuration")
+    text_engine_options = {
+        "OpenAI (gpt-4o)": "openai_gpt4o",
+        "OpenAI (gpt-4-turbo)": "openai_gpt4",
+        "Mistral AI (Mixtral-8x7B-Instruct)": "mistral_mixtral_8x7b_instruct",
+        "Google (Gemini 1.5 Flash)": "gemini_1.5_flash",
+    }
+    selected_text_engine_name = st.selectbox("Select Text Engine", list(text_engine_options.keys()))
+    text_engine = text_engine_options[selected_text_engine_name]
+
+    image_engine_options = {
+        "Black Forest Labs (FLUX.1-schnell)": "flux.1-schnell",
+        "Stability AI (stable-diffusion-2-1)": "sd21",
+    }
+    selected_image_engine_name = st.selectbox("Select Image Engine", list(image_engine_options.keys()))
+    image_engine = image_engine_options[selected_image_engine_name]
+
     st.header("🎨 Story & Style")
     story_input = st.text_area("Write or paste your story here:", height=250, 
                                placeholder="A curious fox enters a haunted library...")
@@ -126,15 +143,15 @@ if generate_button:
     if is_valid:
         with st.spinner("🧙‍♂️ The AI agents are doodling... Please wait."):
             setup_directories()
-            
             inputs = {
                 "story_text": story_input,
                 "panel_count": panel_count,
                 "style_preset": style if style != "auto" else "Gritty Noir Comic Art",
                 "genre_preset": mood if mood != "auto" else "Suspenseful",
                 "layout_style": layout,
+                "text_engine": text_engine,
+                "image_engine": image_engine,
             }
-
             app = create_workflow()
             st.session_state.result = app.invoke(inputs)
     else:
@@ -168,27 +185,28 @@ if st.session_state.result:
                 with cols[idx % 4]:
                     st.image(panel_path, caption=f"Panel {idx + 1}", use_container_width=True)
 
-                    task = {
-                        "image_path": panel_path,
-                        "caption_parts": {"scene": panel_captions[idx]["description"]},
-                        "style_prompt": style_prompt,
-                        "weights": weights,
-                        "thresholds": thresholds,
-                    }
-                    try:
-                        validation = image_validator.run(task)
-                        st.markdown(
-                            f"**Score:** {validation.get('final_score', 'N/A')}<br>"
-                            f"**Decision:** {validation.get('final_decision', 'N/A')}",
-                            unsafe_allow_html=True
-                        )
-                        for key in ["scene", "dialogue", "caption", "style"]:
-                            if key in validation:
-                                st.markdown(
-                                    f"{key.title()}: {validation[key]['cosine_similarity']} ({validation[key]['decision']})"
-                                )
-                    except Exception as e:
-                        st.error(f"Validation error: {e}")
+                    # commented out validation code for now
+                    # task = {
+                    #     "image_path": panel_path,
+                    #     "caption_parts": {"scene": panel_captions[idx]["description"]},
+                    #     "style_prompt": style_prompt,
+                    #     "weights": weights,
+                    #     "thresholds": thresholds,
+                    # }
+                    # try:
+                    #     validation = image_validator.run(task)
+                    #     st.markdown(
+                    #         f"**Score:** {validation.get('final_score', 'N/A')}<br>"
+                    #         f"**Decision:** {validation.get('final_decision', 'N/A')}",
+                    #         unsafe_allow_html=True
+                    #     )
+                    #     for key in ["scene", "dialogue", "caption", "style"]:
+                    #         if key in validation:
+                    #             st.markdown(
+                    #                 f"{key.title()}: {validation[key]['cosine_similarity']} ({validation[key]['decision']})"
+                    #             )
+                    # except Exception as e:
+                    #     st.error(f"Validation error: {e}")
 
     else:
         st.error("❌ An error occurred. The agents failed to generate the comic.")

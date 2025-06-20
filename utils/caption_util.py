@@ -360,11 +360,11 @@ def draw_caption_bubbles(
                 outline=current_border_color,
                 width=current_border_width
             )
-        elif caption_type == "narrator":
+        elif caption_type == "narration":
             # print(f"DEBUG [caption_utils.draw_caption_bubbles]: Drawing NARRATOR bubble. Outline: '{current_border_color}', Width: {current_border_width}") # DEBUG print
             draw.rectangle( # Narrator boxes are typically rectangular
                 (bg_x0, bg_y0, bg_x1, bg_y1),
-                fill=style_config['narrator_background_color'], # Use specific narrator background
+                fill=style_config['caption_background_color'], # Use specific narrator background
                 outline=current_border_color,
                 width=current_border_width
             )
@@ -379,9 +379,8 @@ def draw_caption_bubbles(
                 width=current_border_width
             )
         elif caption_type == "caption": # Generic caption, give it a background too
-            draw.rounded_rectangle(
+            draw.rectangle(
                 (bg_x0, bg_y0, bg_x1, bg_y1),
-                radius=style_config['caption_corner_radius'],
                 fill=style_config['caption_background_color'],
                 outline=current_border_color,
                 width=current_border_width

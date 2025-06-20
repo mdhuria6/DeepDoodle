@@ -1,7 +1,7 @@
 import logging
 from typing import Dict, Any
 from models.comic_generation_state import ComicGenerationState
-from utils.huggingface_utils import get_hf_client
+from utils.llm_factory import get_model_client
 import json
 import re
 
@@ -11,9 +11,11 @@ logger = logging.getLogger(__name__)
 
 def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
     """
-    Analyzes the story and sets up initial style, mood, and character using HuggingFace LLM.
+    Analyzes the story and sets up initial style, mood, and character using LLM (via factory).
     Returns a dictionary with keys: character_descriptions, artistic_style, mood, layout_style.
+    Raises RuntimeError on unrecoverable error.
     """
+    logger.info("------ AGENT: Story Analyst --------")
     logger.info("------ AGENT: Story Analyst --------")
     try:
         # Retrieve the story text from the state
@@ -26,13 +28,7 @@ def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
         # Check if story_text is empty or None
         if not story_text:
             logger.warning("No story_text found in state or story_text is empty.")
-            # Return fallback values if no story text is provided
-            return {
-                "character_descriptions": [{"name": "Main character", "description": "Main character from the story"}],
-                "artistic_style": state.get('style_preset', 'Modern Comic Style'),
-                "mood": state.get('genre_preset', 'Adventure'),
-                "layout_style": state.get('layout_style', 'grid_2x2')
-            }
+            raise RuntimeError("No story_text provided to story_analyst.")
         # Get style and mood presets from state if available
         artistic_style = state.get('style_preset', None)
         mood = state.get('genre_preset', None)
@@ -84,68 +80,39 @@ def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
 
         Return **only** the JSON object shown above. No additional commentary or formatting.
         """
-        logger.info("Submitting analysis prompt to the language model for story analysis...")
-        
-        ################################################################################
         analysis_prompt = analysis_prompt.strip()
+        # Use the factory to get the LLM client (text)
+        text_engine = state.get("text_engine", "openai_gpt4")
+        llm = get_model_client("text", text_engine)
+        messages = [
+            {"role": "system", "content": "You are an expert in comic book adaptation and visual storytelling."},
+            {"role": "user", "content": analysis_prompt}
+        ]
+        logger.info("Submitting analysis prompt to the language model for story analysis...")
+        # Use the LLM's generate_text method
+        llm_response = llm.generate_text(analysis_prompt, max_tokens=800, temperature=0.3)
+
+        logger.info("LLM response received successfully.")
+        llm_content = llm_response if isinstance(llm_response, str) else str(llm_response)
+        logger.debug(f"LLM Response: {llm_content[:300]}...")
         try:
-            # Get the HuggingFace client
-            hf_client = get_hf_client()
-            # Prepare the conversation for the LLM
-            messages = [
-                {"role": "system", "content": "You are an expert in comic book adaptation and visual storytelling."},
-                {"role": "user", "content": analysis_prompt}
-            ]
-            # Generate the LLM response
-            llm_response = hf_client.generate_conversation(
-                messages=messages,
-                model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-                max_tokens=800,
-                temperature=0.3
-            )
-
-            logger.info("LLM response received successfully.")
-            # Extract the content string from the ChatCompletionOutput object
-            if hasattr(llm_response, "choices"):
-                # OpenAI-like structure
-                try:
-                    llm_content = llm_response.choices[0].message.content
-                except AttributeError:
-                    # HuggingFace or other structure
-                    llm_content = getattr(llm_response.choices[0], "text", str(llm_response.choices[0]))
-            elif isinstance(llm_response, dict) and "generated_text" in llm_response:
-                llm_content = llm_response["generated_text"]
-            else:
-                llm_content = str(llm_response)  # fallback if already a string or unknown structure
-
-            logger.debug(f"LLM Response: {llm_content[:100]}...")  # Log only the first 300 characters for brevity
-            try:
-                if isinstance(llm_content, str):
-                    logger.info("LLM response is a string, attempting to parse as JSON.")
-                    # Parse the LLM response as JSON if it's a string
-                    analysis = json.loads(llm_content)
-                else:
-                    logger.info("LLM response is not a string, using it directly.")
-                    analysis = llm_content
-            except json.JSONDecodeError as e:
-                logger.error(f"JSON decoding failed: {e}")
-                logger.info(f"Raw LLM output:\n{llm_content}")
-                analysis = {}
-            # Handle LLM analysis response
-            final_style = artistic_style or 'Modern Comic Style'
-            final_mood = mood or 'Adventure'
-            character_descriptions = analysis.get('character_descriptions', []) if isinstance(analysis, dict) else []
-            logger.info(f"LLM Analysis - Style: {final_style}, Mood: {final_mood}")
-        except Exception as e:
-            # Log any exception during LLM analysis
-            logger.exception(f"Error in LLM story analysis: {e}")
-            final_style = artistic_style or 'Modern Comic Style'
-            final_mood = mood or 'Adventure'
-            character_descriptions = []
+            # Parse the LLM response as JSON
+            analysis = json.loads(llm_content)
+        except json.JSONDecodeError as e:
+            logger.error(f"JSON decoding failed: {e}")
+            raise RuntimeError("LLM response was not valid JSON.")
+        # Handle LLM analysis response
+        if isinstance(analysis, dict):
+            final_style = analysis.get('artistic_style') or artistic_style or 'Modern Comic Style'
+            final_mood = analysis.get('mood') or mood or 'Adventure'
+            character_descriptions = analysis.get('character_descriptions', [])
+        else:
+            raise RuntimeError("LLM analysis did not return a dict.")
         # If no character descriptions were found, use fallback extraction
         if not character_descriptions:
             character_descriptions = extract_fallback_character_descriptions(story_text)
 
+        layout_style = state.get('layout_style', 'grid_2x2')  # Default layout style if not provided.
         layout_style = state.get('layout_style', 'grid_2x2')  # Default layout style if not provided.
 
         logger.info(f"Character Defined: {character_descriptions}")
@@ -164,12 +131,7 @@ def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
     except Exception as e:
         # Log any exception in the main function and return fallback values
         logger.exception("Exception in story_analyst:")
-        return {
-            "character_descriptions": [{"name": "Main character", "description": "Main character from the story"}],
-            "artistic_style": state.get('style_preset', 'Modern Comic Style'),
-            "mood": state.get('genre_preset', 'Adventure'),
-            "layout_style": state.get('layout_style', 'grid_2x2')
-        }
+        raise RuntimeError(f"story_analyst failed: {e}")
 
 ########################################################################
 # Heuristic fallback for character extraction
