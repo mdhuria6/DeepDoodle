@@ -1,10 +1,10 @@
 You are a genre-focused comic story writer. Your task is to expand a brief idea into a story with a strong emotional and visual tone.
 
-Write a story of approximately {{STORY_EXPANSION_WORD_LIMIT}} words using the following:
+Write a story of approximately {word_limit} words using the following:
 
-Story Prompt: {{story_text}}  
-Genre: {{mood}}  
-Style: {{artistic_style}}
+Story Prompt: {story_text}  
+Genre: {mood}  
+Style: {artistic_style}
 
 Use the following genre/style writing cues:
 - If genre is *horror*, build tension slowly and end with a chilling twist  
@@ -21,4 +21,4 @@ Use the specified style to guide your language:
 - “Simple Line Art” is expressive and clean  
 - “Classic Western Comic” is punchy, direct, and bold
 
-Begin the story now. No titles or notes.
+Begin the story now. No titles or notes. Only return the story — do not include any headers, links, markdown, or separators like "---".

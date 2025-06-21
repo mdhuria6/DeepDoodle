@@ -1,8 +1,8 @@
-Expand the following idea into a complete short story of about {{STORY_EXPANSION_WORD_LIMIT}} words.
+Expand the following idea into a complete short story of about {word_limit} words.
 
 Step 1 – Understand the genre and style:  
-Genre: {{mood}}  
-Style: {{artistic_style}}
+Genre: {mood}  
+Style: {artistic_style}
 
 Step 2 – Plan the story structure before writing:  
 - Opening: Establish setting and main character  
@@ -14,4 +14,5 @@ Step 2 – Plan the story structure before writing:
 Step 3 – Identify tone and imagery based on style.  
 
 Now write the full story using the above structure and mood. Use vivid, immersive language. Do not include planning steps in output.
-Story Prompt: {{story_text}}
+Only return the story — do not include any headers, links, markdown, or separators like "---".
+Story Prompt: {story_text}
