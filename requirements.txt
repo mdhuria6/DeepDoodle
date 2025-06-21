@@ -19,4 +19,4 @@ rouge-score
 nltk
 seaborn
 requests
-bs4
+matplotlib

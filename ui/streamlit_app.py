@@ -101,7 +101,7 @@ with st.sidebar:
     
     # --- Add Sarvam language dropdown here ---
     sarvam_languages = [
-        "English", "Hindi", "Spanish", "French", "German", "Chinese", "Japanese", "Korean", "Tamil", "Telugu"
+        "English", "Hindi", "Tamil", "Telugu"
     ]
     selected_sarvam_language = st.selectbox("Select Sarvam Output Language", sarvam_languages, index=0)
     # -----------------------------------------
@@ -153,6 +153,7 @@ if generate_button:
                 "text_engine": text_engine,
                 "image_engine": image_engine,
                 "prompt": PROMPT,
+                "target_language": selected_sarvam_language,
             }
             word_count = len(story_input.strip().split())
             # Create and run the workflow

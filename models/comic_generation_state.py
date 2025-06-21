@@ -16,6 +16,7 @@ class ComicGenerationState(TypedDict):
     style_preset: Optional[str]
     genre_preset: Optional[str]
     layout_style: Optional[str] # This might be used to guide the layout_planner or be superseded by its logic
+    target_language: Optional[str] # Language for Sarvam translation
 
     # Derived state added by agents
     character_descriptions: List[Dict[str, str]]
