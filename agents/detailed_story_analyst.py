@@ -4,7 +4,7 @@ import re
 import logging
 from typing import Dict, List, Any
 from models.comic_generation_state import ComicGenerationState
-from configs import HUGGINGFACE_API_TOKEN
+import os
 
 # Set up logging configuration
 logging.basicConfig(level=logging.INFO)
@@ -14,6 +14,7 @@ def call_mistral_api(prompt: str, max_tokens: int = 1000) -> str:
     """
     Calls the Mistral AI model via Hugging Face API to extract information from text.
     """
+    HUGGINGFACE_API_TOKEN = os.getenv("HUGGINGFACE_API_TOKEN")
     if not HUGGINGFACE_API_TOKEN:
         logger.warning("HUGGINGFACE_API_TOKEN not found. Cannot use Mistral AI.")
         return ""
@@ -314,7 +315,7 @@ def validate_character_consistency(character_details: Dict[str, str]) -> Dict[st
     
     return validated_characters
 
-def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
+def detailed_story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
     """
     Enhanced story analyst that analyzes the story using Mistral AI to extract detailed character 
     information with explicit gender identification and strict visual consistency enforcement.
