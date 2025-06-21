@@ -1,7 +1,7 @@
 import logging
 from typing import Dict, Any
 from models.comic_generation_state import ComicGenerationState
-from utils.llm_response_util import sanitize_llm_response
+from utils.response_util import sanitize_llm_response
 from utils.llm_factory import get_model_client
 import json
 import re

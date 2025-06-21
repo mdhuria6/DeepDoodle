@@ -1,7 +1,7 @@
 import logging
 import json
 from models.comic_generation_state import ComicGenerationState
-from utils.llm_response_util import sanitize_llm_response
+from utils.response_util import sanitize_llm_response
 from utils.llm_factory import get_model_client
 import re
 
@@ -43,7 +43,7 @@ SCENE_DECOMPOSER_PROMPT = """
 
 **User Story Input:** "The knight was shocked to see a dragon in the cave. He thought it was magnificent."
 
-**Your Excellent JSON Output:**
+**Example Output**:
 [
   {{
     "panel": 1,
@@ -60,7 +60,7 @@ SCENE_DECOMPOSER_PROMPT = """
   }}
 ]
 
-**IMPORTANT:** Your response must start with `[` and end with `]`. It must be a raw JSON string, with no other text or formatting.
+**REMINDER:** Your response must start with `[` and end with `]`. It must be a raw JSON string, with no text, no Markdown, no triple backticks, and no code block formatting.
 
 User Story to Process:
 "{story_text}"
