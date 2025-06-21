@@ -37,7 +37,7 @@ SCENE_DECOMPOSER_PROMPT = """
   }}
 ]
 
----
+
 **Example Transformation:**
 
 **User Story Input:** "The knight was shocked to see a dragon in the cave. He thought it was magnificent."
@@ -59,7 +59,6 @@ SCENE_DECOMPOSER_PROMPT = """
   }}
 ]
 
----
 **IMPORTANT:** Your response must start with `[` and end with `]`. It must be a raw JSON string, with no other text or formatting.
 
 User Story to Process:
@@ -108,7 +107,7 @@ def scene_decomposer(state: ComicGenerationState) -> dict:
 		logger.info(f"   > Calling {text_engine} to decompose story... (Attempt {attempt + 1}/{max_retries})")
 		try:
 			response = llm.generate_text(prompt, max_tokens=8000)
-			logger.debug(f"   > Raw LLM response: {response}")
+			logger.info(f"   > Raw LLM response: {response}")
 			scenes = json.loads(response)
 			if not isinstance(scenes, list):
 				logger.warning(f"   > Validation Failed: LLM output is not a list.")
@@ -124,6 +123,7 @@ def scene_decomposer(state: ComicGenerationState) -> dict:
 			}
 		except json.JSONDecodeError:
 			logger.warning("   > Validation Failed: LLM response was not valid JSON. Retrying...")
+			logger.info(f"   > LLM Response: {response}")
 			continue
 		except Exception as e:
 			logger.error(f"   > An unexpected error occurred during LLM call: {e}")
