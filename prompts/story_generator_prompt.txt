@@ -1,0 +1,10 @@
+expansion_prompt = f"""
+Expand the following idea into a short story of {STORY_EXPANSION_WORD_LIMIT} words.
+Incorporate the given genre and style into the story tone.
+
+Story: {story_text}
+Genre: {mood}
+Style: {artistic_style}
+
+Write the full story. No additional commentary or formatting.
+"""
