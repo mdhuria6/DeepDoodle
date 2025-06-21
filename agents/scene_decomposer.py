@@ -1,7 +1,7 @@
 import logging
 import json
-from typing import Dict, Any, List
 from models.comic_generation_state import ComicGenerationState
+from utils.llm_response_util import sanitize_llm_response
 from utils.llm_factory import get_model_client
 import re
 
@@ -108,11 +108,7 @@ def scene_decomposer(state: ComicGenerationState) -> dict:
 		logger.info(f"   > Calling {text_engine} to decompose story... (Attempt {attempt + 1}/{max_retries})")
 		try:
 			response = llm.generate_text(prompt, max_tokens=8000)
-			logger.debug(f"   > Raw LLM response: {response}")
-			if response.startswith("```"):
-				response = re.sub(r"^```[a-zA-Z]*\n?", "", response)
-				response = re.sub(r"\n?```$", "", response)
-				response = response.strip()
+			response = sanitize_llm_response(response)  # Clean up the response
 			scenes = json.loads(response)
 			if not isinstance(scenes, list):
 				logger.warning(f"   > Validation Failed: LLM output is not a list.")

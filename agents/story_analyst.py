@@ -1,6 +1,7 @@
 import logging
 from typing import Dict, Any
 from models.comic_generation_state import ComicGenerationState
+from utils.llm_response_util import sanitize_llm_response
 from utils.llm_factory import get_model_client
 import json
 import re
@@ -96,13 +97,7 @@ def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
         logger.debug(f"LLM Response: {llm_content[:300]}...")
         try:
             # Parse the LLM response as JSON
-            llm_content = llm_content.strip()
-            # Remove Markdown code block formatting if present
-            if llm_content.lstrip().startswith("```"):
-                logger.info("Detected Markdown code block formatting in LLM response.")
-                llm_content = re.sub(r"^```[a-zA-Z]*\n?", "", llm_content)
-                llm_content = re.sub(r"\n?```$", "", llm_content)
-                llm_content = llm_content.strip()
+            llm_content = sanitize_llm_response(llm_content)
             analysis = json.loads(llm_content)
         except json.JSONDecodeError as e:
             logger.error(f"JSON decoding failed: {e}")
