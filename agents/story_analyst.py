@@ -100,7 +100,7 @@ def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
             # Remove Markdown code block formatting if present
             if llm_content.lstrip().startswith("```"):
                 logger.info("Detected Markdown code block formatting in LLM response.")
-                llm_content = re.sub(r"^```.*\n?", "", llm_content)
+                llm_content = re.sub(r"^```[a-zA-Z]*\n?", "", llm_content)
                 llm_content = re.sub(r"\n?```$", "", llm_content)
                 llm_content = llm_content.strip()
             analysis = json.loads(llm_content)
