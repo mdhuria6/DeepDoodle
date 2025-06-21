@@ -1,8 +1,9 @@
 import logging
 import json
-from typing import Dict, Any, List
 from models.comic_generation_state import ComicGenerationState
+from utils.response_util import sanitize_llm_response
 from utils.llm_factory import get_model_client
+import re
 
 # Setup logger
 logging.basicConfig(level=logging.INFO)
@@ -37,12 +38,12 @@ SCENE_DECOMPOSER_PROMPT = """
   }}
 ]
 
----
+
 **Example Transformation:**
 
 **User Story Input:** "The knight was shocked to see a dragon in the cave. He thought it was magnificent."
 
-**Your Excellent JSON Output:**
+**Example Output**:
 [
   {{
     "panel": 1,
@@ -59,8 +60,7 @@ SCENE_DECOMPOSER_PROMPT = """
   }}
 ]
 
----
-**IMPORTANT:** Your response must start with `[` and end with `]`. It must be a raw JSON string, with no other text or formatting.
+**REMINDER:** Your response must start with `[` and end with `]`. It must be a raw JSON string, with no text, no Markdown, no triple backticks, and no code block formatting.
 
 User Story to Process:
 "{story_text}"
@@ -108,7 +108,7 @@ def scene_decomposer(state: ComicGenerationState) -> dict:
 		logger.info(f"   > Calling {text_engine} to decompose story... (Attempt {attempt + 1}/{max_retries})")
 		try:
 			response = llm.generate_text(prompt, max_tokens=8000)
-			logger.debug(f"   > Raw LLM response: {response}")
+			response = sanitize_llm_response(response)  # Clean up the response
 			scenes = json.loads(response)
 			if not isinstance(scenes, list):
 				logger.warning(f"   > Validation Failed: LLM output is not a list.")
@@ -124,6 +124,7 @@ def scene_decomposer(state: ComicGenerationState) -> dict:
 			}
 		except json.JSONDecodeError:
 			logger.warning("   > Validation Failed: LLM response was not valid JSON. Retrying...")
+			logger.info(f"   > LLM Response: {response}")
 			continue
 		except Exception as e:
 			logger.error(f"   > An unexpected error occurred during LLM call: {e}")

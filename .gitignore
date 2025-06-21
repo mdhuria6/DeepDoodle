@@ -5,3 +5,4 @@ data/samples/images/
 **/__pycache__/
 .venv/
 .python-version
+.results/
