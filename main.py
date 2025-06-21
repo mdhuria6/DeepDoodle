@@ -82,5 +82,6 @@ if __name__ == "__main__":
         "style_preset": "Simple Line Art Comic", # Changed for very plain style
         "genre_preset": "Sci-Fi",
         "layout_style": "mixed_2x2",
+        "text_engine": "mistral_mixtral_8x7b_instruct"
     }
     run_comic_generation_workflow(default_inputs)

@@ -21,7 +21,7 @@ def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
         story_text = state.get('story_text', '')
 
         logger.info(f"Input Story Text: {story_text}")
-        logger.info(f"Input Story Text Length: {len(story_text)}")
+        logger.info(f"Word Count of Story: {len(story_text.strip().split())}")
 
         ##############################################################################
         # Check if story_text is empty or None
@@ -81,7 +81,7 @@ def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
         """
         analysis_prompt = analysis_prompt.strip()
         # Use the factory to get the LLM client (text)
-        text_engine = state.get("text_engine", "openai_gpt4")
+        text_engine = state.get("text_engine", "mistral_mixtral_8x7b_instruct")
         llm = get_model_client("text", text_engine)
         messages = [
             {"role": "system", "content": "You are an expert in comic book adaptation and visual storytelling."},
@@ -89,7 +89,7 @@ def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
         ]
         logger.info("Submitting analysis prompt to the language model for story analysis...")
         # Use the LLM's generate_text method
-        llm_response = llm.generate_text(analysis_prompt, max_tokens=800, temperature=0.3)
+        llm_response = llm.generate_text(analysis_prompt, max_tokens=1000, temperature=0.3)
 
         logger.info("LLM response received successfully.")
         llm_content = llm_response if isinstance(llm_response, str) else str(llm_response)

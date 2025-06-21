@@ -24,7 +24,7 @@ def should_continue_generating(state: ComicGenerationState) -> str:
         return "compose_pages"
     
 def prompt_based_routing(state: ComicGenerationState) -> str:
-    prompt = state.get("PROMPT", "").strip()
+    prompt = state.get("prompt", "Simple").strip()
     if prompt == "Simple":
         return "to_story_analyst"
     elif prompt == "Detailed":
@@ -32,7 +32,7 @@ def prompt_based_routing(state: ComicGenerationState) -> str:
     else:
         return "end_workflow"  #    
 
-def create_workflow(entry_point: str = "detailed_story_analyst"):
+def create_workflow(entry_point: str = "story_analyst"):
     """Creates and compiles the LangGraph workflow."""
     workflow = StateGraph(ComicGenerationState)
     workflow.add_node("detailed_story_analyst", agents.detailed_story_analyst)
