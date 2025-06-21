@@ -9,6 +9,9 @@ class ComicGenerationState(TypedDict):
     """
     # Inputs from UI - these keys must match the initial 'inputs' dictionary
     story_text: str
+    text_engine: str
+    image_engine: str
+    prompt:str
     panel_count: int
     style_preset: Optional[str]
     genre_preset: Optional[str]

@@ -46,7 +46,7 @@ class ModelWrapper:
             raise ValueError("Image generation only supported for Hugging Face models.")
 
 
-def get_model_client(request_type: str = "text", engine_name: str = "openai_gpt4o"):
+def get_model_client(request_type: str = "text", engine_name: str = "mistral_mixtral_8x7b_instruct"):
     """
     Factory function to get an instance of a model client (text or image) based on the request type and engine name.
     request_type: 'text' or 'image'
@@ -84,11 +84,12 @@ def get_model_client(request_type: str = "text", engine_name: str = "openai_gpt4
             client = ChatGoogleGenerativeAI(model="gemini-1.5-flash-latest", google_api_key=google_api_key, temperature=0.7)
             return ModelWrapper(client, "gemini", model_name="gemini-1.5-flash-latest", is_image_model=False)
         else:
-            print(f"Warning: Unknown text engine '{engine_name}'. Defaulting to OpenAI GPT-4.")
-            if not os.getenv("OPENAI_API_KEY"):
-                raise ValueError("OPENAI_API_KEY environment variable not set for default model.")
-            client = ChatOpenAI(model="gpt-4-turbo", temperature=0.7)
-            return ModelWrapper(client, "openai", model_name="gpt-4-turbo", is_image_model=False)
+            print(f"Warning: Unknown text engine '{engine_name}'. Defaulting to mistral_mixtral")
+            if not os.getenv("HUGGINGFACE_API_TOKEN"):
+                raise ValueError("HUGGINGFACE_API_TOKEN environment variable not set.")
+            model_name = "mistralai/Mixtral-8x7B-Instruct-v0.1"
+            client = InferenceClient(token=hf_token)
+            return ModelWrapper(client, "huggingface", model_name=model_name, is_image_model=False)
 
     elif request_type == "image":
         # Default: Hugging Face diffusion model

@@ -7,6 +7,7 @@ import shutil # Added shutil import
 # Add project root to Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+from configs import STORY_EXPANSION_WORD_THRESHOLD, PROMPT
 from main import run_comic_generation_workflow #type: ignore
 from configs import (
     DEFAULT_LAYOUT_STYLE, SUPPORTED_LAYOUT_STYLES, 
@@ -151,8 +152,20 @@ if generate_button:
                 "layout_style": layout,
                 "text_engine": text_engine,
                 "image_engine": image_engine,
+                "prompt": PROMPT,
             }
-            app = create_workflow()
+            word_count = len(story_input.strip().split())
+            # Create and run the workflow
+            if word_count < STORY_EXPANSION_WORD_THRESHOLD:
+                entry = "story_generator"
+            else:
+                if PROMPT == "Simple":
+                    entry = "story_analyst"
+                elif PROMPT == "Detailed":
+                    entry = "detailed_story_analyst"
+                else:
+                    raise ValueError("Incorrect prompt. Expected 'Simple' or 'Detailed'.")
+            app = create_workflow(entry)
             st.session_state.result = app.invoke(inputs)
     else:
         st.session_state.result = None
