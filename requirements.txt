@@ -7,7 +7,16 @@ langchain-community
 python-dotenv
 huggingface-hub
 langchain-openai
+langchain_mistralai
+langchain-google-genai
 boto3
+torch
 transformers
 torch
 huggingface_hub
+bert-score 
+rouge-score 
+nltk
+seaborn
+requests
+bs4

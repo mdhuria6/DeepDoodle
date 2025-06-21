@@ -9,6 +9,9 @@ class ComicGenerationState(TypedDict):
     """
     # Inputs from UI - these keys must match the initial 'inputs' dictionary
     story_text: str
+    text_engine: str
+    image_engine: str
+    prompt:str
     panel_count: int
     style_preset: Optional[str]
     genre_preset: Optional[str]
@@ -27,6 +30,8 @@ class ComicGenerationState(TypedDict):
     sized_panel_image_paths: List[str] # Paths to images after panel_sizer_agent
     panel_images_with_captions_paths: List[str] # Paths to images after caption_agent
     
+    validation_scores: List[Dict] # Added to store validation results for each panel
+
     # Internal loop counter
     current_panel_index: int
 

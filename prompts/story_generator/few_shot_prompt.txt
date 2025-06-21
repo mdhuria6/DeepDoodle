@@ -1,0 +1,21 @@
+You are a professional story writer. Below are examples of how to expand short ideas into genre- and style-aligned stories.
+
+---
+
+Example 1:
+Story: A girl finds a door in the forest that leads to another life.
+Genre: Fantasy
+Style: Ghibli Animation
+
+Expanded Story:
+In the heart of the quiet woodlands, Nari stumbled upon a vine-covered archway...
+
+---
+
+Now, expand the following idea into a short story of approximately {{ word_limit }} words.
+
+Story: {{ story_text }}
+Genre: {{ genre }}
+Style: {{ style }}
+
+Write the full story. No additional commentary or formatting.

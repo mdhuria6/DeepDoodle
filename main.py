@@ -1,8 +1,14 @@
 import os
 import shutil
+import logging
 from graph import create_workflow
 from configs import OUTPUT_DIR, PROMPT
 from configs import STORY_EXPANSION_WORD_THRESHOLD
+import nltk 
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def run_comic_generation_workflow(inputs: dict):
     """
@@ -16,20 +22,8 @@ def run_comic_generation_workflow(inputs: dict):
     os.makedirs(OUTPUT_DIR)
     os.makedirs(os.path.join(OUTPUT_DIR, "panels"), exist_ok=True)
     os.makedirs(os.path.join(OUTPUT_DIR, "pages"), exist_ok=True)
-    print(f"Output directory '{OUTPUT_DIR}' has been set up and cleaned.")
-    print("Starting comic generation workflow...")
-
-    # --- Inputs are now passed as an argument ---
-    # story = """ ... """
-    
-    # inputs = {
-    #     "story_text": story,
-    #     "panel_count": 8,
-    #     "style_preset": "Modern Anime",
-    #     "genre_preset": "Sci-Fi",
-    #     "layout_style": "mixed_2x2", 
-    # }
-    # Determine entry point
+    logger.info(f"Output directory '{OUTPUT_DIR}' has been set up and cleaned.")
+    logger.info("Starting comic generation workflow.")
     story_text = inputs.get("story_text", "")
     word_count = len(story_text.strip().split())
 
@@ -43,18 +37,18 @@ def run_comic_generation_workflow(inputs: dict):
             entry = "detailed_story_analyst"
         else:
             raise ValueError("Incorrect prompt. Expected 'Simple' or 'Detailed'.")
-    app = create_workflow(entry)
-        
-    print("--- Starting Comic Generation ---")
-
-    # Invoke the graph with the provided inputs
+    app = create_workflow(entry)        
+    logger.info("Starting Comic Generation")
     final_state = app.invoke(inputs)
-    
-    print("--- Comic Generation Workflow Complete ---")
+    logger.info("Comic Generation Workflow Complete")
     return final_state
 
 if __name__ == "__main__":
-    # Example of how to run it directly, you might want to adjust this for direct script execution
+
+    nltk.download('punkt')
+    nltk.download('punkt_tab')
+    nltk.download('wordnet')
+    nltk.download('omw-1.4')
     example_story = """
     In the silent hum of the deep space observatory, veteran astronomer Elara felt a familiar loneliness. 
     For years, her screens showed nothing but cosmic static. 
@@ -72,8 +66,9 @@ if __name__ == "__main__":
     default_inputs = {
         "story_text": example_story,
         "panel_count": 8,
-        "style_preset": "Simple Line Art Comic", # Changed for very plain style
+        "style_preset": "Simple Line Art Comic",
         "genre_preset": "Sci-Fi",
         "layout_style": "mixed_2x2",
+        "text_engine": "mistral_mixtral_8x7b_instruct"
     }
     run_comic_generation_workflow(default_inputs)
