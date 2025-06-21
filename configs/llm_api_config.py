@@ -3,7 +3,7 @@
 
 # --- Image Generation Configuration ---
 # Flag to enable/disable Bedrock image generation
-USE_BEDROCK_IMAGE_GENERATION = True
+USE_BEDROCK_IMAGE_GENERATION = False
 
 # AWS Bedrock settings (only used if USE_BEDROCK_IMAGE_GENERATION is True)
 BEDROCK_AWS_REGION = "us-east-1"

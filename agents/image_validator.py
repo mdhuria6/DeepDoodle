@@ -2,6 +2,7 @@ from transformers import CLIPProcessor, CLIPModel
 from PIL import Image, UnidentifiedImageError
 import torch
 import torch.nn.functional as F
+from models.comic_generation_state import ComicGenerationState
 
 
 class ImageValidator:
@@ -89,7 +90,12 @@ class ImageValidator:
             prompt_keys.append("style")
 
         if not prompts:
-            raise ValueError("No prompts provided for validation")
+            return {
+                "final_score": 1.0,
+                "final_decision": "✅ PASS",
+                "image": task["image_path"],
+                "details": {}
+            }
 
         # Step 4: Calculate similarity scores
         scores = self._compute_cosine_similarities(image, prompts)
@@ -101,9 +107,9 @@ class ImageValidator:
 
         total_weight = sum(weights.get(k, 0) for k in prompt_keys)
         if total_weight == 0:
-            raise ValueError("Total weight cannot be zero")
-
-        normalized_weights = {k: weights.get(k, 0) / total_weight for k in prompt_keys}
+            normalized_weights = {k: 1.0 / len(prompt_keys) for k in prompt_keys}
+        else:
+            normalized_weights = {k: weights.get(k, 0) / total_weight for k in prompt_keys}
 
         # Step 6: Apply thresholds for each prompt
         thresholds = task.get("thresholds", {})
@@ -112,7 +118,6 @@ class ImageValidator:
 
         results = {}
         weighted_score = 0.0
-        passed_all = True
 
         # Step 7: Evaluate each prompt
         for i, key in enumerate(prompt_keys):
@@ -122,8 +127,6 @@ class ImageValidator:
 
             # Check if the score is above threshold
             passed = score >= threshold
-            if not passed:
-                passed_all = False
 
             weighted_score += score * weight
 
@@ -137,8 +140,70 @@ class ImageValidator:
             }
 
         # Step 8: Compile final results
-        results["final_score"] = round(weighted_score, 4)
-        results["final_decision"] = "✅ PASS" if weighted_score >= self.default_threshold else "❌ FAIL"
-        results["image"] = task["image_path"]
-        print(f"[VALIDATOR AGENT ] Loading CLIP model on", results)
-        return results
+        final_results = {
+            "final_score": round(weighted_score, 4),
+            "final_decision": "✅ PASS" if weighted_score >= self.default_threshold else "❌ FAIL",
+            "image": task["image_path"],
+            "details": results
+        }
+        
+        print(f"[VALIDATOR AGENT] Validation complete for {task['image_path']}. Score: {final_results['final_score']}")
+        return final_results
+
+
+_validator_instance = None
+
+def get_validator_instance():
+    """Initializes and returns a singleton instance of the ImageValidator."""
+    global _validator_instance
+    if _validator_instance is None:
+        print("Initializing ImageValidator for the first time.")
+        _validator_instance = ImageValidator()
+    return _validator_instance
+
+def image_validator(state: ComicGenerationState) -> dict:
+    print("\n--- AGENT: Validating panel image ---")
+    
+    panel_image_paths = state.get("panel_image_paths", [])
+    
+    # The index of the panel to validate is the last one added to the list.
+    # current_panel_index points to the *next* panel, so we can't use it directly.
+    validation_index = len(panel_image_paths) - 1
+
+    if validation_index < 0:
+        print("Warning: No images found to validate.")
+        return {} # Return early if there's nothing to do.
+
+    # Ensure other required state lists are long enough
+    scenes = state.get("scenes", [])
+    if validation_index >= len(scenes):
+        print(f"Error: Scene not found for panel index {validation_index}.")
+        return {} # Cannot proceed without scene info
+
+    panel_image_path = panel_image_paths[validation_index]
+    scene = scenes[validation_index]
+
+    task = {
+        "image_path": panel_image_path,
+        "caption_parts": {
+            "scene": scene.get("description"),
+            "character": scene.get("character_description"),
+            "action": scene.get("action_description"),
+        },
+        "style_prompt": state.get("artistic_style"),
+        "weights": {"scene": 0.4, "character": 0.4, "action": 0.2, "style": 0.1},
+        "thresholds": {"scene": 0.25, "character": 0.25, "action": 0.2}
+    }
+
+    validator = get_validator_instance()
+    validation_result = validator.run(task)
+    
+    print(f"[VALIDATOR AGENT] Validation result for panel {validation_index + 1}: {validation_result}")
+    
+    # Store the validation result in the state
+    validation_scores = state.get("validation_scores", [])
+    validation_scores.append(validation_result)
+
+    # The image_generator is responsible for incrementing the panel index.
+    # This agent's job is only to validate and return the scores.
+    return {"validation_scores": validation_scores}

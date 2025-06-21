@@ -175,10 +175,8 @@ def image_generator(state: ComicGenerationState) -> dict:
             aws_region=BEDROCK_AWS_REGION
         )
     else:
-        # print(f"   > Generating placeholder image with grid ({target_w}x{target_h})...")
-        # _generate_placeholder_image(target_w, target_h, image_path)
         print(f"   > Generating image with HuggingFace InferenceClient ({target_w}x{target_h})...")
-        generate_image(current_panel_prompt, target_w, target_h, style, output_path=image_path)
+        _generate_image_with_huggingface(current_panel_prompt, target_w, target_h, style, output_path=image_path)
 
     paths = state.get("panel_image_paths") or []
     return {
@@ -186,7 +184,7 @@ def image_generator(state: ComicGenerationState) -> dict:
         "current_panel_index": panel_index + 1
     }
 
-def generate_image(prompt: str, width: int, height: int, style: Optional[str] = "manga", output_path: Optional[str] = None) -> str:
+def _generate_image_with_huggingface(prompt: str, width: int, height: int, style: Optional[str] = "manga", output_path: Optional[str] = None) -> str:
     """
     Generate an image from a text prompt using Hugging Face Inference API.
 

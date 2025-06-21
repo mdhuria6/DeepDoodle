@@ -16,7 +16,6 @@ def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
     Raises RuntimeError on unrecoverable error.
     """
     logger.info("------ AGENT: Story Analyst --------")
-    logger.info("------ AGENT: Story Analyst --------")
     try:
         # Retrieve the story text from the state
         story_text = state.get('story_text', '')
