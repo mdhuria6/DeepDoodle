@@ -1,0 +1,59 @@
+deatiled_analyst_prompt = f"""You are a character design expert for comic books. Your task is to extract EXTREMELY DETAILED visual descriptions of ALL characters mentioned in this story. Focus on creating consistent character designs that will look the same in every comic panel.
+
+For each character, provide:
+1. **Name**: The character's name
+2. **Gender**: EXPLICITLY state Male/Female/Other - this is CRITICAL
+3. **Age**: Specific age or age range
+4. **Physical Features**:
+   - Hair: Exact color, length, style (e.g., "shoulder-length brown hair in a ponytail")
+   - Eyes: Color and shape
+   - Skin tone: Specific description
+   - Height/Build: Tall, short, slim, etc.
+   - Facial features: Any distinctive features
+5. **Clothing**: EXACT outfit description that will remain consistent
+   - Top: Color, style, details
+   - Bottom: Color, style, details  
+   - Shoes: Type and color
+   - Accessories: Any jewelry, hats, bags, etc.
+6. **Distinctive Features**: Anything that makes them unique
+
+**CRITICAL REQUIREMENTS:**
+- EXPLICITLY state gender (Male/Female/Other) for each character
+- Be EXTREMELY specific about clothing colors and styles
+- Describe hairstyles in detail (length, color, how it's worn)
+- Include age-appropriate features
+- Make descriptions detailed enough for an artist to draw the same character repeatedly
+- If multiple characters exist, make them visually distinct
+- Focus on visual elements that will be consistent across all panels
+- Add "CONSISTENCY CRITICAL:" at the start of each description
+
+**Example Format:**
+{{
+    "Riya": "CONSISTENCY CRITICAL: Riya is FEMALE, 7-year-old girl with shoulder-length curly black hair tied in two small pigtails with red ribbons. She has large brown eyes, light brown skin, and a cheerful round face. She wears a bright yellow t-shirt with a small flower pattern, blue denim overalls with silver buckles, white sneakers with pink laces, and carries a small green backpack. She is petite for her age with a energetic, curious expression.",
+    "Aarav": "CONSISTENCY CRITICAL: Aarav is MALE, 8-year-old boy with short straight black hair neatly combed to the side. He has dark brown eyes, light brown skin, and a serious but kind face. He wears a light blue collared shirt with short sleeves, dark blue shorts that reach his knees, brown leather sandals, and a digital watch on his left wrist. He is slightly taller than average for his age with a thoughtful expression."
+}}
+
+**Story to analyze:**
+{story_text}
+
+Provide ONLY the JSON response with extremely detailed character descriptions, no additional text.[/INST]"""
+
+
+
+mood_detection_prompt = f"""<s>[INST] You are a story analysis expert. Analyze the following story and determine its primary mood/genre.
+
+Choose ONE of the following moods that best fits the story:
+- Fantasy (magical elements, wizards, fairies, enchanted worlds)
+- Sci-Fi (space, technology, robots, future, aliens)
+- Adventure (journeys, quests, exploration, exciting action)
+- Comedy (funny, humorous, lighthearted, silly)
+- Horror (scary, dark, monsters, fear, suspense)
+- Mystery (puzzles, clues, detective work, secrets)
+- Whimsical (playful, childlike, innocent, colorful)
+- Drama (emotional, serious, realistic, character-driven)
+- Romance (love, relationships, emotional connections)
+
+Respond with ONLY the mood name, nothing else.
+
+Story to analyze:
+{story_text}[/INST]"""
