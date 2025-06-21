@@ -1,7 +1,7 @@
 import os
 import shutil
 from graph import create_workflow
-from configs import OUTPUT_DIR
+from configs import OUTPUT_DIR, PROMPT
 from configs import STORY_EXPANSION_WORD_THRESHOLD
 import nltk 
 from configs import STORY_EXPANSION_WORD_THRESHOLD
@@ -36,9 +36,17 @@ def run_comic_generation_workflow(inputs: dict):
     word_count = len(story_text.strip().split())
 
     # Create and run the workflow
-    entry = "story_generator" if word_count < STORY_EXPANSION_WORD_THRESHOLD else "story_analyst"
+    if word_count < STORY_EXPANSION_WORD_THRESHOLD:
+        entry = "story_generator"
+    else:
+        if PROMPT == "Simple":
+            entry = "story_analyst"
+        elif PROMPT == "Detailed":
+            entry = "detailed_story_analyst"
+        else:
+            raise ValueError("Incorrect prompt. Expected 'Simple' or 'Detailed'.")
     app = create_workflow(entry)
-    
+        
     print("--- Starting Comic Generation ---")
 
     # Invoke the graph with the provided inputs

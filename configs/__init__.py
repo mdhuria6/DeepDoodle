@@ -2,7 +2,7 @@
 
 # This file makes the 'configs' directory a Python package and exports all configurations.
 
-from .base_config import OPENAI_API_KEY, PROJECT_ROOT
+from .base_config import OPENAI_API_KEY, PROJECT_ROOT, PROMPT
 from .paths_config import (
     ASSETS_DIR, FONTS_DIR, BUNDLED_FONT_PATH,
     OUTPUT_DIR, RAW_PANELS_DIR, SIZED_PANELS_DIR,

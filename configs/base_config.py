@@ -11,3 +11,5 @@ if not OPENAI_API_KEY:
 
 # PROJECT_ROOT is defined as the directory containing the 'configs' folder (i.e., the main project directory)
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+PROMPT = "Simple" #Simple for story analyst and detailed for detailed story analyst
