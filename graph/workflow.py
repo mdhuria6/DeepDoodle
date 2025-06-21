@@ -1,6 +1,6 @@
 import agents.detailed_story_analyst
 from langgraph.graph import StateGraph, END
-from models.comic_generation_state import ComicGenerationState # Import from models
+from models.comic_generation_state import ComicGenerationState
 import agents
 from configs import STORY_EXPANSION_WORD_THRESHOLD
 
@@ -30,7 +30,7 @@ def prompt_based_routing(state: ComicGenerationState) -> str:
     elif prompt == "Detailed":
         return "to_detailed_story_analyst"
     else:
-        return "end_workflow"  #    
+        return "end_workflow"  
 
 def create_workflow(entry_point: str = "story_analyst"):
     """Creates and compiles the LangGraph workflow."""
@@ -58,14 +58,12 @@ def create_workflow(entry_point: str = "story_analyst"):
         "end_workflow": END
     }
 )
-    workflow.add_edge("detailed_story_analyst", "scene_decomposer") # deatiled_story_analyst goes to scene_decomposer
+    workflow.add_edge("detailed_story_analyst", "scene_decomposer")
     workflow.add_edge("story_analyst", "scene_decomposer")
-    workflow.add_edge("scene_decomposer", "layout_planner") # scene_decomposer now goes to layout_planner
-    workflow.add_edge("layout_planner", "prompt_engineer") # layout_planner goes to prompt_engineer
+    workflow.add_edge("scene_decomposer", "layout_planner")
+    workflow.add_edge("layout_planner", "prompt_engineer")
     workflow.add_edge("prompt_engineer", "image_generator")
     workflow.add_edge("image_generator", "image_validator")
-    
-    # After image_validator, decide if more panels or move to panel_sizer_agent
     workflow.add_conditional_edges(
         "image_validator",
         should_continue_generating,
@@ -74,10 +72,7 @@ def create_workflow(entry_point: str = "story_analyst"):
             "compose_pages": "panel_sizer"
         }
     )
-
-    # After panel_sizer, go to captioner
-    workflow.add_edge("panel_sizer", "captioner") # Renamed
-    # After captioner, go to page_composer
-    workflow.add_edge("captioner", "page_composer") # Renamed
+    workflow.add_edge("panel_sizer", "captioner")
+    workflow.add_edge("captioner", "page_composer")
     workflow.add_edge("page_composer", END)
     return workflow.compile()

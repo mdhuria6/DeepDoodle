@@ -1,0 +1,17 @@
+Expand the following idea into a complete short story of about {{STORY_EXPANSION_WORD_LIMIT}} words.
+
+Step 1 – Understand the genre and style:  
+Genre: {{mood}}  
+Style: {{artistic_style}}
+
+Step 2 – Plan the story structure before writing:  
+- Opening: Establish setting and main character  
+- Conflict: Introduce the central mystery, threat, or dilemma  
+- Rising Action: Escalate the tension or emotion  
+- Climax: Critical decision, discovery, or twist  
+- Resolution: Closure or open-ended implication
+
+Step 3 – Identify tone and imagery based on style.  
+
+Now write the full story using the above structure and mood. Use vivid, immersive language. Do not include planning steps in output.
+Story Prompt: {{story_text}}
