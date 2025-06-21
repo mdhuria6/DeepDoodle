@@ -42,6 +42,7 @@ def create_workflow(entry_point: str = "story_analyst"):
     workflow.add_node("layout_planner", agents.layout_planner)
     workflow.add_node("prompt_engineer", agents.prompt_engineer)
     workflow.add_node("image_generator", agents.image_generator)
+    workflow.add_node("image_validator", agents.image_validator)
     workflow.add_node("panel_sizer", agents.panel_sizer) 
     workflow.add_node("captioner", agents.captioner) 
     workflow.add_node("page_composer", agents.page_composer)
@@ -62,10 +63,11 @@ def create_workflow(entry_point: str = "story_analyst"):
     workflow.add_edge("scene_decomposer", "layout_planner") # scene_decomposer now goes to layout_planner
     workflow.add_edge("layout_planner", "prompt_engineer") # layout_planner goes to prompt_engineer
     workflow.add_edge("prompt_engineer", "image_generator")
+    workflow.add_edge("image_generator", "image_validator")
     
-    # After image_generator, decide if more panels or move to panel_sizer_agent
+    # After image_validator, decide if more panels or move to panel_sizer_agent
     workflow.add_conditional_edges(
-        "image_generator",
+        "image_validator",
         should_continue_generating,
         {
             "continue_generation": "prompt_engineer", 

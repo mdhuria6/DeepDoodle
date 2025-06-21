@@ -30,6 +30,8 @@ class ComicGenerationState(TypedDict):
     sized_panel_image_paths: List[str] # Paths to images after panel_sizer_agent
     panel_images_with_captions_paths: List[str] # Paths to images after caption_agent
     
+    validation_scores: List[Dict] # Added to store validation results for each panel
+
     # Internal loop counter
     current_panel_index: int
 

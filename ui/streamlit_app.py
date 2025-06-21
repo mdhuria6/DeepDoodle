@@ -16,7 +16,6 @@ from configs import (
     OUTPUT_DIR, COMIC_PAGES_DIR, RAW_PANELS_DIR # Added missing imports
 ) #type: ignore
 from models.comic_generation_state import ComicGenerationState # Import from models
-from graph.workflow import create_workflow # Added missing import
 
 # from agents.image_validator import ImageValidator
 # image_validator = ImageValidator()
@@ -144,6 +143,7 @@ if generate_button:
     if is_valid:
         with st.spinner("🧙‍♂️ The AI agents are doodling... Please wait."):
             setup_directories()
+            from graph.workflow import create_workflow # Lazy import
             inputs = {
                 "story_text": story_input,
                 "panel_count": panel_count,
@@ -166,7 +166,7 @@ if generate_button:
                 else:
                     raise ValueError("Incorrect prompt. Expected 'Simple' or 'Detailed'.")
             app = create_workflow(entry)
-            st.session_state.result = app.invoke(inputs)
+            st.session_state.result = app.invoke(inputs, {"recursion_limit": 100})
     else:
         st.session_state.result = None
 
@@ -188,38 +188,22 @@ if st.session_state.result:
         # Display individual panels in an expander with a grid layout
         with st.expander("Show Individual Panels & Validation"):
             cols = st.columns(4)
-            panel_captions = result.get("scenes", "")
-            style_prompt = result.get("style_preset", "")
+            validation_results = result.get("validation_scores")
 
-            weights = {"scene": 0.9, "style": 0.1}
-            thresholds = {"scene": 0.3, "style": 0.1}
-            # If you have detailed caption parts, use them; otherwise, just use the caption as "scene"
             for idx, panel_path in enumerate(result["panel_image_paths"]):
                 with cols[idx % 4]:
                     st.image(panel_path, caption=f"Panel {idx + 1}", use_container_width=True)
 
                     # commented out validation code for now
-                    # task = {
-                    #     "image_path": panel_path,
-                    #     "caption_parts": {"scene": panel_captions[idx]["description"]},
-                    #     "style_prompt": style_prompt,
-                    #     "weights": weights,
-                    #     "thresholds": thresholds,
-                    # }
-                    # try:
-                    #     validation = image_validator.run(task)
-                    #     st.markdown(
-                    #         f"**Score:** {validation.get('final_score', 'N/A')}<br>"
-                    #         f"**Decision:** {validation.get('final_decision', 'N/A')}",
-                    #         unsafe_allow_html=True
-                    #     )
-                    #     for key in ["scene", "dialogue", "caption", "style"]:
-                    #         if key in validation:
-                    #             st.markdown(
-                    #                 f"{key.title()}: {validation[key]['cosine_similarity']} ({validation[key]['decision']})"
-                    #             )
-                    # except Exception as e:
-                    #     st.error(f"Validation error: {e}")
+                    if validation_results and idx < len(validation_results):
+                        validation = validation_results[idx]
+                        st.markdown(
+                            f"**Score:** {validation.get('final_score', 'N/A')}<br>"
+                            f"**Decision:** {validation.get('final_decision', 'N/A')}",
+                            unsafe_allow_html=True
+                        )
+                    else:
+                        st.info("No validation score available.")
 
     else:
         st.error("❌ An error occurred. The agents failed to generate the comic.")

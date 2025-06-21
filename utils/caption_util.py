@@ -19,7 +19,7 @@ def format_caption_text(caption: Caption) -> str:
         return f"SFX: {text}" # Assuming SFX text itself is the effect
     elif caption_type == "narrator" and speaker:
         return f"{speaker}: {text}"
-    elif caption_type == "narrator":
+    elif caption_type == "narration":
         return f"Narrator: {text}"
     elif caption_type == "caption" and speaker:
         return f"{speaker}: {text}"
