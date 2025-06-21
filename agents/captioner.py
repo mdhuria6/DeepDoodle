@@ -88,7 +88,7 @@ def add_texts_to_image(
 
 def captioner(state: ComicGenerationState) -> dict:
     """Node 6: Adds captions to each sized panel image."""
-    print(f"---AGENT: Captioner---")
+    print("--- AGENT: Captioner ---")
 
     sized_panel_paths = state.get("sized_panel_image_paths", [])
     scenes_data = state.get("scenes", []) 

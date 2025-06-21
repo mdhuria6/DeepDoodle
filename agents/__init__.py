@@ -7,8 +7,7 @@ from .captioner import captioner
 from .page_composer import page_composer
 from .panel_sizer import panel_sizer
 from .layout_planner import layout_planner
-#from .sarvam_agent import SarvamAgent
-#from .image_validator import ImageValidator
+from .image_validator import image_validator
 
 # sarvamAgent = SarvamAgent().run
 __all__ = [
@@ -21,6 +20,6 @@ __all__ = [
     "panel_sizer",
     "captioner",
     "page_composer",
+    "image_validator",
     #"sarvam_agent",
-    #"image_validator",
 ]
