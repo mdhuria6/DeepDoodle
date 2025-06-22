@@ -8,14 +8,16 @@ Genre: Fantasy
 Style: Ghibli Animation
 
 Expanded Story:
-In the heart of the quiet woodlands, Nari stumbled upon a vine-covered archway...
+In the quiet stillness of an ancient forest, Elira wandered beyond the familiar path, her boots sinking softly into moss that shimmered with dew. A low mist hugged the earth, parting just enough to reveal a curved wooden door nestled between the roots of a colossal tree. There was no handle—only a brass key already waiting in the lock. She turned it.Warm light spilled through the frame, and the air changed—sweeter, heavier, like rain and honey. She stepped into a meadow that stretched forever beneath twin suns. Flowers bowed as she passed. Birds sang names she'd never heard before, yet somehow remembered.A girl just like her stood waiting, barefoot in a blue cloak stitched with stars.“I’m you,” the girl said, smiling. “The part that never stopped dreaming.” They walked together through floating bridges, talking clouds, and silver lakes that reflected forgotten wishes. Elira learned to listen—to trees, to her own heart, to silence.When the time came to return, the star-cloaked girl handed her a single blossom. “Plant this when you’re ready to come back.”Elira awoke at the base of the tree, blossom in hand. And though nothing had changed, everything had begun.
 
 ---
 
-Now, expand the following idea into a short story of approximately {{ word_limit }} words.
+Now, expand the following idea into a short story of approximately {word_limit} words.
+Only return the story — do not include any headers, links, markdown, or separators like "---".
 
-Story: {{ story_text }}
-Genre: {{ genre }}
-Style: {{ style }}
+
+Story: {story_text}
+Genre: {mood}
+Style: {artistic_style}
 
 Write the full story. No additional commentary or formatting.

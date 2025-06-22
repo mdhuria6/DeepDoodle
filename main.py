@@ -39,7 +39,7 @@ def run_comic_generation_workflow(inputs: dict):
             raise ValueError("Incorrect prompt. Expected 'Simple' or 'Detailed'.")
     app = create_workflow(entry)        
     logger.info("Starting Comic Generation")
-    final_state = app.invoke(inputs)
+    final_state = app.invoke(inputs, {"recursion_limit": 100})
     logger.info("Comic Generation Workflow Complete")
     return final_state
 
@@ -69,6 +69,7 @@ if __name__ == "__main__":
         "style_preset": "Simple Line Art Comic",
         "genre_preset": "Sci-Fi",
         "layout_style": "mixed_2x2",
-        "text_engine": "mistral_mixtral_8x7b_instruct"
+        "text_engine": "mistral_mixtral_8x7b_instruct",
+        "prompt": PROMPT
     }
     run_comic_generation_workflow(default_inputs)
