@@ -191,8 +191,8 @@ def image_validator(state: ComicGenerationState) -> dict:
             "action": scene.get("action_description"),
         },
         "style_prompt": state.get("artistic_style"),
-        "weights": {"scene": 0.4, "character": 0.4, "action": 0.2, "style": 0.1},
-        "thresholds": {"scene": 0.25, "character": 0.25, "action": 0.2}
+        "weights": {"scene": 0.7, "character": 0.4, "action": 0.2, "style": 0.3},
+        "thresholds": {"scene": 0.15, "character": 0.20, "action": 0.2," style": 0.15}
     }
 
     validator = get_validator_instance()
