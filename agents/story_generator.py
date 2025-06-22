@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def story_generator(state: ComicGenerationState) -> Dict[str, Any]:
+def story_generator(state: ComicGenerationState, prompt_file: str = "cot_structured_prompt.txt") -> Dict[str, Any]:
     logger.info("------ AGENT: Story Generator --------")
     try:
         story_text = state.get('story_text', '')
@@ -23,7 +23,7 @@ def story_generator(state: ComicGenerationState) -> Dict[str, Any]:
         logger.info(f"Mood: {mood}, Style: {artistic_style}")
         prompt_template = load_prompt_template(
             prompt_folder="prompts/story_generator",
-            prompt_file="cot_structured_prompt.txt",
+            prompt_file=prompt_file,
             input_variables=["story_text", "mood", "artistic_style", "word_limit"]
         )
         expansion_prompt = prompt_template.format(
