@@ -6,3 +6,4 @@ data/samples/images/
 .venv/
 .python-version
 .results/
+agents/story_analyst.py
