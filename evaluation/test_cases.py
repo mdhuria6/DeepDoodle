@@ -1,5 +1,249 @@
 test_cases = [
     {
+        "story_text": "Shiva, the destroyer and ascetic, reveals the cosmic dance of creation and destruction.",
+        "genre_preset": "mythology",
+        "style_preset": "mystic-divine",
+        "layout_style": "symbolic-trinity",
+        "character_description": [
+            {
+                "name": "Lord Shiva",
+                "description": "Shiva is illustrated with ash-grey skin, matted hair with Ganga flowing from it, a crescent moon, and a third eye. He wears tiger skin, serpents as ornaments, and holds a trident (trishul) and damaru drum. In comic panels, he often sits in meditation on Mount Kailash or performs the Tandava dance surrounded by cosmic fire."
+            },
+            {
+                "name": "Parvati",
+                "description": "Parvati is shown with gentle eyes, golden skin, and a red saree with green blouse. She holds a lotus or mirror, and wears sacred ornaments. Comic visuals depict her as nurturing yet powerful, seated beside Shiva or in goddess form as Durga."
+            },
+            {
+                "name": "Nandi",
+                "description": "Nandi is the white bull mount of Shiva, shown with large expressive eyes, a decorated saddle, and ornaments. In comic frames, Nandi is often stationed at the gate of Kailash or accompanying Shiva and Parvati."
+            }
+        ],
+        "expanded_story": "The Shiva Purana explores the many forms and legends of Lord Shiva—from his cosmic dance (Tandava) to his roles as husband, yogi, and destroyer. It details his union with Parvati, the birth of Ganesha and Kartikeya, and philosophical teachings on detachment, time, and energy. The stories emphasize balance between creation and dissolution, devotion and wisdom, and form and formlessness."
+    },
+    {
+        "story_text": "Vishnu descends in many forms (avatars) to protect the world from evil and restore dharma.",
+        "genre_preset": "mythology",
+        "style_preset": "divine-cosmic",
+        "layout_style": "avatar-chronicle",
+        "character_description": [
+            {
+                "name": "Lord Vishnu",
+                "description": "Vishnu is portrayed with sky-blue skin, a serene face, and four arms holding the conch (shankha), discus (chakra), mace (gada), and lotus (padma). He wears golden silk, a jeweled crown, and a radiant aura. In comics, he is often shown seated on the serpent Ananta in the cosmic ocean."
+            },
+            {
+                "name": "Avatars of Vishnu",
+                "description": "The ten avatars include Matsya (fish), Kurma (tortoise), Varaha (boar), Narasimha (half-lion), Vamana (dwarf), Parashurama, Rama, Krishna, Buddha, and Kalki. Each form has distinct comic characteristics—for instance, Narasimha with a lion face tearing apart a demon, and Vamana shown as a tiny Brahmin with radiant eyes."
+            }
+        ],
+        "expanded_story": "The Vishnu Purana recounts the cosmic functions of Lord Vishnu, focusing on his incarnations across the ages to preserve balance and destroy evil. From saving the world as a fish (Matsya) to teaching righteousness as Krishna, each avatar serves a divine purpose. The Purana blends cosmology, philosophy, and stories of virtue, illustrating how the divine manifests in every era to uphold dharma."
+    },
+    {
+        "story_text": "The valorous deeds of Kartikeya, the god of war, born to defeat the demon Tarakasura.",
+        "genre_preset": "mythology",
+        "style_preset": "warrior-epic",
+        "layout_style": "battle-divine",
+        "character_description": [
+            {
+                "name": "Kartikeya (Skanda)",
+                "description": "Kartikeya is portrayed as a youthful, radiant god with golden armor, six faces (Shanmukha), and twelve arms holding various weapons. He rides a majestic peacock, and his comic form includes red war banners, fierce eyes, and flames surrounding his form to signify divine energy."
+            },
+            {
+                "name": "Tarakasura",
+                "description": "Tarakasura is a powerful demon with dark red skin, muscular build, and armor studded with skulls. His multiple weapons and towering size depict menace. Comic frames show him in fiery battles or storming celestial realms."
+            }
+        ],
+        "expanded_story": "Born from the divine spark of Shiva and Parvati, Kartikeya (Skanda) is raised by the Krittikas and trained as a commander of the gods. He leads the devas in battle against the demon Tarakasura, whose tyranny threatens the heavens. With divine weapons and strategy, Kartikeya slays the demon and restores cosmic order. The Purana also elaborates on his wisdom, leadership, and spiritual aspects beyond warfare."
+    },
+    {
+        "story_text": "The divine origins and early life of Krishna, leading to his rise as protector of dharma.",
+        "genre_preset": "mythology",
+        "style_preset": "puranic",
+        "layout_style": "origin-divine",
+        "character_description": [
+            {
+                "name": "Krishna (young)",
+                "description": "Young Krishna is shown with dark blue skin, wearing a yellow dhoti and playing a flute. He has curly hair with a peacock feather and a radiant smile. Often surrounded by cows and children, his comic visuals highlight innocence with divine undertones."
+            },
+            {
+                "name": "Kamsa",
+                "description": "Kamsa is portrayed with a fierce face, sharp mustache, and dark robes. His crown has spiked designs and he wields a bloodied sword. In comics, he’s often seen on a throne in Mathura or in a menacing posture toward Krishna’s family."
+            }
+        ],
+        "expanded_story": "The Harivamsa supplements the Mahabharata by detailing Krishna’s divine lineage and childhood in Gokul. Born to Vasudeva and Devaki, Krishna is secretly raised by Yashoda to protect him from Kamsa, a tyrant who fears a prophecy of his death. Krishna defeats demons, lifts the Govardhana mountain, and finally confronts Kamsa. The text explores his role as both a playful child and a divine protector, linking earthly events to cosmic balance."
+    },
+    {
+        "story_text": "A dynastic conflict between cousins leads to a great war that determines the fate of dharma.",
+        "genre_preset": "mythology",
+        "style_preset": "epic",
+        "layout_style": "war-court",
+        "character_description": [
+            {
+                "name": "Arjuna",
+                "description": "Arjuna is a skilled warrior with a bronze complexion, long flowing hair tied into a warrior’s knot, and wears silver battle armor with blue silk. He wields a massive celestial bow (Gandiva) and is often shown with a focused, introspective expression. His comic pose often depicts him beside Krishna on the chariot."
+            },
+            {
+                "name": "Krishna",
+                "description": "Krishna appears with deep blue skin, adorned in yellow silk dhoti and a peacock feather crown. His expression is calm and wise, with a divine aura surrounding him. He is often depicted as Arjuna’s charioteer with the reins in one hand and the conch (Panchajanya) in the other."
+            },
+            {
+                "name": "Duryodhana",
+                "description": "Duryodhana is depicted with broad shoulders, dusky skin, and a crown with serpent motifs. His armor is black and gold, and his expression is often proud and confrontational. His posture reflects aggression and confidence, usually with his mace (gada) in hand."
+            }
+        ],
+        "expanded_story": "The Mahabharata tells of the rivalry between the Pandavas and Kauravas for the throne of Hastinapura. The conflict culminates in the Kurukshetra war, where gods, sages, and mortals are all drawn into a battle of dharma. Krishna guides Arjuna through the Bhagavad Gita, teaching him the path of righteousness. The war ends with heavy loss, and the Pandavas eventually rule, leaving behind profound lessons on duty, fate, and morality."
+    },
+    {
+        "story_text": "A noble prince is exiled to the forest and rescues his wife from a demon king, upholding dharma.",
+        "genre_preset": "mythology",
+        "style_preset": "epic",
+        "layout_style": "saga-quest",
+        "character_description": [
+            {
+                "name": "Rama",
+                "description": "Rama is a tall, serene prince with sky-blue skin, wearing golden dhoti, royal armlets, and a green sash across his chest. He carries a bow (Kodanda) and quiver, with a calm yet resolute expression. His comic representation includes a halo behind his head, indicating divinity and righteousness."
+            },
+            {
+                "name": "Sita",
+                "description": "Sita is depicted with wheatish complexion, long black hair tied in a bun with flowers, and a red saree with golden borders. Her eyes are large and expressive, radiating grace and devotion. She often appears beside Rama, with gentle gestures reflecting her strength and patience."
+            },
+            {
+                "name": "Ravana",
+                "description": "Ravana is shown as a towering figure with ten heads and twenty arms, each holding a weapon. He wears golden ornaments, a crown on each head, and a flowing red cape. His eyes glow with pride and intellect, and his skin tone is darker with ornate tattoos signifying power."
+            }
+        ],
+        "expanded_story": "Prince Rama is exiled to the forest for 14 years along with his wife Sita and brother Lakshmana. When the demon king Ravana kidnaps Sita, Rama allies with the monkey god Hanuman and the vanara army to rescue her. After an epic battle in Lanka, Rama defeats Ravana and restores dharma. He returns to Ayodhya and is crowned king, revered for his unwavering adherence to truth, duty, and virtue."
+    },
+    {
+        "story_text": "A princess escapes a jealous queen and finds refuge with seven dwarfs in the forest.",
+        "genre_preset": "fantasy",
+        "style_preset": "storybook",
+        "layout_style": "forest-cottage",
+        "character_description": [
+            {
+                "name": "Snow White",
+                "description": "Snow White is a beautiful princess with fair skin, jet-black hair, and red lips. Known for her gentle and cheerful demeanor, she wears a dress with puffed sleeves and a yellow skirt. Her innocence and kindness win the hearts of all she meets."
+            },
+            {
+                "name": "Evil Queen",
+                "description": "The Queen is regal and vain, obsessed with being the fairest in the land. Wearing a dark cloak and crown, she turns to dark magic to eliminate Snow White, eventually disguising herself as an old hag to deliver a poisoned apple."
+            },
+            {
+                "name": "The Seven Dwarfs",
+                "description": "The seven dwarfs—Doc, Grumpy, Happy, Sleepy, Bashful, Sneezy, and Dopey—are lovable miners who take Snow White in and protect her. Each has a distinct personality and they live together in a cozy forest cottage."
+            }
+        ],
+        "expanded_story": "Snow White’s beauty enrages her stepmother, the Evil Queen, who orders her death. Escaping into the forest, Snow White finds refuge with seven dwarfs. But the Queen tricks her with a poisoned apple, putting her into a deep sleep. A Prince later awakens her with true love’s kiss, breaking the spell. Snow White lives happily ever after, and the Queen is defeated."
+    },
+    {
+        "story_text": "A mistreated girl’s life changes forever after a magical ball and a lost slipper.",
+        "genre_preset": "fantasy",
+        "style_preset": "storybook",
+        "layout_style": "transformation-fairytale",
+        "character_description": [
+            {
+                "name": "Cinderella",
+                "description": "Cinderella is a kind-hearted young woman with golden-blonde hair, dressed in rags that transform into a sparkling blue gown. Forced to work as a servant by her cruel stepmother and stepsisters, she remains gentle and hopeful, dreaming of freedom and love."
+            },
+            {
+                "name": "Fairy Godmother",
+                "description": "A cheerful and magical figure in a shimmering robe, the Fairy Godmother appears to grant Cinderella her wish. With a wave of her wand, she transforms a pumpkin into a carriage and mice into horses, giving Cinderella a chance to attend the royal ball."
+            },
+            {
+                "name": "Prince Charming",
+                "description": "The Prince is noble, handsome, and kind, seeking true love. He is enchanted by Cinderella at the ball and later searches the kingdom with her lost glass slipper to find her again."
+            }
+        ],
+        "expanded_story": "Cinderella lives a life of hardship under her stepmother’s cruelty, doing chores and sleeping by the hearth. When the royal family hosts a ball, her Fairy Godmother grants her a magical transformation for one night. Cinderella captures the heart of the Prince, but must flee before midnight, leaving behind her glass slipper. The Prince later finds her and they marry, changing her life forever."
+    },
+    {
+        "story_text": "A kind woman falls in love with a cursed beast and breaks the spell through compassion.",
+        "genre_preset": "fantasy",
+        "style_preset": "storybook",
+        "layout_style": "castle-romance",
+        "character_description": [
+            {
+                "name": "Belle",
+                "description": "Belle is a smart, curious young woman with brown hair tied in a low ponytail, often seen in a blue village dress or a golden ballgown. She loves books and dreams of adventure beyond her quiet town. Compassionate and brave, she sees the goodness in others beyond appearances."
+            },
+            {
+                "name": "The Beast",
+                "description": "The Beast is a large, fearsome creature with horns, claws, and a noble heart hidden beneath his monstrous exterior. Once a selfish prince, he was cursed to live as a beast until he learns to love and be loved in return."
+            }
+        ],
+        "expanded_story": "When her father is imprisoned in a mysterious castle, Belle offers herself in his place. She soon discovers the master of the castle is a cursed prince turned Beast. Over time, Belle and the Beast grow closer as she sees the kindness beneath his monstrous form. As they fall in love, the curse is broken, and the Beast returns to human form, teaching that true beauty lies within."
+    },
+    {
+        "story_text": "A humble hobbit must destroy a powerful ring to save the world from darkness.",
+        "genre_preset": "fantasy",
+        "style_preset": "epic",
+        "layout_style": "journey",
+        "character_description": [
+            {
+                "name": "Frodo Baggins",
+                "description": "Frodo is a small, humble hobbit from the Shire with curly brown hair and bright eyes. He is brave, kind-hearted, and burdened with the task of carrying the One Ring to Mount Doom. His innocence and perseverance make him the unlikely hero of Middle-earth."
+            },
+            {
+                "name": "Gandalf",
+                "description": "Gandalf is a wise and powerful wizard with a long white beard, pointy hat, and a staff. Serving as a guide and protector to the Fellowship, he blends wisdom, strength, and a deep commitment to resisting evil."
+            },
+            {
+                "name": "Sauron",
+                "description": "Sauron is the Dark Lord, a disembodied evil presence who created the One Ring to control all of Middle-earth. Though rarely seen directly, his fiery eye watches from afar, commanding armies and corrupting minds to regain power."
+            }
+        ],
+        "expanded_story": "In the land of Middle-earth, the Dark Lord Sauron seeks to recover the One Ring, a powerful artifact that can control all life. Frodo Baggins, a gentle hobbit, inherits the Ring and sets out on a dangerous quest to destroy it in the fires of Mount Doom. With help from Gandalf, Aragorn, Legolas, and other allies, Frodo faces terrifying creatures and inner temptations. Ultimately, the Ring is destroyed, Sauron falls, and peace is restored to Middle-earth."
+    },
+    {
+        "story_text": "A boy discovers he’s a wizard and must defeat the dark lord who killed his parents.",
+        "genre_preset": "Fantasy",
+        "style_preset": "storybook",
+        "layout_style": "rid_2x2",
+        "character_description": [
+            {
+                "name": "Harry Potter",
+                "description": "Harry is an 11-year-old boy with messy black hair, green eyes, and a lightning-shaped scar on his forehead. Often dressed in a school robe and round glasses, he begins his journey unaware of his magical heritage. Courageous, loyal, and driven by a deep sense of justice, he becomes the symbol of resistance against dark magic."
+            },
+            {
+                "name": "Lord Voldemort",
+                "description": "Once known as Tom Riddle, Voldemort is a terrifying dark wizard with pale skin, red eyes, and snake-like features. Obsessed with immortality and power, he commands dark forces to dominate the wizarding world, but fears the prophecy that links his fate to Harry Potter."
+            }
+        ],
+        "expanded_story": "Harry Potter, an orphan raised by unkind relatives, discovers on his 11th birthday that he is a wizard. He enrolls at Hogwarts School of Witchcraft and Wizardry, where he makes lifelong friends, learns magic, and uncovers the truth about his past. Over seven years, he battles dark forces and ultimately faces Lord Voldemort, the powerful dark wizard who killed his parents. With courage and the help of friends, Harry defeats Voldemort, bringing peace to the wizarding world."
+    },
+    {
+        "story_text": "Sasuke finally acknowledges Naruto’s unwavering determination to save him, no matter the cost. He admits defeat—not because Naruto was stronger, but because Naruto never gave up on him. The two awaken in the morning, lying side by side, each missing an arm, symbolizing both their physical loss and the emotional bridge they’ve finally built.",
+        "genre_preset": "drama",
+        "style_preset": "manga",
+        "layout_style": "grid_2x2",
+        "character_description": [
+            {
+                "name": "Naruto Uzumaki",
+                "description": "Naruto is a spirited, determined ninja with spiky blond hair, blue eyes, and whisker-like marks on his cheeks. He wears an orange and black jumpsuit and carries the will of the entire Hidden Leaf Village. Once a lonely orphan, he now stands as the heart of his generation—guided by a dream to become Hokage and earn everyone's recognition. His unwavering belief in friendship and redemption defines his strength."
+            },
+            {
+                "name": "Sasuke Uchiha",
+                "description": "Sasuke is a stoic, brooding shinobi with jet-black hair and piercing dark eyes. Clad in dark robes with a purple rope belt and wielding a katana, he is the last surviving member of the Uchiha clan. Haunted by the massacre of his family and a thirst for revenge, Sasuke walks a path of solitude, power, and internal conflict—until his final battle with Naruto forces him to confront his pain and seek redemption."
+            }
+        ],
+        "expanded_story": "Sasuke finally acknowledges Naruto’s unwavering determination to save him, no matter the cost. He admits defeat—not because Naruto was stronger, but because Naruto never gave up on him. The two awaken in the morning, lying side by side, each missing an arm, symbolizing both their physical loss and the emotional bridge they’ve finally built."
+    }, {
+        "story_text": "Goku sacrifices himself to save Earth from Cell’s self-destruction during the climactic battle of the Cell Games. When all hope seems lost, and Cell prepares to explode and destroy the planet, Goku calmly says goodbye to his loved ones and uses Instant Transmission to teleport himself and Cell far away. In a flash, the explosion occurs in the sky, sparing Earth. Goku dies with a smile, believing it was the right thing to do. The sacrifice leaves everyone shaken, especially Gohan, who must now carry on his father's legacy and face Cell once more.",
+        "genre_preset": "sci-fi",
+        "style_preset": "manga",
+        "layout_style": "heroic-sacrifice",
+        "character_description": [
+            {
+                "name": "Goku (Son Goku)",
+                "description": "Goku is a cheerful and fearless Saiyan warrior with spiky black hair, a muscular build, and an orange martial arts gi. Known for his unwavering optimism and love for fighting strong opponents, Goku values peace and family above all. His signature move is the Kamehameha wave, and he often sacrifices for others, embodying a true hero’s spirit."
+            },
+            {
+                "name": "Cell (Perfect Form)",
+                "description": "Cell is a genetically engineered bio-android with a green, insect-like exoskeleton, a long tail, and dark, calculating eyes. Created from the DNA of Earth’s greatest fighters, he possesses immense strength, regeneration, and the ability to self-destruct. In his Perfect Form, he is cold, arrogant, and determined to prove his superiority by annihilating the planet and its defenders."
+            }
+        ],
+        "expanded_story": "Goku sacrifices himself to save Earth from Cell’s self-destruction during the climactic battle of the Cell Games. When all hope seems lost, and Cell prepares to explode and destroy the planet, Goku calmly says goodbye to his loved ones and uses Instant Transmission to teleport himself and Cell far away. In a flash, the explosion occurs in the sky, sparing Earth. Goku dies with a smile, believing it was the right thing to do. The sacrifice leaves everyone shaken, especially Gohan, who must now carry on his father's legacy and face Cell once more."
+    },
+    {
         "story_text": "A boy with superpowers",
         "genre_preset": "fantasy",
         "style_preset": "manga",
