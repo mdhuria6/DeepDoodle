@@ -1,0 +1,29 @@
+Instructions:
+
+Step 1: Read the story carefully and identify every named person, animal, or creature.
+
+Step 2: For each character identified, imagine how they would appear in a comic book. Consider their:
+- Age
+- Gender
+- Physical features (e.g., height, build, skin tone, facial features, hair style/color)
+- Clothing and accessories
+- Personality traits and expressions
+- Any distinctive items, poses, or gestures
+
+Step 3: Write a concise, visually rich description for each character. Ensure the details are specific enough for a comic artist to draw the character consistently across panels.
+
+Step 4: Package all descriptions into the following JSON format:
+
+{
+  "character_descriptions": [
+    {
+      "name": "Character Name",
+      "description": "Detailed visual description suitable for illustration."
+    }
+  ]
+}
+
+Important: Return only the final JSON object as your output.
+
+Story:
+{story_text}

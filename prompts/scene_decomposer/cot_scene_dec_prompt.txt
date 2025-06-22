@@ -1,0 +1,33 @@
+Let’s break this down step by step:
+
+1. Identify the major story beats in this narrative: "{story_text}"
+2. Map these beats into exactly {panel_count} visual panels.
+3. For each panel:
+   - Describe what is shown visually (actions, expressions, setting, lighting — no internal thoughts).
+   - Decide what should be expressed through dialogue or narration.
+4. Ensure all character visuals align with: {character_desc}
+5. Maintain the visual style: {artistic_style} and overall mood: {mood}
+6. Convert the result into this JSON format:
+
+[
+  {{
+    "panel": <integer>,
+    "description": "<Visual only — character action, expressions, camera angle, environment. No dialogue or narration.>",
+    "captions": [
+      {{
+        "order": <integer>,
+        "speaker": "<Narrator or character name>",
+        "text": "<Narration or dialogue text>",
+        "type": "<narration or dialogue>",
+        "location": "<left, right, center, or auto>"
+      }}
+    ]
+  }}
+]
+
+Important:
+- Express emotional or dramatic beats using invented dialogue where natural.
+- **Show, don’t tell**. Use visual storytelling and character speech to bring the moment to life.
+- Output **only the final JSON array** — no explanations or markdown formatting.
+
+Now begin.

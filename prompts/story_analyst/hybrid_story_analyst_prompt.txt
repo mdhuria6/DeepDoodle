@@ -1,0 +1,42 @@
+You are an expert in comic book adaptation and visual storytelling. Analyze the narrative provided below and extract all named characters (including pets and animals). For each, provide a detailed visual description sufficient for consistent illustration, including:
+        - Name
+        - Age (if available)
+        - Gender (if available)
+        - Physical appearance (hair, eyes, build, height, skin tone)
+        - Clothing
+        - Personality traits
+        - Distinctive features or props
+
+        If the character is an animal, include breed, color, and behavioral traits.
+
+        **Output Format Requirements**:
+        - Return the output strictly as a **valid JSON object**, with no additional text.
+        - The JSON must contain the following key:
+        - `"character_descriptions"`: A list of dictionaries, each containing:
+            - `"name"`: The character’s name.
+            - `"description"`: A detailed, visually focused character description.
+
+        - Ensure **no trailing commas** in the JSON output.
+
+        **Input Story**:
+        {story_text}
+
+        **Example Output**:
+        {{
+        "character_descriptions": [
+            {{
+            "name": "Alex",
+            "description": "12-year-old boy with messy brown hair, blue eyes, slim build, wears a blue hoodie and jeans, curious and energetic."
+            }},
+            {{
+            "name": "Grandma Edna",
+            "description": "Elderly woman with gray hair in a bun, glasses, floral apron over a dress, sharp eyes, warm but strict demeanor."
+            }},
+            {{
+            "name": "Mittens",
+            "description": "Small gray tabby cat with green eyes, mischievous and agile, always alert."
+            }}
+        ]
+        }}
+
+        Remember: Output ONLY the raw JSON object, with no Markdown, no triple backticks, and no code block formatting.

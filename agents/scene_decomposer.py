@@ -3,94 +3,51 @@ import json
 from models.comic_generation_state import ComicGenerationState
 from utils.response_util import sanitize_llm_response
 from utils.llm_factory import get_model_client
+from utils.load_prompts import load_prompt_template
+from typing import List, Dict
 import re
 
 # Setup logger
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# --- High-Quality Prompt Template ---
-SCENE_DECOMPOSER_PROMPT = """
-**Role:** You are a master storyteller and comic book scriptwriter. Your task is to adapt a prose story into a rich, visual comic script, inferring dialogue and actions where a character would naturally speak or react.
+def build_scene_prompt(
+	story_text: str,
+	panel_count: int,
+	artistic_style: str,
+	mood: str,
+	character_descriptions: List[Dict[str, str]],
+	prompt_file: str = "hybrid_scene_decomposer_prompt.txt"
+) -> str:
+	"""
+	Constructs the full prompt for panel generation using story and metadata.
+	"""
+	# Convert character_descriptions (list of dicts) to a readable string for the LLM prompt
+	if isinstance(character_descriptions, list) and character_descriptions and isinstance(character_descriptions[0], dict):
+		char_desc_str = "\n".join(
+			f'- "{c["name"]}": "{c["description"]}"' for c in character_descriptions if c.get('name') and c.get('description')
+		)
+	else:
+		char_desc_str = str(character_descriptions)
 
-**Task:** Read the user-provided story and decompose it into exactly {panel_count} chronological scenes. Your primary goal is to create a compelling narrative flow, using a mix of visual descriptions, narration, and dialogue.
-
-**Critical Rules:**
-1.  **Generate Dialogue:** Do not just convert sentences into narration. If a character has a realization, expresses an emotion, or takes a significant action, **you should invent a short, impactful line of dialogue for them**. The goal is to show, not just tell. If the original text says "she was shocked," you could create dialogue like "What is that?!".
-2.  **Strict JSON Output:** The output MUST be a single, valid JSON array of panel objects. Do not include any text, explanations, or markdown formatting like ```json before or after the JSON array.
-3.  **Purely Visual Descriptions:** The `description` field is for the artist. It must only contain visual information (camera shots, character poses, environment, lighting). It must NOT contain dialogue, narration, or sound effects.
-4.  **Schema Adherence:** All fields (`panel`, `description`, `captions`, `order`, `speaker`, `text`, `type`, `location`) are mandatory as per the schema. For dialogue, `location` must be one of `"left"`, `"right"`, `"center"`, or `"auto"`.
-
-**JSON Schema:**
-[
-  {{
-    "panel": <integer>,
-    "description": "<Visuals only. e.g., 'Close-up on Elara's wide, shocked eyes, illuminated by the green glow of the monitor.'>",
-    "captions": [
-      {{
-        "order": <integer>,
-        "speaker": "<'Narrator' or a character's name>",
-        "text": "<The narration or the dialogue text.>",
-        "type": "<'narration' or 'dialogue'>",
-        "location": "<'left', 'right', 'center', or 'auto' (only for 'dialogue')>"
-      }}
-    ]
-  }}
-]
-
-
-**Example Transformation:**
-
-**User Story Input:** "The knight was shocked to see a dragon in the cave. He thought it was magnificent."
-
-**Example Output**:
-[
-  {{
-    "panel": 1,
-    "description": "Medium shot from inside a dark cave. A knight in shining armor stands silhouetted against the bright entrance. His posture is tense and surprised. Deeper in the cave, a small green dragon sleeps on a pile of gold.",
-    "captions": [
-      {{
-        "order": 1,
-        "speaker": "Knight",
-        "text": "By the ancient kings... a real dragon!",
-        "type": "dialogue",
-        "location": "center"
-      }}
-    ]
-  }}
-]
-
-**REMINDER:** Your response must start with `[` and end with `]`. It must be a raw JSON string, with no text, no Markdown, no triple backticks, and no code block formatting.
-
-User Story to Process:
-"{story_text}"
-"""
-
-# def build_scene_prompt(
-#     story_text: str,
-#     panel_count: int,
-#     artistic_style: str,
-#     mood: str,
-#     character_descriptions: List[Dict[str, str]]
-# ) -> str:
-#     """
-#     Constructs the full prompt for panel generation using story and metadata.
-#     """
-#     # Convert character_descriptions (list of dicts) to a readable string for the LLM prompt
-#     if isinstance(character_descriptions, list) and character_descriptions and isinstance(character_descriptions[0], dict):
-#         char_desc_str = "\n".join(
-#             f'- "{c["name"]}": "{c["description"]}"' for c in character_descriptions if c.get('name') and c.get('description')
-#         )
-#     else:
-#         char_desc_str = str(character_descriptions)
-
-# 	# Format the prompt
-#     prompt = SCENE_DECOMPOSER_PROMPT.format(panel_count=panel_count, story_text=story_text)
-    
-#     return prompt
+	# Format the prompt
+	# Load the analysis prompt from the specified file
+	prompt_template = load_prompt_template(
+		prompt_folder="prompts/scene_decomposer",
+		prompt_file=prompt_file,
+		input_variables=["story_text", "panel_count", "char_desc_str", "artistic_style", "mood"]
+	)
+	prompt = prompt_template.format(
+		story_text=story_text,
+		panel_count=panel_count,
+		char_desc_str=char_desc_str,
+		artistic_style=artistic_style,
+		mood=mood
+	)
+	return prompt
 
 
-def scene_decomposer(state: ComicGenerationState) -> dict:
+def scene_decomposer(state: ComicGenerationState, prompt_file: str = "hybrid_scene_dec_prompt.txt") -> dict:
 	"""Decomposes the story into visual scenes with dialogue and narration using an LLM, with retries. Raises on error."""
 	logger.info("---AGENT: Scene Decomposer---")
 
@@ -102,8 +59,20 @@ def scene_decomposer(state: ComicGenerationState) -> dict:
 	# Get the appropriate LLM client from the factory
 	llm = get_model_client("text", text_engine)
 
-	prompt = SCENE_DECOMPOSER_PROMPT.format(panel_count=panel_count, story_text=story_text)
+	character_descriptions = state.get('character_descriptions', [])
+	artistic_style = state.get('artistic_style', '')
+	mood = state.get('mood', '')
+	prompt = build_scene_prompt(
+		story_text=story_text,
+		panel_count=panel_count,
+		artistic_style=artistic_style,
+		mood=mood,
+		character_descriptions=character_descriptions,
+		prompt_file=prompt_file
+	)
 
+	logger.info(f"   > Generated prompt for LLM: {prompt}")
+	
 	for attempt in range(max_retries):
 		logger.info(f"   > Calling {text_engine} to decompose story... (Attempt {attempt + 1}/{max_retries})")
 		try:

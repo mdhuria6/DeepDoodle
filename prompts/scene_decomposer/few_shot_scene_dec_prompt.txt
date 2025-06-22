@@ -1,0 +1,36 @@
+You are adapting prose into rich, visual comic panels. Every moment should be cinematic, expressive, and emotionally clear.
+
+Follow this format and style:
+
+Example:
+Story: "The knight was shocked to see a dragon in the cave. He thought it was magnificent."
+
+Output:
+[
+  {{
+    "panel": 1,
+    "description": "Medium shot from inside a dark cave. A knight in shining armor stands silhouetted against the bright entrance. His posture is tense and surprised. Deeper in the cave, a small green dragon sleeps on a pile of gold.",
+    "captions": [
+      {{
+        "order": 1,
+        "speaker": "Knight",
+        "text": "By the ancient kings... a real dragon!",
+        "type": "dialogue",
+        "location": "center"
+      }}
+    ]
+  }}
+]
+
+Now do the same for the following story. Use exactly {panel_count} panels.
+
+Story: "{story_text}"  
+Characters: {character_desc}  
+Art Style: {artistic_style}  
+Mood: {mood}  
+
+**Instructions:**
+- The `"description"` field must include only visuals: camera angle, body language, environment, lighting — no thoughts or dialogue.
+- Use the `"captions"` array for all dialogue and narration.
+- Express emotion and turning points with invented dialogue as needed. Don’t summarize — show.
+- Output only a valid JSON array, no markdown or explanation.

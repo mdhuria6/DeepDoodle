@@ -3,6 +3,7 @@ from typing import Dict, Any
 from models.comic_generation_state import ComicGenerationState
 from utils.response_util import sanitize_llm_response
 from utils.llm_factory import get_model_client
+from utils.load_prompts import load_prompt_template
 import json
 import re
 
@@ -10,7 +11,7 @@ import re
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
+def story_analyst(state: ComicGenerationState, prompt_file: str = "hybrid_story_analyst_prompt.txt") -> Dict[str, Any]:
     """
     Analyzes the story and sets up initial style, mood, and character using LLM (via factory).
     Returns a dictionary with keys: character_descriptions, artistic_style, mood, layout_style.
@@ -34,60 +35,18 @@ def story_analyst(state: ComicGenerationState) -> Dict[str, Any]:
         mood = state.get('genre_preset', None)
         logger.info(f"Using provided presets - Style: {artistic_style}, Mood: {mood}")
 
-        ################################################################################
-        # Build the prompt for the LLM to analyze the story
-        analysis_prompt = f"""
-        You are an expert in comic book adaptation and visual storytelling. Analyze the narrative provided below and extract all named characters (including pets and animals). For each, provide a detailed visual description sufficient for consistent illustration, including:
-        - Name
-        - Age (if available)
-        - Gender (if available)
-        - Physical appearance (hair, eyes, build, height, skin tone)
-        - Clothing
-        - Personality traits
-        - Distinctive features or props
-
-        If the character is an animal, include breed, color, and behavioral traits.
-
-        **Output Format Requirements**:
-        - Return the output strictly as a **valid JSON object**, with no additional text.
-        - The JSON must contain the following key:
-        - `"character_descriptions"`: A list of dictionaries, each containing:
-            - `"name"`: The character’s name.
-            - `"description"`: A detailed, visually focused character description.
-
-        - Ensure **no trailing commas** in the JSON output.
-
-        **Input Story**:
-        {story_text}
-
-        **Example Output**:
-        {{
-        "character_descriptions": [
-            {{
-            "name": "Alex",
-            "description": "12-year-old boy with messy brown hair, blue eyes, slim build, wears a blue hoodie and jeans, curious and energetic."
-            }},
-            {{
-            "name": "Grandma Edna",
-            "description": "Elderly woman with gray hair in a bun, glasses, floral apron over a dress, sharp eyes, warm but strict demeanor."
-            }},
-            {{
-            "name": "Mittens",
-            "description": "Small gray tabby cat with green eyes, mischievous and agile, always alert."
-            }}
-        ]
-        }}
-
-        Remember: Output ONLY the raw JSON object, with no Markdown, no triple backticks, and no code block formatting.
-        """
+        # Load the analysis prompt from the specified file
+        prompt_template = load_prompt_template(
+            prompt_folder="prompts/story_analyst",
+            prompt_file=prompt_file,
+            input_variables=["story_text"]
+        )
+        analysis_prompt = prompt_template.format(story_text=story_text)
+        logger.info(f"Analysis Prompt: {analysis_prompt}")
         analysis_prompt = analysis_prompt.strip()
         # Use the factory to get the LLM client (text)
         text_engine = state.get("text_engine", "mistral_mixtral_8x7b_instruct")
         llm = get_model_client("text", text_engine)
-        messages = [
-            {"role": "system", "content": "You are an expert in comic book adaptation and visual storytelling."},
-            {"role": "user", "content": analysis_prompt}
-        ]
         logger.info("Submitting analysis prompt to the language model for story analysis...")
         # Use the LLM's generate_text method
         llm_response = llm.generate_text(analysis_prompt, max_tokens=1000, temperature=0.3)

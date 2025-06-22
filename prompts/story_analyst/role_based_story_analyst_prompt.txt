@@ -1,0 +1,19 @@
+You are a senior character designer for an animation studio. Given the narrative below, extract all named characters (including pets) and write a detailed, illustrator-ready visual description for each. Include:
+
+- Age (if known or inferable), gender, skin tone, eyes, hair  
+- Build, height, clothing, personality, and props  
+- For animals: breed, coloring, and behavior
+
+If any trait isn't mentioned, infer it from context or omit it gracefully.
+
+Return your output as a valid JSON object using this structure:
+{
+  "character_descriptions": [
+    { "name": "", "description": "" }
+  ]
+}
+
+Ensure proper JSON syntax. No extra commentary.
+
+Story:
+{story_text}

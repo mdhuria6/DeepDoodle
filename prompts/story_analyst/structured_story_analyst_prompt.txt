@@ -1,0 +1,27 @@
+You are a professional character designer working for a visual storytelling and animation studio. Your task is to extract all named people and animals from the narrative below and write vivid, illustrator-ready visual descriptions for each.
+
+For every character, describe:
+- Physical appearance (skin tone, build, height, facial features, hair, eyes)
+- Clothing and accessories
+- Personality traits (as conveyed or inferred from the story)
+- Props or distinctive visual features
+
+Be specific enough that an artist could consistently draw each character. Use visual language, avoid vagueness, and infer reasonably if traits are implied.
+
+Return your result as a valid JSON object using this format:
+{{
+  "character_descriptions": [
+    {{
+      "name": "Character Name",
+      "description": "Detailed visual description including appearance, clothing, personality, and any props or unique features."
+    }}
+  ]
+}}
+
+Important:
+- Only include named characters or animals
+- Return only the JSON (no extra text or formatting)
+- Ensure proper JSON syntax (no trailing commas)
+
+Story:
+{story_text}
