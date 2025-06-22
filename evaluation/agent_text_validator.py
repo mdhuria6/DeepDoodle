@@ -1,6 +1,11 @@
 import pandas as pd
+import logging
 from utils.metrics import evaluate_meteor, evaluate_rouge, evaluate_bertscore
 import os
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 def run_text_generation_evaluation(
     agent_func,
     test_cases,
@@ -25,17 +30,16 @@ def run_text_generation_evaluation(
 
     for idx, case in enumerate(test_cases):
         print(f"\n🔍 Evaluating Test Case {idx + 1}...")
+        
+        agent_input = {key: case[key] for key in input_keys if key in case} if input_keys else {"story_text": case["input"]}
 
-        # Prepare agent input dictionary
-        if input_keys:
-            agent_input = {key: case[key] for key in input_keys if key in case}
-        else:
-            agent_input = {"story_text": case["input"]}  # default fallback
 
         # Run the agent
         output = agent_func(agent_input)
         generated = output[output_key]
-        reference = case["reference"]
+        reference = case["expanded_story"]
+        logger.debug(f"output: {generated} and reference: {reference}")
+
 
         # Evaluate
         meteor = evaluate_meteor(generated, reference)
