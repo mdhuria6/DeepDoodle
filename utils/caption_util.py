@@ -22,7 +22,7 @@ def format_caption_text(caption: Caption) -> str:
     elif caption_type == "narrator" and speaker:
         return f"{speaker}: {text}"
     elif caption_type == "narration":
-        return f"Narrator: {text}"
+        return f"{text}"
     elif caption_type == "caption" and speaker:
         return f"{speaker}: {text}"
     elif caption_type == "caption":
