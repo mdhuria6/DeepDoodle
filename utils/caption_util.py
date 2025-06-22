@@ -4,10 +4,12 @@ import os
 
 from models.caption import Caption 
 from models.caption_style_metadata import CaptionStyleMetadata
+from configs import text_style_config
 
 
 # --- Text Formatting and Wrapping ---
 def format_caption_text(caption: Caption) -> str:
+    print(f"DEBUG [caption_utils.format_caption_text]: Formatting caption: {caption}") # DEBUG print
     """Formats the caption text by prepending speaker/type and handling newlines."""
     text = caption.get('text', '').replace('\\n', '\n')
     speaker = caption.get('speaker')
@@ -180,7 +182,8 @@ def determine_font_and_layout(
     text_area_width: int,
     max_block_height_px: int,
     style_config: CaptionStyleMetadata,
-    panel_idx_for_logging: int = -1
+    panel_idx_for_logging: int = -1,
+    target_language: Optional[str] = 'English'
 ) -> Tuple[Optional[ImageFont.FreeTypeFont], List[Dict]]:
     """
     Determines the optimal font size and prepares wrapped text lines for all captions.
@@ -191,7 +194,9 @@ def determine_font_and_layout(
     all_wrapped_captions_for_final_font: List[Dict] = []
 
     while current_font_size >= style_config['min_font_size']:
-        font_to_test = _try_load_font(style_config['font_path'], current_font_size)
+        # Assume you have a variable `target_language` (e.g., from state)
+        font_path = get_font_path_for_language(target_language)
+        font_to_test = _try_load_font(font_path, current_font_size)
         if not font_to_test:
             # print(f"Panel {panel_idx_for_logging+1}: Failed to load main font at size {current_font_size}. Trying smaller.")
             current_font_size -= 1
@@ -429,3 +434,13 @@ def draw_caption_bubbles(
         
         # Advance current_bubble_top_y for the next bubble
         current_bubble_top_y += (bg_height + style_config['caption_margin'])
+
+def get_font_path_for_language(language: str) -> str:
+    if language == 'Hindi':
+        return text_style_config.HINDI_FONT_PATH
+    elif language == 'Tamil':
+        return text_style_config.TAMIL_FONT_PATH
+    elif language == 'Telugu':
+        return text_style_config.TELEGU_FONT_PATH
+    # fallback to default
+    return text_style_config.DEFAULT_FONT_PATH

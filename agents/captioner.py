@@ -17,6 +17,7 @@ from configs import (
     LINE_SPACING, NARRATOR_BACKGROUND_COLOR, CAPTION_CORNER_RADIUS,
     SFX_TEXT_COLOR, SFX_FONT_PATH # Assuming these might be in global config
 )
+from agents.sarvam import sarvam_agent
 
 
 def add_texts_to_image(
@@ -24,7 +25,8 @@ def add_texts_to_image(
     captions_data: List[Caption], # Use the Caption TypedDict from models
     panel_width: int,
     panel_height: int,
-    panel_idx_for_logging: int = -1
+    panel_idx_for_logging: int = -1,
+    target_language: Optional[str] = 'English'
 ) -> Image.Image:
     """
     Adds formatted text captions to an image using utility functions.
@@ -67,7 +69,8 @@ def add_texts_to_image(
         text_area_width,
         max_block_height_px,
         style_config,
-        panel_idx_for_logging
+        panel_idx_for_logging,
+        target_language
     )
 
     if not final_font or not all_wrapped_captions_info:
@@ -90,9 +93,11 @@ def captioner(state: ComicGenerationState) -> dict:
     """Node 6: Adds captions to each sized panel image."""
     print("--- AGENT: Captioner ---")
 
+    print("   > Captioning sized panels...", state)
     sized_panel_paths = state.get("sized_panel_image_paths", [])
     scenes_data = state.get("scenes", []) 
     layout_style = state.get("layout_style", "grid_2x2")
+    target_language = state.get("target_language")
 
     if not sized_panel_paths:
         print("Error: No sized panel paths found in state for captioner.")
@@ -108,6 +113,26 @@ def captioner(state: ComicGenerationState) -> dict:
             continue
 
         panel_captions: List[Caption] = scenes_data[idx].get('captions', [])
+        print('panel captions', panel_captions)
+        if target_language != "English":
+            for caption in panel_captions:
+                original_text = caption.get("text", "")
+                original_speaker = caption.get("speaker", "")
+                if original_text.strip():
+                    sarvam_speaker_state = {
+                        "prompt": original_speaker,
+                        "target_language": state.get("target_language", "English"),
+                    }
+                    sarvam_text_state = {
+                        "prompt": original_text,
+                        "target_language": state.get("target_language", "English"),
+                    }
+                    result_speaker = sarvam_agent(sarvam_speaker_state)
+                    result_text = sarvam_agent(sarvam_text_state)
+                    caption["speaker"] = result_speaker.get("sarvam_output", original_speaker)
+                    caption["text"] = result_text.get("sarvam_output", original_text)
+                    print(f"   > Translated caption for panel {idx + 1}: {caption['text']}")
+                    print(f"   > Translated speaker for panel {idx + 1}: {caption['speaker']}")
         
         try:
             with Image.open(sized_panel_path) as temp_img:
@@ -126,7 +151,8 @@ def captioner(state: ComicGenerationState) -> dict:
             panel_captions, 
             panel_width,
             panel_height,
-            panel_idx_for_logging=idx
+            panel_idx_for_logging=idx,
+            target_language=target_language
         )
 
         base_name = os.path.basename(sized_panel_path)

@@ -13,6 +13,11 @@ NARRATOR_BACKGROUND_COLOR = (220, 220, 220, 180) # RGBA: Light grey with some tr
 MAX_FONT_SIZE = 14 # Maximum font size for captions
 DEFAULT_FONT_SIZE = 12 # Default font size if not otherwise determined
 MIN_FONT_SIZE = 10 # Absolute minimum font size to attempt for captions
+# Add this to configs/text_style_config.py
+HINDI_FONT_PATH = "assets/fonts/NotoSansHindi.ttf"
+DEFAULT_FONT_PATH = "assets/fonts/Roboto/Roboto-Regular.ttf"
+TAMIL_FONT_PATH = "assets/fonts/NotoSansTamil.ttf"
+TELEGU_FONT_PATH = "assets/fonts/NotoSansTelugu.ttf"
 
 # SFX (Sound Effects) styling
 SFX_TEXT_COLOR = "red"
