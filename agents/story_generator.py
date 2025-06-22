@@ -4,6 +4,7 @@ from models.comic_generation_state import ComicGenerationState
 from utils.llm_factory import get_model_client
 from configs import STORY_EXPANSION_WORD_LIMIT
 from utils.load_prompts import load_prompt_template
+from utils.response_util import sanitize_story_output
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -35,11 +36,12 @@ def story_generator(state: ComicGenerationState, prompt_file: str = "cot_structu
         logger.info(f" Prompt is  : {expansion_prompt}")
         expanded_story = llm.generate_text(
             expansion_prompt, max_tokens=1000, temperature=0.8)
-        logger.info(f"Expanded story generated successfully. {expanded_story}")
         story_text = expanded_story if isinstance(
             expanded_story, str) else str(expanded_story)
+        sanitize_story = sanitize_story_output(story_text)
+        logger.info(f"Expanded story generated successfully. After Sanitization. {sanitize_story}")
         return {
-            "story_text": story_text,
+            "story_text": sanitize_story,
             "character_description": character_descriptions,
             "artistic_style": artistic_style,
             "mood": mood,
