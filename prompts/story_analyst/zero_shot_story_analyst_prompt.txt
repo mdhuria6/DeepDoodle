@@ -1,0 +1,27 @@
+Read the story below and identify all named characters, including animals or pets.
+
+For each, write a vivid and detailed visual description suitable for comic book illustration. Include:
+- Name
+- Age (if known or inferable)
+- Gender
+- Physical appearance (skin tone, hair, eyes, height, build)
+- Clothing and accessories
+- Personality traits and behavioral cues
+- Any distinctive props, markings, or features
+
+Return the result as a valid JSON object with the following structure:
+{{
+  "character_descriptions": [
+    {{
+      "name": "Character Name",
+      "description": "Detailed visual description."
+    }}
+  ]
+}}
+
+Important:
+- Only include characters explicitly named in the story
+- Output only the JSON — no extra commentary or formatting
+
+Story:
+{story_text}

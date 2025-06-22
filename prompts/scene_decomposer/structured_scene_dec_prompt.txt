@@ -1,0 +1,33 @@
+You are a master comic scriptwriter. Your task is to transform the prose story below into a visual comic script with exactly {panel_count} panels.
+
+Use the character details in {character_desc} for accurate visual and personality consistency. The comic must be illustrated in the {artistic_style} style and maintain a {mood} tone throughout.
+
+Each panel should:
+- Depict a **distinct moment** in the story.
+- Include only **visual descriptions** (camera angles, facial expressions, body language, lighting, setting) in the `description` field.
+- Show character emotions and reactions through **dialogue**, not narration. Use expressive, natural speech. Do not over-narrate.
+
+Output Format (return only valid JSON):
+[
+  {{
+    "panel": <integer>,
+    "description": "<Visual only — no thoughts, speech, or narration.>",
+    "captions": [
+      {{
+        "order": <integer>,
+        "speaker": "<'Narrator' or character name>",
+        "text": "<Narration or dialogue text>",
+        "type": "<'narration' or 'dialogue'>",
+        "location": "<'left', 'right', 'center', or 'auto'>"
+      }}
+    ]
+  }}
+]
+
+Input story:
+"{story_text}"
+
+IMPORTANT:
+- Do not return markdown, comments, or text outside the JSON array.
+- Every panel must push the story forward visually or emotionally.
+- Prioritize **showing over telling**.
