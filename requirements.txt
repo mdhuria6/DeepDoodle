@@ -22,3 +22,4 @@ requests
 bs4
 matplotlib
 pandas
+torchvision

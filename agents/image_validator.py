@@ -3,6 +3,7 @@ from PIL import Image, UnidentifiedImageError
 import torch
 import torch.nn.functional as F
 from models.comic_generation_state import ComicGenerationState
+from utils.llm_factory import get_model_client
 
 
 class ImageValidator:
@@ -15,11 +16,20 @@ class ImageValidator:
         )
         print(f"[VALIDATOR AGENT INIT] Loading CLIP model on {self.device}")
 
+        # Initialize a fast LLM client for summarizing long prompts
+        try:
+            print("[VALIDATOR AGENT INIT] Initializing summarizer LLM...")
+            self.summarizer_llm = get_model_client("text", "gemini_1.5_flash")
+        except Exception as e:
+            print(f"  - WARNING: Could not initialize summarizer LLM: {e}")
+            print("  - INFO: Summarization is DISABLED. Long prompts will be truncated.")
+            self.summarizer_llm = None
+
         # Load the CLIP model and processor
         try:
             self.device = "cpu" # Force CPU if you keep getting meta tensor errors
             self.model = CLIPModel.from_pretrained(model_name, torch_dtype=torch.float32)
-            self.processor = CLIPProcessor.from_pretrained(model_name)
+            self.processor = CLIPProcessor.from_pretrained(model_name, use_fast=True)
             self.threshold = threshold
         except Exception as e:
             raise RuntimeError(f"VALIDATOR Failed to load model or processor: {e}")
@@ -27,15 +37,84 @@ class ImageValidator:
         # Set default threshold for passing a prompt match
         self.default_threshold = threshold
 
+    def _summarize_if_needed(self, text: str, key_for_logging: str) -> str:
+        """
+        Summarizes a text prompt if it exceeds the CLIP model's token limit.
+        Uses a fast LLM for summarization and falls back to truncation if needed.
+        """
+        # If summarizer isn't available, go straight to truncation fallback.
+        if not self.summarizer_llm:
+            # This is the original truncation logic.
+            max_length = self.processor.tokenizer.model_max_length - 2
+            tokens = self.processor.tokenizer.encode(text)
+            if len(tokens) > max_length:
+                print(f"  - WARNING: Truncating long prompt for key '{key_for_logging}'. Original length: {len(tokens)} tokens.")
+                truncated_tokens = tokens[:max_length]
+                return self.processor.tokenizer.decode(truncated_tokens, skip_special_tokens=True)
+            return text
+
+        # Leave a buffer for the model's special tokens (e.g., [CLS], [SEP])
+        max_length = self.processor.tokenizer.model_max_length - 2
+        tokens = self.processor.tokenizer.encode(text)
+
+        if len(tokens) <= max_length:
+            return text  # No summarization needed
+
+        print(f"  - INFO: Prompt for key '{key_for_logging}' is too long ({len(tokens)} tokens). Summarizing...")
+
+        # Use a fast LLM to summarize the text
+        summarization_prompt = (
+            "Summarize the following description for an AI image validation model. "
+            "Focus only on the most critical visual elements, characters, and actions. "
+            f"The summary must be very concise, ideally under {max_length - 10} tokens. "
+            "Do not add any preamble. Just provide the summary. "
+            f"Original description: \"{text}\""
+        )
+
+        try:
+            summary = self.summarizer_llm.generate_text(summarization_prompt)
+            summary = summary.strip().strip('"')  # Clean up LLM output
+
+            # Check length of summary and truncate if it's still too long
+            summary_tokens = self.processor.tokenizer.encode(summary)
+            if len(summary_tokens) > max_length:
+                print(f"  - WARNING: Summarized prompt for '{key_for_logging}' is still too long. Truncating summary.")
+                truncated_tokens = summary_tokens[:max_length]
+                summary = self.processor.tokenizer.decode(truncated_tokens, skip_special_tokens=True)
+            
+            print(f"  - INFO: Summarized prompt for '{key_for_logging}': \"{summary}\"")
+            return summary
+
+        except Exception as e:
+            print(f"  - WARNING: Summarization failed for key '{key_for_logging}': {e}. Falling back to simple truncation.")
+            # Fallback to simple truncation if the summarizer LLM fails
+            truncated_tokens = tokens[:max_length]
+            return self.processor.tokenizer.decode(truncated_tokens, skip_special_tokens=True)
+
     def _compute_cosine_similarities(self, image, prompts):
         # Prepare image and text data for the model
         try:
-            inputs = self.processor(
-                text=prompts,
-                images=[image] * len(prompts),  # repeat image for each prompt
+            # Process text and images separately to avoid potential processor bugs.
+            # This is more robust than calling the processor on both simultaneously.
+            text_inputs = self.processor.tokenizer(
+                prompts,
                 return_tensors="pt",
-                padding=True
-            ).to(self.device)
+                padding=True,
+                truncation=True,
+                max_length=self.processor.tokenizer.model_max_length
+            )
+            image_inputs = self.processor.image_processor(
+                images=[image] * len(prompts),
+                return_tensors="pt"
+            )
+
+            # Combine the processed inputs and move to the correct device
+            inputs = {
+                "input_ids": text_inputs["input_ids"].to(self.device),
+                "attention_mask": text_inputs["attention_mask"].to(self.device),
+                "pixel_values": image_inputs["pixel_values"].to(self.device)
+            }
+
         except Exception as e:
             raise ValueError(f"VALIDATOR Failed to preprocess inputs: {e}")
 
@@ -74,14 +153,15 @@ class ImageValidator:
         prompts = []  # list to hold all text prompts
         prompt_keys = []  # keep track of what each prompt corresponds to
 
-        # Step 2: Extract prompts from caption parts (e.g., scene, character)
+        # Step 2: Extract, summarize if needed, and collect prompts
         caption_parts = task.get("caption_parts", {})
         if not isinstance(caption_parts, dict):
             raise ValueError("caption_parts must be a dictionary")
 
         for key, phrase in caption_parts.items():
             if phrase:
-                prompts.append(phrase)
+                summarized_phrase = self._summarize_if_needed(phrase, key)
+                prompts.append(summarized_phrase)
                 prompt_keys.append(key)
 
         # Step 3: Add optional style prompt
@@ -157,7 +237,6 @@ def get_validator_instance():
     """Initializes and returns a singleton instance of the ImageValidator."""
     global _validator_instance
     if _validator_instance is None:
-        print("Initializing ImageValidator for the first time.")
         _validator_instance = ImageValidator()
     return _validator_instance
 
@@ -171,39 +250,77 @@ def image_validator(state: ComicGenerationState) -> dict:
     validation_index = len(panel_image_paths) - 1
 
     if validation_index < 0:
-        print("Warning: No images found to validate.")
-        return {} # Return early if there's nothing to do.
+        print("Validator: No images to validate.")
+        # Return current scores without modification
+        return {"validation_scores": state.get("validation_scores", [])}
 
     # Ensure other required state lists are long enough
     scenes = state.get("scenes", [])
     if validation_index >= len(scenes):
-        print(f"Error: Scene not found for panel index {validation_index}.")
-        return {} # Cannot proceed without scene info
+        print(f"Validator: Error - validation_index {validation_index} is out of sync with scenes list (len {len(scenes)}).")
+        return {"validation_scores": state.get("validation_scores", [])}
 
     panel_image_path = panel_image_paths[validation_index]
     scene = scenes[validation_index]
+    character_descriptions = state.get("character_descriptions", [])
 
+    # --- New logic to dynamically build the validation task ---
+    
+    # 1. The primary visual description for the panel.
+    scene_description = scene.get("description", "")
+    
+    # 2. Extract character description and action from captions.
+    character_description_for_validation = ""
+    all_caption_texts = []
+    if scene.get("captions"):
+        for caption in scene["captions"]:
+            all_caption_texts.append(caption.get("text", ""))
+            speaker = caption.get("speaker")
+            # If we haven't found a character yet, check if this speaker is one.
+            if speaker and speaker != "Narrator" and not character_description_for_validation:
+                for char in character_descriptions:
+                    if char.get("name") == speaker:
+                        character_description_for_validation = char.get("description", "")
+                        break  # Found the character, stop searching
+
+    # Use the combined text from all captions to represent the "action".
+    action_from_captions = " ".join(all_caption_texts)
+
+    # 3. Construct the validation task for the ImageValidator class instance.
     task = {
         "image_path": panel_image_path,
         "caption_parts": {
-            "scene": scene.get("description"),
-            "character": scene.get("character_description"),
-            "action": scene.get("action_description"),
+            "scene": scene_description,
+            "character": character_description_for_validation,
         },
         "style_prompt": state.get("artistic_style"),
-        "weights": {"scene": 0.4, "character": 0.4, "action": 0.2, "style": 0.1},
+        # Weights determine the importance of each part in the final score.
+        "weights": {"scene": 0.5, "character": 0.3, "style": 0.2},
+        # Thresholds set the minimum similarity score for a part to be considered "present".
         "thresholds": {"scene": 0.25, "character": 0.25, "action": 0.2}
     }
 
-    validator = get_validator_instance()
-    validation_result = validator.run(task)
-    
-    print(f"[VALIDATOR AGENT] Validation result for panel {validation_index + 1}: {validation_result}")
-    
-    # Store the validation result in the state
-    validation_scores = state.get("validation_scores", [])
-    validation_scores.append(validation_result)
+    try:
+        validator = get_validator_instance()
+        validation_result = validator.run(task)
+        
+        print(f"  - Validation Score: {validation_result.get('final_score', 'N/A')}")
+        print(f"  - Validation Decision: {validation_result.get('final_decision', 'N/A')}")
 
-    # The image_generator is responsible for incrementing the panel index.
-    # This agent's job is only to validate and return the scores.
-    return {"validation_scores": validation_scores}
+        # Append the new score to the list in the state
+        current_scores = state.get("validation_scores", [])
+        current_scores.append(validation_result)
+        return {"validation_scores": current_scores}
+
+    except Exception as e:
+        print(f"Validator: CRITICAL ERROR during validation run: {e}")
+        # On error, append a failure message to maintain list alignment
+        error_result = {
+            "final_score": 0.0,
+            "final_decision": "❌ ERROR",
+            "image": panel_image_path,
+            "details": {"error": str(e)}
+        }
+        current_scores = state.get("validation_scores", [])
+        current_scores.append(error_result)
+        return {"validation_scores": current_scores}
