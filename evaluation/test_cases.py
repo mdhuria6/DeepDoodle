@@ -1,5 +1,94 @@
 test_cases = [
     {
+        "story_text": "Two men with intertwined fates navigate love and revolution in Paris and London.",
+        "genre_preset": "historical fiction",
+        "style_preset": "storybook",
+        "layout_style": "dual-city-drama",
+        "character_description": [
+            {
+                "name": "Charles Darnay",
+                "description": "A noble-born Frenchman with refined features, shoulder-length brown hair, and modest aristocratic clothing. In comic panels, he is shown in courtrooms or hiding during the French Revolution, often with somber eyes reflecting moral conflict."
+            },
+            {
+                "name": "Sydney Carton",
+                "description": "A brooding English lawyer with disheveled black hair, a loose cravat, and tired eyes. In comic scenes, he appears slouched with a drink in hand or standing heroically at the guillotine with calm resolve."
+            }
+        ],
+        "expanded_story": "Set during the French Revolution, the novel follows Charles Darnay, a French aristocrat who renounces his title, and Sydney Carton, a disillusioned English lawyer who finds redemption. Both men fall in love with Lucie Manette. As violence erupts in France, Darnay is arrested and sentenced to death for his lineage. In a final act of sacrifice, Carton takes Darnay’s place at the guillotine, giving his life so Lucie may be happy. His act of love and courage is immortalized in his final words: 'It is a far, far better thing that I do, than I have ever done…'"
+    },
+    {
+        "story_text": "A young prince from another planet teaches a pilot the meaning of love and loss.",
+        "genre_preset": "novella",
+        "style_preset": "storybook",
+        "layout_style": "planetary-fable",
+        "character_description": [
+            {
+                "name": "The Little Prince",
+                "description": "A blond boy with curly hair, golden scarf, and starry-eyed wonder. In comics, he’s drawn standing on tiny planets with a rose or gazing into the sky. His expression is dreamy and innocent, wearing a green tunic and boots."
+            },
+            {
+                "name": "The Aviator",
+                "description": "A rugged pilot with goggles, a leather cap, and an aged bomber jacket. Often shown sketching or looking pensively at the stars, he represents the adult viewpoint softened by the prince’s wisdom."
+            }
+        ],
+        "expanded_story": "After crash-landing in the Sahara Desert, a pilot meets a mysterious young boy—the Little Prince—who tells him stories of his home planet, a single rose he loves, and his travels to various strange worlds. Through their conversations, the prince reveals deep truths about love, loneliness, and what truly matters. He eventually returns to his star, leaving the pilot changed forever. The story is a poetic allegory on the loss of innocence and the purity of childlike love."
+    },
+    {
+        "story_text": "Ten strangers are lured to an island and killed one by one in a chilling mystery.",
+        "genre_preset": "mystery",
+        "style_preset": "noir",
+        "layout_style": "isolation-suspense",
+        "character_description": [
+            {
+                "name": "Justice Wargrave",
+                "description": "An elderly judge with sharp eyes, a black robe, and a stoic expression. In comic scenes, he’s often seated in deep shadows, holding a book or orchestrating events with cold logic."
+            },
+            {
+                "name": "Vera Claythorne",
+                "description": "A young governess with wavy brown hair, a plain dress, and anxious expressions. She’s often shown clutching a letter or staring into a mirror, reflecting guilt and vulnerability."
+            }
+        ],
+        "expanded_story": "Ten strangers are invited to a secluded island by a mysterious host. Each guest has a dark secret—a crime for which they’ve never been punished. One by one, they begin to die, following a sinister nursery rhyme. Tensions rise, suspicions mount, and paranoia consumes them as they realize the killer is among them. In the end, all ten perish. Later, a letter reveals the mastermind was Judge Wargrave, who meticulously planned the justice-themed killings before taking his own life."
+    },
+    {
+        "story_text": "A noble Chinese family’s rise and fall is seen through a young man's poetic soul.",
+        "genre_preset": "family saga",
+        "style_preset": "classical",
+        "layout_style": "imperial-family-drama",
+        "character_description": [
+            {
+                "name": "Jia Baoyu",
+                "description": "A handsome youth with delicate features, red silk robes, and a jade pendant around his neck. In comics, he’s shown in gardens reading poetry or tearfully facing familial pressure."
+            },
+            {
+                "name": "Lin Daiyu",
+                "description": "A fragile, intelligent girl with pale skin, wearing flowing robes with lotus embroidery. She is often depicted crying or playing the zither under a cherry blossom tree."
+            }
+        ],
+        "expanded_story": "This intricate Chinese classic follows Jia Baoyu, heir of a noble family, who is more attuned to poetry and love than duty and politics. He shares a deep, doomed love with his sensitive cousin Lin Daiyu. As the family's fortunes decline due to corruption and internal decay, their romance is thwarted. Daiyu dies heartbroken, and Baoyu ultimately renounces the material world to become a monk. The novel critiques societal expectations and mourns the loss of youth and beauty."
+    },
+    {
+        "story_text": "Four siblings discover a magical world ruled by a lion and a wicked witch.",
+        "genre_preset": "fantasy",
+        "style_preset": "storybook",
+        "layout_style": "portal-adventure",
+        "character_description": [
+            {
+                "name": "Lucy Pevensie",
+                "description": "A bright-eyed girl with short brown hair, a knee-length coat, and a satchel. In comics, she’s shown peeking through a wardrobe or hugging the lion Aslan with childlike wonder."
+            },
+            {
+                "name": "Aslan",
+                "description": "A majestic golden lion with a wise face and radiant mane. He is drawn with glowing eyes and divine presence, often surrounded by golden light or standing atop a battlefield."
+            },
+            {
+                "name": "White Witch",
+                "description": "A tall, cold queen with pale skin, icy crown, and silver robes. Her comic form includes a twisted staff and a trail of snow, exuding frost and menace."
+            }
+        ],
+        "expanded_story": "During WWII, four siblings—Peter, Susan, Edmund, and Lucy—are sent to the countryside where Lucy discovers a wardrobe that leads to Narnia, a magical land frozen in eternal winter. The evil White Witch rules cruelly, but the return of Aslan the lion brings hope. Edmund betrays the others but is redeemed. With Aslan’s sacrifice and return, the children help defeat the witch and are crowned kings and queens of Narnia. Years later, they return through the wardrobe, back to their world."
+    },
+    {
         "story_text": "Shiva, the destroyer and ascetic, reveals the cosmic dance of creation and destruction.",
         "genre_preset": "mythology",
         "style_preset": "mystic-divine",
@@ -226,7 +315,8 @@ test_cases = [
             }
         ],
         "expanded_story": "Sasuke finally acknowledges Naruto’s unwavering determination to save him, no matter the cost. He admits defeat—not because Naruto was stronger, but because Naruto never gave up on him. The two awaken in the morning, lying side by side, each missing an arm, symbolizing both their physical loss and the emotional bridge they’ve finally built."
-    }, {
+    },
+    {
         "story_text": "Goku sacrifices himself to save Earth from Cell’s self-destruction during the climactic battle of the Cell Games. When all hope seems lost, and Cell prepares to explode and destroy the planet, Goku calmly says goodbye to his loved ones and uses Instant Transmission to teleport himself and Cell far away. In a flash, the explosion occurs in the sky, sparing Earth. Goku dies with a smile, believing it was the right thing to do. The sacrifice leaves everyone shaken, especially Gohan, who must now carry on his father's legacy and face Cell once more.",
         "genre_preset": "sci-fi",
         "style_preset": "manga",
@@ -463,5 +553,312 @@ test_cases = [
             }
         ],
         "expanded_story": "Lady Imogen Thistlewick was born with a ticking heart. Literally. Her father, a renowned chronomechanic, had replaced her failing organ with a brass timepiece. It chimed at every hour and needed daily winding. In the floating city of Aerwyn, she was both marvel and menace. When the queen’s heir was kidnapped, Imogen was blamed—until clues in the ransom demanded her heart. Realizing her clock-heart powered something greater—an ancient machine buried beneath the city—Imogen unraveled the conspiracy. She had one choice: save the heir or free herself. She chose neither. She rewrote the gears of fate."
+    },
+    {
+        "story_text": "An immortal queen tests two explorers\u2019 courage and love in a lost African kingdom.",
+        "genre_preset": "adventure",
+        "style_preset": "pulp",
+        "layout_style": "lost-world",
+        "character_description": [
+            {
+                "name": "Ayesha",
+                "description": "The immortal queen with flowing black hair, golden diadem, and luminous eyes; in comics she wears a white, Greek\u2011style gown that glows faintly, exuding ethereal majesty."
+            },
+            {
+                "name": "Leo Vincey",
+                "description": "A tall Victorian gentleman with auburn hair and a neatly\u2011trimmed beard; drawn in safari khakis with a revolver at his belt and a look of skeptical awe."
+            },
+            {
+                "name": "Horace Holly",
+                "description": "An academic with graying temples, round spectacles, and a weather\u2011worn coat; usually shown holding ancient scrolls while peering into hidden chambers."
+            }
+        ],
+        "expanded_story": "Cambridge scholar Horace Holly and his ward Leo Vincey follow a cryptic family legacy into the depths of unexplored Africa. There they discover Kor, a ruined civilization ruled by the mysterious Ayesha\u2014\u2018She\u2011who\u2011must\u2011be\u2011obeyed\u2019\u2014a woman rendered ageless by a pillar of life\u2011giving fire. Ayesha believes Leo is the reincarnation of her long\u2011dead lover and offers both men a chance at immortality, provided they kneel to her authority. The expedition witnesses grandeur and savagery: a volcanic catacomb, ritual executions, and tribes in thrall to Ayesha\u2019s beauty. When the queen steps once more into the sacred flame to share her gift, the magic reverses; she withers to dust, proving that absolute power is fatally fragile. Holly and Leo escape Kor\u2019s collapse, haunted by the vision of eternal love destroyed by pride."
+    },
+    {
+        "story_text": "A runaway Southern woman reinvents herself as a powerful figure in wartime Honolulu.",
+        "genre_preset": "fiction",
+        "style_preset": "historical-drama",
+        "layout_style": "wartime-rise",
+        "character_description": [
+            {
+                "name": "Mamie Stover",
+                "description": "Mamie is a striking woman with red curls, bold lipstick, and a curve-hugging blue dress adorned with war-era brooches. In comic panels, she's often framed against neon signs or military docks, her posture confident yet calculated."
+            },
+            {
+                "name": "Jim Blair",
+                "description": "Jim is a clean-cut writer with wavy dark hair, dressed in khaki slacks and a white open-collar shirt. Often shown typing, walking near the shore, or arguing with Mamie, he represents both love and disapproval of her choices."
+            },
+            {
+                "name": "Bertha Parchman",
+                "description": "An older, sharp-eyed businesswoman in conservative gray suits, pearl earrings, and a ledger in hand. She is drawn with tight buns and commanding expressions while managing her lucrative but morally gray empire."
+            }
+        ],
+        "expanded_story": "Fleeing Mississippi after a scandal, Mamie Stover arrives in Honolulu in 1941 with nothing but ambition and beauty. There, she quickly rises through the ranks of a seedy establishment run by Bertha Parchman, becoming wealthy by catering to American soldiers stationed in the Pacific. Despite her love for Jim Blair, a writer with idealistic morals, Mamie chooses power and autonomy over romance. As the war escalates, so does Mamie's influence, challenging societal norms around class, gender, and morality. But beneath her confident exterior, she battles loneliness, identity, and the price of self-reinvention. The novel traces her transformation in a world where survival demands compromise and where love is often sacrificed for independence. Mamie becomes both a symbol of resilience and a cautionary tale about the cost of power in a man's world."
+    },
+    {
+        "story_text": "A journalist and a brilliant hacker uncover dark secrets behind a missing girl from a powerful family.",
+        "genre_preset": "fiction",
+        "style_preset": "noir-thriller",
+        "layout_style": "investigative-duo",
+        "character_description": [
+            {
+                "name": "Lisbeth Salander",
+                "description": "A slender, goth-styled hacker with jet-black hair in a choppy cut, piercings, black leather jacket, and cold, analytical eyes. She's drawn often with her laptop in shadows, exuding intelligence, distrust, and rebellion."
+            },
+            {
+                "name": "Mikael Blomkvist",
+                "description": "A middle-aged investigative journalist with a stubbly beard, trench coat, and camera bag. He is usually shown flipping through old files, walking in snow, or debating suspects with furrowed brows."
+            },
+            {
+                "name": "Harriet Vanger",
+                "description": "A blonde teen in vintage 1960s clothes, always drawn in faded or ghost-like tones to signify memory. She is shown in fragmented flashbacks—smiling in photos, or vanishing into the woods."
+            },
+            {
+                "name": "Henrik Vanger",
+                "description": "An elderly patriarch with white hair, a dark suit, and a solemn face. Usually seated in a grand library or holding an old photograph, he sets the investigation in motion with quiet desperation."
+            }
+        ],
+        "expanded_story": "Journalist Mikael Blomkvist is hired by Henrik Vanger to solve the decades-old disappearance of his niece, Harriet. Mikael partners with Lisbeth Salander, a gifted but socially withdrawn hacker. As they dig into the secrets of the powerful Vanger family, they uncover a history of abuse, murder, and deceit. Lisbeth's hacking skills and Mikael's journalistic instincts complement each other, leading them to truths buried under layers of lies. Lisbeth battles her own trauma and distrust of institutions, revealing her fierce sense of justice. The investigation leads them to uncover a serial killer within the family. Meanwhile, Lisbeth reclaims agency over her life, confronting both legal and personal oppressors. The novel blends mystery, social critique, and psychological depth, portraying a chilling modern noir with unforgettable characters."
+    },
+    {
+        "story_text": "A symbologist races to decode Masonic secrets hidden beneath Washington D.C. to save his mentor and prevent national disaster.",
+        "genre_preset": "fiction",
+        "style_preset": "techno-thriller",
+        "layout_style": "symbol-hunt",
+        "character_description": [
+            {
+                "name": "Robert Langdon",
+                "description": "A scholarly man in a Harris tweed jacket, brown slacks, and a Mickey Mouse watch. He’s drawn mid-lecture or deciphering symbols in dimly lit corridors, always carrying a notepad and pointing to ancient engravings."
+            },
+            {
+                "name": "Katherine Solomon",
+                "description": "A tall woman with chestnut hair, sharp green eyes, and a lab coat. Shown in high-tech labs or running beside Langdon, she embodies intellect, grace, and emotional depth."
+            },
+            {
+                "name": "Peter Solomon",
+                "description": "An aging but powerful man in a tailored suit with silver hair and a Masonic ring. He is drawn chained in darkness, reflecting both wisdom and vulnerability."
+            },
+            {
+                "name": "Mal'akh",
+                "description": "A tall, bald man with tattooed skin covering his body, pale eyes, and ceremonial robes. In comic panels, he is shown with eerie calm, either meditating or performing dark rituals."
+            }
+        ],
+        "expanded_story": "After being summoned to deliver a lecture at the Capitol, symbologist Robert Langdon finds himself thrust into a race against time when his mentor Peter Solomon is kidnapped. The captor, Mal’akh, demands Langdon uncover ancient Masonic secrets buried beneath Washington D.C. Teaming up with Peter’s sister, Katherine, a scientist studying noetic consciousness, Langdon must solve a trail of symbols and codes hidden in national landmarks. As the search deepens, they uncover a hidden chamber, ancient philosophies, and truths meant to uplift humanity. Mal’akh seeks transcendence through chaos, testing the limits of belief and sacrifice. Through puzzles, danger, and philosophical exploration, Langdon must save Peter, protect the knowledge, and confront the possibility that enlightenment lies not in magic—but in the mind. The story blends modern science, ancient wisdom, and high-stakes tension in a uniquely cerebral thriller."
+    },
+    {
+        "story_text": "A symbologist and cryptologist uncover secrets hidden in art and religion that could shake Christianity.",
+        "genre_preset": "mystery thriller",
+        "style_preset": "noir-thriller",
+        "layout_style": "symbolic-chase",
+        "character_description": [
+            {
+                "name": "Robert Langdon",
+                "description": "A Harvard symbologist with neat brown hair, dark blazer, and tweed trousers. In comic panels, he is shown pointing to museum artifacts or racing through candle-lit cathedrals, flashlight in hand and eyes wide with revelation."
+            },
+            {
+                "name": "Sophie Neveu",
+                "description": "A poised French cryptologist in a tailored trench coat, with auburn hair tied back. Often depicted cracking codes, holding ciphers, or exchanging intense glances with Langdon under stained-glass windows."
+            },
+            {
+                "name": "Silas",
+                "description": "A pale, self-flagellating albino monk in white robes, often drawn bleeding and kneeling in prayer. His comic presence is haunting, with shadowy backdrops and crosses etched into the stone behind him."
+            },
+            {
+                "name": "Sir Leigh Teabing",
+                "description": "An elderly historian in a wheelchair, sharp-eyed, with round spectacles and a smug expression. In comics, he’s shown hosting tense conversations or hiding ancient manuscripts in a lavish manor."
+            }
+        ],
+        "expanded_story": "When Louvre curator Jacques Saunière is murdered, symbologist Robert Langdon and cryptologist Sophie Neveu uncover a trail of clues hidden in Da Vinci’s artwork and across Paris. Their investigation reveals a centuries-old conspiracy involving the Holy Grail, secret societies, and buried truths that could challenge the foundations of Christianity. Pursued by the police and a fanatical monk named Silas, the duo must solve intricate puzzles to stay alive. Each clue draws them closer to a revelation that connects Sophie’s heritage to a holy lineage. Their journey through crypts, churches, and intellectual riddles leads to a deeper spiritual question: Should truth always be revealed? The story blends art, religion, and suspense in a race against time—and belief."
+    },
+    {
+        "story_text": "A lonely housewife and a traveling photographer fall in love during four unforgettable days.",
+        "genre_preset": "romance",
+        "style_preset": "melodrama",
+        "layout_style": "intimate-flashback",
+        "character_description": [
+            {
+                "name": "Francesca Johnson",
+                "description": "A graceful Italian-American woman in her 40s, wearing modest house dresses and apron. In comic frames, she’s shown gazing out of farmhouse windows or nervously touching her locket as emotions stir inside her."
+            },
+            {
+                "name": "Robert Kincaid",
+                "description": "A rugged, soulful photographer with gray-streaked hair, denim shirt, and worn leather satchel. He’s often shown holding a camera or leaning on a covered bridge with soft eyes fixed on Francesca."
+            },
+            {
+                "name": "Richard Johnson",
+                "description": "Francesca’s husband, a kind farmer in a checkered shirt and straw hat, often portrayed working the fields. He is present only in the background of panels, symbolizing the domestic life Francesca temporarily steps away from."
+            }
+        ],
+        "expanded_story": "In 1965 Iowa, Francesca Johnson lives a quiet life as a wife and mother. When her family leaves for a state fair, she meets Robert Kincaid, a National Geographic photographer visiting to document local covered bridges. Their chance meeting blossoms into a passionate connection over four days, full of shared vulnerability, music, and mutual understanding. Though deeply in love, Francesca ultimately chooses her family over Robert, a decision that shapes her soul for the rest of her life. Years later, after her death, her children discover her letters and photos, unveiling the tender secret she kept buried. The story explores the ache of lost love, the weight of duty, and the power of fleeting moments to transform a lifetime. Comic panels shift from golden-lit rural fields to dusky kitchen interiors, reflecting both intimacy and isolation."
+    },
+    {
+        "story_text": "A family haunted by time, solitude, and prophecy lives out generations in the magical town of Macondo.",
+        "genre_preset": "magic realism",
+        "style_preset": "surreal",
+        "layout_style": "generational-spiral",
+        "character_description": [
+            {
+                "name": "José Arcadio Buendía",
+                "description": "A burly man with unkempt beard, linen shirt, and a crazed glint in his eyes. In comics, he's shown building alchemical devices or wandering the jungle, surrounded by mystical symbols."
+            },
+            {
+                "name": "Úrsula Iguarán",
+                "description": "A stern matriarch in dark dresses with a rosary always in hand. Her comic depiction includes scenes of baking, lecturing children, or weeping beside tombs, often glowing with quiet strength."
+            },
+            {
+                "name": "Aureliano Buendía",
+                "description": "A solemn young man with ink-stained hands and faraway eyes. Frequently illustrated crafting gold fishes or standing beside scrolls, lost in cyclical prophecy."
+            },
+            {
+                "name": "Remedios the Beauty",
+                "description": "An ethereal girl with glowing golden hair and flowing white garments. In comics, butterflies often trail her as she floats, her beauty untouched by earthly logic."
+            },
+            {
+                "name": "Melquíades",
+                "description": "A ghostly gypsy with wild robes and scrolls. Often appearing in translucent blue ink, holding parchments inscribed with cryptic knowledge."
+            }
+        ],
+        "expanded_story": "In the town of Macondo, the Buendía family spans six generations, each marked by passion, solitude, and a haunting sense of fate. José Arcadio Buendía, the family’s founder, dreams of progress and alchemy but slowly descends into madness. His wife Úrsula becomes the pillar of the family, watching as time folds and repeats itself. Through civil wars, flying carpets, alchemic texts, and lovers who vanish into air, the Buendías live in a world that mirrors Colombia’s turbulent history while defying conventional reality. Characters reappear through namesakes and reincarnated fates, locked in a loop of joy and sorrow. Ultimately, Aureliano deciphers a prophecy foretelling the family's destruction. As he finishes reading the last line, a cyclone erases Macondo from existence. The comic adaptation would evoke magical surrealism—ghosts in hammocks, rain that lasts years, and lovers who fly—woven through poetic visual metaphors."
+    },
+    {
+        "story_text": "A Nazi commando unit attempts to kidnap Winston Churchill in a daring WWII infiltration mission.",
+        "genre_preset": "war thriller",
+        "style_preset": "military-thriller",
+        "layout_style": "covert-operation",
+        "character_description": [
+            {
+                "name": "Kurt Steiner",
+                "description": "A tall, sharp-featured German officer with an eyepatch, leather jacket, and SS insignia removed. In comics, he’s drawn with tension in his jaw, crouching in a British village churchyard or whispering to locals under moonlight."
+            },
+            {
+                "name": "Joanna Grey",
+                "description": "A stern English woman with an aristocratic air, thick spectacles, and long coat. She is often drawn sipping tea while transmitting radio signals in secret, her face half in shadow."
+            },
+            {
+                "name": "Liam Devlin",
+                "description": "An Irish poet-turned-spy with a rugged jacket, tweed cap, and a mischievous grin. In comics, he’s seen bicycling through the countryside or tossing a sarcastic remark amid tense operations."
+            },
+            {
+                "name": "Colonel Radl",
+                "description": "A high-ranking Nazi strategist in a crisp uniform, surrounded by maps and classified dossiers. Comic panels show him staring at a photo of Churchill, contemplating the near-impossible mission he just greenlit."
+            }
+        ],
+        "expanded_story": "In the closing years of WWII, a daring Nazi operation is devised: to kidnap Prime Minister Winston Churchill during a planned visit to a quiet English village. Colonel Radl crafts the plan and assigns command to paratrooper Kurt Steiner, whose men disguise themselves as Polish troops. Joanna Grey, a Nazi sympathizer living in England, and Liam Devlin, an Irish poet turned saboteur, assist in the mission. Though the plan is meticulous, unexpected encounters and British resistance unravel their cover. What follows is a deadly standoff as Churchill’s security is tightened. The novel blends action, espionage, and historical fiction, imagining what might have happened if the operation had succeeded. Comic illustrations emphasize foggy moors, covert gear, and split-second betrayals—all under the looming specter of war."
+    },
+    {
+        "story_text": "An obsessed captain hunts a monstrous white whale Moby-Dick across the vast oceans, risking everything.",
+        "genre_preset": "adventure",
+        "style_preset": "nautical-epic",
+        "layout_style": "oceanic-pursuit",
+        "character_description": [
+            {
+                "name": "Captain Ahab",
+                "description": "A weathered, one-legged seafarer with a long gray beard, stormy eyes, and a peg leg carved from whale bone. In comics, he’s drawn gripping the ship’s helm with windblown coat and harpoon raised toward the horizon."
+            },
+            {
+                "name": "Ishmael",
+                "description": "A young, observant sailor with a journal, dark curly hair, and modest clothing. Often shown narrating from ship railings or watching Ahab with a mix of awe and dread, he serves as the reader’s lens into the story."
+            },
+            {
+                "name": "Queequeg",
+                "description": "A heavily tattooed Polynesian harpooner with a noble gaze and tribal adornments. In panels, he is silent and dignified, often seen sharpening his harpoon or performing rituals on deck."
+            },
+            {
+                "name": "Starbuck",
+                "description": "A thoughtful first mate with tidy hair, trimmed beard, and clean navy uniform. He’s often shown arguing with Ahab or silently praying below deck, embodying moral conflict."
+            },
+            {
+                "name": "Moby Dick",
+                "description": "A colossal white whale with scarred skin and a vengeful eye. It’s drawn bursting through waves, towering over the ship, sometimes silhouetted in mist to emphasize its mythic aura."
+            }
+        ],
+        "expanded_story": "In search of purpose, Ishmael joins the whaling ship Pequod and sails under the command of the intense and mysterious Captain Ahab. Ahab reveals that his true goal is not profit but vengeance—he seeks to destroy Moby Dick, the legendary white whale that maimed him. As the crew journeys across oceans, their camaraderie and superstitions grow, but so does Ahab’s madness. Harpooners like Queequeg bring spiritual depth, while first mate Starbuck begins to question the morality of their captain's mission. When they finally encounter the great whale, the battle is cataclysmic. One by one, the crew is lost, and Ahab perishes entangled in his obsession. Only Ishmael survives, floating on Queequeg’s coffin, left to bear witness. The novel explores man versus nature, obsession, and fate. A comic adaptation would feature sweeping ocean vistas, storm-wracked decks, and explosive confrontations between harpoon and leviathan."
+    },
+    {
+        "story_text": "A young scientist creates life from death—only to be haunted by the creature he made. Frankenstein",
+        "genre_preset": "gothic horror",
+        "style_preset": "dark-romantic",
+        "layout_style": "madness-laboratory",
+        "character_description": [
+            {
+                "name": "Victor Frankenstein",
+                "description": "A gaunt, wide-eyed man with tousled black hair, a lab coat stained with soot, and gloves. In comics, he’s shown bent over a cluttered desk, lightning flashing behind him, or recoiling in regret."
+            },
+            {
+                "name": "The Creature",
+                "description": "An enormous, stitched-together being with patchy skin, yellow eyes, and ragged clothing. Often drawn with a hunched posture, expressive sadness, or enraged anguish amid snowy landscapes or graveyards."
+            },
+            {
+                "name": "Elizabeth Lavenza",
+                "description": "A gentle woman with flowing blonde hair, pale skin, and a high-collared dress. Frequently shown with a lantern, writing letters, or silhouetted in tragic stillness before her death."
+            },
+            {
+                "name": "Henry Clerval",
+                "description": "Victor’s bright-eyed friend, with a scholarly coat and armful of books. In panels, he often looks concerned or encouraging, drawn in soft warm tones to contrast Victor’s descent."
+            },
+            {
+                "name": "Captain Walton",
+                "description": "An Arctic explorer in furs and naval gear, shown writing in a cabin lit by candlelight. His panels bookend the story, documenting Victor’s tale aboard an icebound ship."
+            }
+        ],
+        "expanded_story": "Victor Frankenstein, a gifted scientist driven by ambition, defies natural law by assembling a creature from corpses and reanimating it with electricity. Horrified by its monstrous appearance, Victor abandons it. Left alone, the Creature seeks affection but is met only with fear and hatred. As it learns language and emotion, it grows bitter from rejection. After suffering greatly, it confronts Victor and demands a companion. When Victor refuses, the Creature swears vengeance, leading to the deaths of Victor's loved ones. Pursued into the Arctic, both man and monster are ultimately lost to madness and isolation. The story is told through letters from Captain Walton, who encounters Victor in the frozen north. Frankenstein explores creation, responsibility, and the blurred line between man and monster. Comic panels would shift between candlelit laboratories, pastoral tragedy, and the icy extremes of despair."
+    }, {
+        "story_text": "Romeo and Juliet, Two young lovers from rival families fall in love, defy their world, and die tragically.",
+        "genre_preset": "romance",
+        "style_preset": "shakespearean",
+        "layout_style": "duel-and-destiny",
+        "character_description": [
+            {
+                "name": "Romeo Montague",
+                "description": "A dreamy young man in doublet and tights, with a short cloak and romantic gaze. In comics, he’s drawn climbing balconies, dueling with fierce resolve, or holding Juliet’s hand with tragic tenderness."
+            },
+            {
+                "name": "Juliet Capulet",
+                "description": "A graceful girl with long auburn hair, pale dress with floral trim, and starry eyes. She’s depicted writing letters, gazing at the stars, or lying beneath a veil of roses."
+            },
+            {
+                "name": "Mercutio",
+                "description": "Romeo’s witty friend with flamboyant gestures, feathered hat, and dramatic flair. Often shown laughing, fencing playfully, or dying with poetic defiance beneath moonlight."
+            },
+            {
+                "name": "Tybalt",
+                "description": "A hot-blooded Capulet in ornate armor with a fiery scowl and rapier always at hand. Comic panels show him dueling or pacing furiously across marble floors."
+            },
+            {
+                "name": "Friar Laurence",
+                "description": "An elderly monk in brown robes, with a book of herbs and scrolls. Frequently drawn in candlelit cells, blessing the couple or lamenting fate."
+            }
+        ],
+        "expanded_story": "In the city of Verona, two noble families—the Montagues and the Capulets—are embroiled in bitter conflict. Amid this feud, Romeo Montague and Juliet Capulet fall in love at first sight. With the help of Friar Laurence, they marry in secret, hoping to end the violence through love. But fate intervenes. Romeo kills Juliet’s cousin Tybalt and is banished. Juliet fakes her death to be with him, but the plan fails. Believing her dead, Romeo drinks poison beside her. Juliet awakens and, finding Romeo gone, takes her own life. Their deaths finally reconcile the families. The play explores love, fate, and the tragic consequences of hatred. Comic pages would evoke candlelit halls, moonlit duels, and split panels of star-crossed lovers reaching for one another across family lines and fate."
+    },
+    {
+        "story_text": "Pride and Prejudice : A spirited woman and a proud gentleman clash and fall in love through wit, misunderstanding, and growth.",
+        "genre_preset": "romance",
+        "style_preset": "regency-classic",
+        "layout_style": "drawing-room-duel",
+        "character_description": [
+            {
+                "name": "Elizabeth Bennet",
+                "description": "A sharp-eyed young woman with curled brown hair, empire-waist gowns, and a knowing smirk. Often drawn walking through gardens, reading letters, or exchanging glances across ballroom floors."
+            },
+            {
+                "name": "Fitzwilliam Darcy",
+                "description": "A tall, brooding gentleman in a navy tailcoat, cravat, and riding boots. Comic panels show him aloof in crowds, offering silent gestures of kindness, or finally declaring love with softened eyes."
+            },
+            {
+                "name": "Jane Bennet",
+                "description": "Elizabeth’s gentle sister with golden curls and pastel dresses. Often depicted in scenes of quiet joy, floral embroidery, or embracing Bingley with affection."
+            },
+            {
+                "name": "Mr. Bingley",
+                "description": "A cheerful young man with reddish-blond hair, bright waistcoats, and open smiles. Drawn laughing at parties or riding beside Darcy, often contrasted as light to Darcy’s shadow."
+            },
+            {
+                "name": "Mr. Collins",
+                "description": "A pompous clergyman in ill-fitted robes and exaggerated posture. Frequently depicted making awkward proposals, bowing too deeply, or bragging about Lady Catherine with comic exaggeration."
+            }
+        ],
+        "expanded_story": "Elizabeth Bennet is one of five sisters in a modest English family. When wealthy Mr. Bingley moves to their town, he and Elizabeth’s sister Jane fall in love. Meanwhile, Elizabeth meets Mr. Darcy, a wealthy but seemingly arrogant gentleman. Misunderstandings and prejudice cloud their interactions—Elizabeth resents his pride, and Darcy is put off by her family’s impropriety. Over time, they both grow and see each other’s true character. Darcy helps Elizabeth’s family in secret, and Elizabeth realizes her misjudgments. Their love, based on mutual respect and transformation, blossoms. The novel critiques class, gender, and social expectations with sharp wit. Comic panels would highlight smirking retorts, tense dances, and quiet realizations beneath falling leaves and candlelight."
     }
 ]

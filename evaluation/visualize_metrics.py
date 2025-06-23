@@ -18,7 +18,7 @@ def plot_average_scores(summary_df: pd.DataFrame, output_dir: str):
     avg_plot_path = os.path.join(output_dir, "average_metrics_barplot.png")
     plt.savefig(avg_plot_path)
     plt.close()
-    print(f"✅ Saved: {avg_plot_path}")
+    print(f"Saved: {avg_plot_path}")
     
 def plot_text_generation_metrics_combined(df: pd.DataFrame, output_dir: str):
     """
@@ -62,7 +62,7 @@ def plot_text_generation_metrics_combined(df: pd.DataFrame, output_dir: str):
         plt.savefig(plot_path)
         plt.close()
 
-        print(f"✅ Saved: {plot_path}")
+        print(f"Saved: {plot_path}")
 
 def plot_text_generation_metrics(csv_path: str, output_dir: str):
     """
