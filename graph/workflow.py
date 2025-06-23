@@ -40,13 +40,13 @@ def prompt_based_routing(state: ComicGenerationState) -> str:
         raise ValueError(f"Unknown prompt type '{prompt}'. Must be 'Simple' or 'Detailed'.")
 
 def should_continue_generating(state: ComicGenerationState) -> str:
-    """Decides whether to continue generating panels or move to sizing and captioning."""
+    """Decides whether to continue generating panels or move to validation."""
     print("---CONDITION: Should we continue generating panels?---")
     if state["current_panel_index"] < len(state["scenes"]):
         print(f"   > More panels to generate. Continuing loop. ({state['current_panel_index']} / {len(state['scenes'])})")
         return "continue_generation"
     else:
-        print("   > All panels generated. Routing to panel sizer for batch processing.")
+        print("   > All panels generated. Routing to image validator for batch processing.")
         return "process_all_panels"
 
 def create_workflow():
@@ -92,19 +92,19 @@ def create_workflow():
     workflow.add_edge("scene_decomposer", "layout_planner")
     workflow.add_edge("layout_planner", "prompt_engineer")
     workflow.add_edge("prompt_engineer", "image_generator")
-    workflow.add_edge("image_generator", "image_validator")
 
     # 4. Create the generation loop
     workflow.add_conditional_edges(
-        "image_validator",
+        "image_generator",
         should_continue_generating,
         {
             "continue_generation": "prompt_engineer",
-            "process_all_panels": "panel_sizer",
+            "process_all_panels": "image_validator",
         },
     )
 
     # 5. Define the post-generation sequential flow
+    workflow.add_edge("image_validator", "panel_sizer")
     workflow.add_edge("panel_sizer", "captioner")
     workflow.add_edge("captioner", "page_composer")
     workflow.add_edge("page_composer", END)

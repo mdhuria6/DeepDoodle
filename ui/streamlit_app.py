@@ -161,18 +161,8 @@ if generate_button:
                 "prompt": PROMPT,
                 "target_language": selected_sarvam_language,
             }
-            word_count = len(story_input.strip().split())
-            # Create and run the workflow
-            if word_count < STORY_EXPANSION_WORD_THRESHOLD:
-                entry = "story_generator"
-            else:
-                if PROMPT == "Simple":
-                    entry = "story_analyst"
-                elif PROMPT == "Detailed":
-                    entry = "detailed_story_analyst"
-                else:
-                    raise ValueError("Incorrect prompt. Expected 'Simple' or 'Detailed'.")
-            app = create_workflow(entry)
+            # Initialize the workflow with the provided inputs
+            app = create_workflow()
             st.session_state.result = app.invoke(inputs, {"recursion_limit": 100})
     else:
         st.session_state.result = None
@@ -205,7 +195,7 @@ if st.session_state.result:
                     if validation_results and idx < len(validation_results):
                         validation = validation_results[idx]
                         st.markdown(
-                            f"**Score:** {validation.get('final_score', 'N/A')}<br>"
+                            # f"**Score:** {validation.get('final_score', 'N/A')}<br>"
                             f"**Decision:** {validation.get('final_decision', 'N/A')}",
                             unsafe_allow_html=True
                         )
