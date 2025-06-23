@@ -10,7 +10,7 @@ import re
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def story_analyst(state: ComicGenerationState, prompt_file: str = "hybrid_story_analyst_prompt.txt") -> Dict[str, Any]:
+def story_analyst(state: ComicGenerationState, prompt_file: str = "hybrid_prompt.txt") -> Dict[str, Any]:
     """
     Analyzes the story and sets up initial style, mood, and character using LLM (via factory).
     Returns a dictionary with keys: character_descriptions, artistic_style, mood, layout_style.

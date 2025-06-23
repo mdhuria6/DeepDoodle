@@ -20,30 +20,50 @@ DeepDoodle/
 │
 ├── agents/                      # Modular AI agent implementations (each is a workflow node)
 │   ├── __init__.py
+│   ├── story_generator.py       # Expands a short user prompt into a full story
 │   ├── story_analyst.py         # Analyzes story, extracts genre/style/mood
+│   ├── detailed_story_analyst.py# Analyzes a detailed story for key elements
 │   ├── scene_decomposer.py      # Splits story into visual scenes/panels
 │   ├── layout_planner.py        # Determines panel dimensions and page layouts
 │   ├── prompt_engineer.py       # Crafts prompts for image generation
 │   ├── image_generator.py       # Generates panel images at target dimensions
+│   ├── image_validator.py       # (Async) Validates generated images for quality
 │   ├── panel_sizer.py           # Resizes/crops raw panels to ideal dimensions from layout plan
 │   ├── captioner.py             # Adds captions/text to sized panels
-│   └── page_composer.py         # Stitches panels onto pages using offsets from layout plan
+│   ├── page_composer.py         # Stitches panels onto pages using offsets from layout plan
+│   └── sarvam.py                # Handles text translation for multi-language support
+│
+├── configs/                     # Configuration files for different aspects of the project
+│   ├── __init__.py
+│   ├── base_config.py           # Core project settings (API keys, root path)
+│   ├── image_opts_config.py     # Image generation options
+│   ├── llm_api_config.py        # LLM provider configurations
+│   ├── paths_config.py          # Directory and file paths
+│   ├── prompt_styles.py         # Style presets for prompt engineering
+│   ├── story_elements_config.py # Story-related configurations
+│   ├── text_style_config.py     # Caption and text styling
+│   └── ui_options_config.py     # Options for the Streamlit UI
 │
 ├── graph/                       # Workflow orchestration (LangGraph)
 │   ├── __init__.py
-│   └── workflow.py              # Defines the LangGraph workflow
+│   └── workflow.py              # Defines the LangGraph state machine and agent connections
 │
-├── models/                      # Data structures and type definitions
-│   ├── __init__.py              # (if you add one)
-│   ├── comic_generation_state.py # Defines the ComicGenerationState (shared state dict)
-│   ├── panel_layout_detail.py   # Defines the PanelLayoutDetail TypedDict
-│   ├── scene.py                 # Defines the Scene TypedDict
-│   └── caption.py               # Defines the Caption TypedDict
-│
-├── utils/                       # Utility functions and configuration
+├── models/                      # Data structures and type definitions (TypedDicts)
 │   ├── __init__.py
-│   ├── config.py                # Constants (page dimensions, output dirs, font path, etc.)
-│   └── layout.py                # Comic page layout functions (grid, strip, etc.)
+│   ├── comic_generation_state.py # Defines the main state object for the graph
+│   ├── panel_layout_detail.py   # Details for each panel's layout
+│   ├── scene.py                 # A single panel's description and captions
+│   ├── caption.py               # A single caption's text, speaker, and type
+│   └── caption_style_metadata.py# Styling information for captions
+│
+├── utils/                       # Shared utility functions
+│   ├── __init__.py
+│   ├── caption_util.py          # Functions for drawing and styling captions
+│   ├── layout_util.py           # Comic page layout and composition functions
+│   ├── llm_factory.py           # Factory for creating different LLM clients
+│   ├── load_prompts.py          # Helper to load prompt templates from files
+│   ├── metrics.py               # Evaluation metrics (e.g., ROUGE, BERTScore)
+│   └── response_util.py         # Utilities for parsing and cleaning LLM responses
 │
 ├── output/                      # Generated images (created at runtime)
 │   ├── panels/                  # Raw individual panel images from image_generator
@@ -55,9 +75,15 @@ DeepDoodle/
 │   ├── __init__.py
 │   └── streamlit_app.py         # Streamlit app for interactive comic generation
 │
+├── prompts/                     # Text files containing prompts for LLM agents
+│   └── ...
+│
 ├── data/                        # Sample data and stories
 │   └── samples/
 │       └── example_story.txt
+│
+└── test/                        # Test scripts
+    └── ...
 ```
 
 ---
@@ -135,7 +161,7 @@ This will create an image `text_shaping_verification.png` in the root directory.
 Create a `.env` file in the root directory with this content:
 ```env
 OPENAI_API_KEY=your_openai_key
-HUGGINGFACEHUB_API_TOKEN=your_hf_token
+HUGGINGFACE_API_TOKEN=your_hf_token
 ```
 
 ### 5. (Optional) Place sample images
@@ -150,15 +176,18 @@ streamlit run ui/streamlit_app.py
 
 ## 🧠 Features
 
-- **Story Analyst**: Analyzes the story, extracts genre, style, and mood.
-- **Scene Decomposer**: Splits the story into visual scenes/panels.
+- **Story Generator**: If the user provides a short prompt, this agent expands it into a complete story.
+- **Story Analyst**: Analyzes the story to extract key elements like genre, artistic style, mood, and character descriptions.
+- **Scene Decomposer**: Breaks down the full story into a sequence of distinct scenes, with one scene corresponding to one comic panel.
 - **Layout Planner**: Determines the detailed layout for each panel on each page, including ideal dimensions for final placement, target dimensions for image generation (multiple of 64), and precise x/y offsets for composition. It prioritizes UI-selected layouts and dynamically adapts for remaining panels.
-- **Prompt Engineer**: Converts scenes and metadata into image prompts.
-- **Image Generator**: Generates images for each panel based on prompts, adhering to the target generation dimensions specified by the `Layout Planner`.
-- **Panel Sizer**: Takes the generated images and resizes/crops them to the ideal dimensions defined in the layout plan from `Layout Planner`, preparing them for final page composition.
-- **Captioner**: Adds dialogue or narrative captions to the (already sized) panel images.
+- **Prompt Engineer**: Converts scene descriptions and style metadata into detailed, effective prompts for the image generation model.
+- **Image Generator**: Generates an image for each panel based on its prompt, adhering to the target dimensions specified by the `Layout Planner`.
+- **Image Validator**: (Asynchronous) Runs after image generation to check for common issues like blank or corrupted images. This step is designed not to block the main workflow.
+- **Panel Sizer**: Takes the generated images and resizes/crops them to the ideal dimensions defined in the layout plan, preparing them for final page composition.
+- **Captioner**: Renders dialogue, narration, and sound effects onto the sized panel images.
 - **Page Composer**: Arranges the sized and captioned panels onto a blank page according to the ideal dimensions and x/y offsets provided by the `Layout Planner`.
-- **LangGraph-based orchestration**: Orchestrates agent communication and workflow.
+- **Sarvam Translator**: Provides multi-language support by translating caption text on-the-fly.
+- **LangGraph-based Orchestration**: Uses a state machine to manage the flow of data and control the execution of agents, enabling complex conditional logic and loops.
 
 ---
 

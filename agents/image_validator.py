@@ -7,7 +7,7 @@ from utils.llm_factory import get_model_client
 
 
 class ImageValidator:
-    def __init__(self, model_name="openai/clip-vit-large-patch14", threshold=0.3, device=None):
+    def __init__(self, model_name="openai/clip-vit-large-patch14", threshold=0.225, device=None):
         # Automatically choose the best available device: MPS (Mac), CUDA (GPU), or CPU
         self.device = device or (
             "mps" if torch.backends.mps.is_available()
@@ -297,7 +297,7 @@ def image_validator(state: ComicGenerationState) -> dict:
         # Weights determine the importance of each part in the final score.
         "weights": {"scene": 0.25, "character": 0.3, "style": 0.15},
         # Thresholds set the minimum similarity score for a part to be considered "present".
-        "thresholds": {"scene": 0.25, "character": 0.25, "action": 0.2}
+        "thresholds": {"scene": 0.20, "character": 0.20, "style": 0.20},
     }
 
     try:
