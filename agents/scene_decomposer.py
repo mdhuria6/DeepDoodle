@@ -53,7 +53,7 @@ def scene_decomposer(state: ComicGenerationState, prompt_file: str = "hybrid_sce
 
 	panel_count = state['panel_count']
 	story_text = state['story_text']
-	text_engine = state.get("text_engine", "openai_gpt4") # Get selected engine
+	text_engine = state.get("text_engine", "openai_gpt4o") # Get selected engine
 	max_retries = 2
 
 	# Get the appropriate LLM client from the factory
@@ -79,21 +79,25 @@ def scene_decomposer(state: ComicGenerationState, prompt_file: str = "hybrid_sce
 			response = llm.generate_text(prompt, max_tokens=8000)
 			response = sanitize_llm_response(response)  # Clean up the response
 			scenes = json.loads(response)
+
+			# --- Validation Logic ---
 			if not isinstance(scenes, list):
-				logger.warning(f"   > Validation Failed: LLM output is not a list.")
+				logger.warning("   > Validation Failed: LLM output is not a list. Retrying...")
 				continue
+
 			if len(scenes) != panel_count:
-				logger.warning(f"   > Validation Failed: Expected {panel_count} panels, got {len(scenes)}.")
-				if len(scenes) < panel_count:
-					logger.warning("   > Not enough scenes generated. Retrying...")
-				else:
-					logger.warning("   > Too many scenes generated. Retrying...")
-					if attempt == max_retries - 1:
-						logger.error("   > Too many scenes generated. Truncating to panel count.")
+				if attempt < max_retries - 1: # If it's not the last attempt, just retry
+					logger.warning(f"   > Validation Failed: Expected {panel_count} panels, got {len(scenes)}. Retrying...")
+					continue
+				else: # This is the final attempt, handle it as a fallback
+					if len(scenes) < panel_count:
+						logger.error(f"   > Final attempt failed: Not enough scenes generated ({len(scenes)}/{panel_count}).")
+						raise RuntimeError(f"Failed to generate enough scenes after {max_retries} attempts.")
+					else:
+						logger.warning(f"   > Final attempt: Too many scenes generated. Truncating from {len(scenes)} to {panel_count}.")
 						scenes = scenes[:panel_count]
-						break
-				# If we reach here, we need to retry
-				continue
+			
+			# If we reach here, the scenes are valid or have been corrected
 			logger.info(f"   > Successfully decomposed and validated into {len(scenes)} scenes.")
 			logger.debug(f"   > Scene: {scenes}")
 			return {
@@ -108,5 +112,6 @@ def scene_decomposer(state: ComicGenerationState, prompt_file: str = "hybrid_sce
 			logger.error(f"   > An unexpected error occurred during LLM call: {e}")
 			continue
 
+	# This part is reached only if all retries fail in a way that doesn't raise an exception above
 	logger.error("   > All LLM attempts failed. Unable to generate scenes.")
 	raise RuntimeError("Failed to generate valid scenes from the story after multiple attempts.")
