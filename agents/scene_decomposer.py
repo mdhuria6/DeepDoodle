@@ -53,7 +53,7 @@ def scene_decomposer(state: ComicGenerationState, prompt_file: str = "hybrid_sce
 
 	panel_count = state['panel_count']
 	story_text = state['story_text']
-	text_engine = state.get("text_engine", "openai_gpt4") # Get selected engine
+	text_engine = state.get("text_engine", "openai_gpt4o") # Get selected engine
 	max_retries = 2
 
 	# Get the appropriate LLM client from the factory
