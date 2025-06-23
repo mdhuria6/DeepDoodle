@@ -1,0 +1,112 @@
+{
+  "story_text": "In the heart of 18th-century Paris, where cobblestones whispered tales of revolution, lived Étienne, a young poet with ink-stained fingers and dreams as vast as the Seine. His days were spent in dim-lit cafés, where the air was thick with the scent of fresh bread and the fervor of change. Across the channel, in the bustling streets of London, was Henry, a charismatic orator whose voice could stir the souls of even the most indifferent crowds. Though miles apart, their destinies were woven together by the threads of love and rebellion.\n\nÉtienne's heart was captured by the enigmatic Marie, whose laughter danced like sunlight on water. Yet, the shadows of revolution loomed, threatening to tear them apart. In London, Henry's impassioned speeches against tyranny brought him both admiration and danger, as whispers of insurrection grew louder.\n\nAs tensions rose, Étienne and Henry found themselves drawn into the heart of the storm. Étienne, torn between love and duty, penned verses that ignited the spirit of the people. Meanwhile, Henry's words became a rallying cry, echoing through the streets like a clarion call.\n\nIn a twist of fate, Étienne's writings reached Henry, sparking a friendship that transcended borders. Together, they forged a bond, united by their shared vision of a world where love and freedom reigned supreme.\n\nAs the dust of revolution settled, Étienne and Marie found solace in each other's arms, while Henry's voice continued to inspire change. Though their paths diverged, the legacy of their intertwined fates lingered, a testament to the enduring power of love and the relentless pursuit of liberty.",
+  "genre_preset": "historical fiction",
+  "style_preset": "storybook",
+  "layout_style": "Horizontal Strip",
+  "character_description": [
+    {
+      "name": "Charles Darnay",
+      "description": "A noble-born Frenchman with refined features, shoulder-length brown hair, and modest aristocratic clothing. In comic panels, he is shown in courtrooms or hiding during the French Revolution, often with somber eyes reflecting moral conflict."
+    },
+    {
+      "name": "Sydney Carton",
+      "description": "A brooding English lawyer with disheveled black hair, a loose cravat, and tired eyes. In comic scenes, he appears slouched with a drink in hand or standing heroically at the guillotine with calm resolve."
+    }
+  ],
+  "expanded_story": "Set during the French Revolution, the novel follows Charles Darnay, a French aristocrat who renounces his title, and Sydney Carton, a disillusioned English lawyer who finds redemption. Both men fall in love with Lucie Manette. As violence erupts in France, Darnay is arrested and sentenced to death for his lineage. In a final act of sacrifice, Carton takes Darnay’s place at the guillotine, giving his life so Lucie may be happy. His act of love and courage is immortalized in his final words: 'It is a far, far better thing that I do, than I have ever done…'",
+  "text_engine": "openai_gpt4o",
+  "panel_count": 2,
+  "artistic_style": "storybook",
+  "mood": "historical fiction",
+  "character_descriptions": [
+    {
+      "name": "Étienne",
+      "description": "Young poet with ink-stained fingers, likely in his early 20s. Male with medium-length, tousled dark hair, expressive brown eyes, and a lean build. He stands at an average height with a fair complexion. Often seen in simple, slightly worn clothing typical of an 18th-century Parisian, such as a loose shirt and trousers. Dreamy and introspective, with a passionate and idealistic nature. Carries a quill and notebook, always ready to capture his thoughts."
+    },
+    {
+      "name": "Henry",
+      "description": "Charismatic orator in bustling London, likely in his late 20s to early 30s. Male with short, well-groomed dark hair, piercing blue eyes, and a strong, commanding presence. Tall and broad-shouldered with a fair complexion. Wears formal attire befitting an 18th-century gentleman, including a waistcoat and cravat. Articulate and persuasive, with a commanding voice and a determined, courageous spirit. Often seen with a pamphlet or speech notes."
+    },
+    {
+      "name": "Marie",
+      "description": "Enigmatic woman with a captivating presence, likely in her early 20s. Female with long, flowing chestnut hair, sparkling green eyes, and a graceful, slender build. Average height with a light skin tone. Dresses in elegant, yet understated 18th-century attire, such as a simple gown with subtle lace details. Vivacious and warm, with a laughter that is infectious and a demeanor that is both charming and mysterious. Known for her radiant smile and lively spirit."
+    }
+  ],
+  "scenes": [
+    {
+      "panel": 1,
+      "description": "Wide shot of an 18th-century Parisian café. Étienne sits at a small table, surrounded by dim light and the aroma of fresh bread. His ink-stained fingers scribble passionately in a notebook. In the background, patrons engage in animated discussions about revolution.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Narrator",
+          "text": "In the heart of 18th-century Paris, Étienne, a young poet, dreams as vast as the Seine.",
+          "type": "narration",
+          "location": "auto"
+        },
+        {
+          "order": 2,
+          "speaker": "Étienne",
+          "text": "These words... they must reach beyond the Seine.",
+          "type": "dialogue",
+          "location": "left"
+        }
+      ]
+    },
+    {
+      "panel": 2,
+      "description": "Medium shot of Henry standing on a wooden platform in a bustling London street. His commanding presence and piercing blue eyes captivate a diverse crowd. He holds a pamphlet, gesturing passionately as he speaks. The crowd listens intently, some with expressions of admiration and others with concern.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Narrator",
+          "text": "Across the channel, Henry's voice stirs the souls of Londoners, rallying them against tyranny.",
+          "type": "narration",
+          "location": "auto"
+        },
+        {
+          "order": 2,
+          "speaker": "Henry",
+          "text": "Together, we shall rise for freedom and love!",
+          "type": "dialogue",
+          "location": "center"
+        }
+      ]
+    }
+  ],
+  "current_panel_index": 1,
+  "panel_layout_details": [
+    {
+      "panel_index": 0,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 5
+    },
+    {
+      "panel_index": 1,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 432
+    }
+  ],
+  "panel_prompts": [
+    "Comic panel featuring: Étienne. Characters: Étienne: Young poet with ink-stained fingers, likely in his early 20s. Male with medium-length, tousled dark hair, expressive brown eyes, and a lean build. He stands at an average height with a fair complexion. Often seen in simple, slightly worn clothing typical of an 18th-century Parisian, such as a loose shirt and trousers. Dreamy and introspective, with a passionate and idealistic nature. Carries a quill and notebook, always ready to capture his thoughts.. Scene: Wide shot of an 18th-century Parisian café. Étienne sits at a small table, surrounded by dim light and the aroma of fresh bread. His ink-stained fingers scribble passionately in a notebook. In the background, patrons engage in animated discussions about revolution.. Captions: Narrator: In the heart of 18th-century Paris, Étienne, a young poet, dreams as vast as the Seine., Étienne: These words... they must reach beyond the Seine.. Art Style: in the style of storybook, , cinematic lighting, high detail. Mood: historical fiction. ",
+    "Comic panel featuring: Henry. Characters: Henry: Charismatic orator in bustling London, likely in his late 20s to early 30s. Male with short, well-groomed dark hair, piercing blue eyes, and a strong, commanding presence. Tall and broad-shouldered with a fair complexion. Wears formal attire befitting an 18th-century gentleman, including a waistcoat and cravat. Articulate and persuasive, with a commanding voice and a determined, courageous spirit. Often seen with a pamphlet or speech notes.. Scene: Medium shot of Henry standing on a wooden platform in a bustling London street. His commanding presence and piercing blue eyes captivate a diverse crowd. He holds a pamphlet, gesturing passionately as he speaks. The crowd listens intently, some with expressions of admiration and others with concern.. Captions: Narrator: Across the channel, Henry's voice stirs the souls of Londoners, rallying them against tyranny., Henry: Together, we shall rise for freedom and love!. Art Style: in the style of storybook, , cinematic lighting, high detail. Mood: historical fiction. "
+  ],
+  "image_engine": "sd21",
+  "panel_image_paths": [
+    "output/panels/panel_1.png",
+    "output/panels/panel_2.png"
+  ],
+  "prompt": "Comic panel featuring: Henry. Characters: Henry: Charismatic orator in bustling London, likely in his late 20s to early 30s. Male with short, well-groomed dark hair, piercing blue eyes, and a strong, commanding presence. Tall and broad-shouldered with a fair complexion. Wears formal attire befitting an 18th-century gentleman, including a waistcoat and cravat. Articulate and persuasive, with a commanding voice and a determined, courageous spirit. Often seen with a pamphlet or speech notes.. Scene: Medium shot of Henry standing on a wooden platform in a bustling London street. His commanding presence and piercing blue eyes captivate a diverse crowd. He holds a pamphlet, gesturing passionately as he speaks. The crowd listens intently, some with expressions of admiration and others with concern.. Captions: Narrator: Across the channel, Henry's voice stirs the souls of Londoners, rallying them against tyranny., Henry: Together, we shall rise for freedom and love!. Art Style: in the style of storybook, , cinematic lighting, high detail. Mood: historical fiction. "
+}

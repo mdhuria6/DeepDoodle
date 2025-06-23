@@ -1,0 +1,112 @@
+{
+  "story_text": "In the ethereal glow of twilight, atop the sacred Mount Kailash, Shiva, the ascetic god, sat in deep meditation. The air shimmered with an otherworldly light, as if the universe itself held its breath in reverence. Shiva, with his matted locks and crescent moon crown, was a figure of serene power, embodying the balance of creation and destruction.\n\nYet, beneath the tranquil surface, a cosmic mystery stirred. The celestial realms whispered of an imbalance, a disruption in the eternal cycle. The universe teetered on the edge of chaos, and the gods sought Shiva's wisdom to restore harmony.\n\nAs the stars aligned, Shiva rose, his eyes opening to reveal the infinite cosmos within. The earth trembled as he began his divine dance, the Tandava. Each step was a beat of the universe's heart, each movement a wave of creation and destruction. The skies swirled with galaxies, and the ground echoed with the birth and death of worlds.\n\nIn the climax of his dance, Shiva paused, poised between creation and annihilation. In that moment, the universe held its breath, waiting for his choice. With a gentle smile, he resumed, weaving a tapestry of balance, restoring the cosmic order.\n\nAs the dance concluded, the universe exhaled, a sigh of relief and awe. Shiva, the eternal ascetic, returned to his meditation, leaving behind a world renewed, a testament to the mystic dance of life and death.",
+  "genre_preset": "mythology",
+  "style_preset": "mystic-divine",
+  "layout_style": "Horizontal Strip",
+  "character_description": [
+    {
+      "name": "Lord Shiva",
+      "description": "Male deity, often depicted as a robust, well-built figure with a serene yet powerful presence. He has long matted hair, sometimes with a crescent moon and Ganga flowing through it. His third eye is a distinctive feature on his forehead. He often has ash smeared on his body and is sometimes portrayed with a blue throat. He is usually seen wearing a tiger skin and a snake around his neck, holding a trident (Trishula) as a prop. His eyes exude wisdom and tranquility, embodying a balance of destruction and creation."
+    },
+    {
+      "name": "Parvati",
+      "description": "Female deity, depicted with a graceful and nurturing presence. She has long, flowing black hair and warm, compassionate eyes. Her skin is usually portrayed as golden or fair. Parvati often wears colorful traditional Indian attire, adorned with jewelry. She is the epitome of beauty, devotion, and strength, exuding a calm and loving demeanor."
+    },
+    {
+      "name": "Ganesha",
+      "description": "Male deity with an elephant head, symbolizing wisdom and intellect. He has a large belly, representing prosperity and the ability to digest both the good and bad in life. His skin tone is often portrayed as reddish or yellowish. Ganesha usually wears a dhoti and is adorned with jewels. He carries a small axe and a lotus flower, and is often accompanied by a small mouse, which serves as his vehicle. His eyes are kind and inviting, reflecting his role as the remover of obstacles."
+    },
+    {
+      "name": "Kartikeya",
+      "description": "Male deity, depicted as a young warrior with a strong, athletic build. He has sharp features with piercing eyes and a confident demeanor. Kartikeya is often shown with multiple heads, symbolizing his all-seeing nature, and sometimes with six faces. He wears traditional warrior attire, often with armor and a spear as his weapon. His presence is dynamic and commanding, embodying courage and leadership."
+    }
+  ],
+  "expanded_story": "The Shiva Purana explores the many forms and legends of Lord Shiva—from his cosmic dance (Tandava) to his roles as husband, yogi, and destroyer. It details his union with Parvati, the birth of Ganesha and Kartikeya, and philosophical teachings on detachment, time, and energy. The stories emphasize balance between creation and dissolution, devotion and wisdom, and form and formlessness.",
+  "text_engine": "openai_gpt4o",
+  "panel_count": 2,
+  "artistic_style": "mystic-divine",
+  "mood": "mythology",
+  "character_descriptions": [
+    {
+      "name": "Shiva",
+      "description": "An ascetic god with matted locks and a crescent moon crown, embodying serene power. His eyes, when open, reveal the infinite cosmos. He is of a strong build, with a height that commands presence and a skin tone that glows with an ethereal light. Shiva is often depicted in meditation, wearing simple ascetic clothing, exuding a personality of balance, wisdom, and tranquility. His distinctive feature is the crescent moon on his crown, and he is known for his divine dance, the Tandava, which represents the cosmic cycle of creation and destruction."
+    }
+  ],
+  "scenes": [
+    {
+      "panel": 1,
+      "description": "Wide shot of Mount Kailash bathed in the ethereal glow of twilight. Shiva sits in deep meditation, his matted locks and crescent moon crown visible. The air shimmers with an otherworldly light, as if the universe itself is holding its breath.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Narrator",
+          "text": "In the sacred stillness of Mount Kailash, Shiva, the ascetic god, sat in profound meditation.",
+          "type": "narration",
+          "location": "left"
+        },
+        {
+          "order": 2,
+          "speaker": "Narrator",
+          "text": "The celestial realms whispered of an imbalance, a cosmic mystery stirring beneath the tranquil surface.",
+          "type": "narration",
+          "location": "right"
+        }
+      ]
+    },
+    {
+      "panel": 2,
+      "description": "Dynamic shot of Shiva performing the Tandava dance. His eyes are open, revealing the infinite cosmos. The earth trembles, galaxies swirl in the sky, and the ground echoes with creation and destruction. Shiva pauses, then smiles gently, resuming his dance.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Shiva",
+          "text": "Let the balance be restored.",
+          "type": "dialogue",
+          "location": "center"
+        },
+        {
+          "order": 2,
+          "speaker": "Narrator",
+          "text": "In the climax of his dance, the universe held its breath, waiting for his choice. With a gentle smile, Shiva wove a tapestry of balance.",
+          "type": "narration",
+          "location": "left"
+        }
+      ]
+    }
+  ],
+  "current_panel_index": 1,
+  "panel_layout_details": [
+    {
+      "panel_index": 0,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 5
+    },
+    {
+      "panel_index": 1,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 432
+    }
+  ],
+  "panel_prompts": [
+    "Comic panel featuring: Shiva. Characters: Shiva: An ascetic god with matted locks and a crescent moon crown, embodying serene power. His eyes, when open, reveal the infinite cosmos. He is of a strong build, with a height that commands presence and a skin tone that glows with an ethereal light. Shiva is often depicted in meditation, wearing simple ascetic clothing, exuding a personality of balance, wisdom, and tranquility. His distinctive feature is the crescent moon on his crown, and he is known for his divine dance, the Tandava, which represents the cosmic cycle of creation and destruction.. Scene: Wide shot of Mount Kailash bathed in the ethereal glow of twilight. Shiva sits in deep meditation, his matted locks and crescent moon crown visible. The air shimmers with an otherworldly light, as if the universe itself is holding its breath.. Captions: Narrator: In the sacred stillness of Mount Kailash, Shiva, the ascetic god, sat in profound meditation., Narrator: The celestial realms whispered of an imbalance, a cosmic mystery stirring beneath the tranquil surface.. Art Style: in the style of mystic-divine, , cinematic lighting, high detail. Mood: mythology. ",
+    "Comic panel featuring: Shiva. Characters: Shiva: An ascetic god with matted locks and a crescent moon crown, embodying serene power. His eyes, when open, reveal the infinite cosmos. He is of a strong build, with a height that commands presence and a skin tone that glows with an ethereal light. Shiva is often depicted in meditation, wearing simple ascetic clothing, exuding a personality of balance, wisdom, and tranquility. His distinctive feature is the crescent moon on his crown, and he is known for his divine dance, the Tandava, which represents the cosmic cycle of creation and destruction.. Scene: Dynamic shot of Shiva performing the Tandava dance. His eyes are open, revealing the infinite cosmos. The earth trembles, galaxies swirl in the sky, and the ground echoes with creation and destruction. Shiva pauses, then smiles gently, resuming his dance.. Captions: Shiva: Let the balance be restored., Narrator: In the climax of his dance, the universe held its breath, waiting for his choice. With a gentle smile, Shiva wove a tapestry of balance.. Art Style: in the style of mystic-divine, , cinematic lighting, high detail. Mood: mythology. "
+  ],
+  "image_engine": "flux.1-schnell",
+  "panel_image_paths": [
+    "output/panels/panel_1.png",
+    "output/panels/panel_2.png"
+  ],
+  "prompt": "Comic panel featuring: Shiva. Characters: Shiva: An ascetic god with matted locks and a crescent moon crown, embodying serene power. His eyes, when open, reveal the infinite cosmos. He is of a strong build, with a height that commands presence and a skin tone that glows with an ethereal light. Shiva is often depicted in meditation, wearing simple ascetic clothing, exuding a personality of balance, wisdom, and tranquility. His distinctive feature is the crescent moon on his crown, and he is known for his divine dance, the Tandava, which represents the cosmic cycle of creation and destruction.. Scene: Dynamic shot of Shiva performing the Tandava dance. His eyes are open, revealing the infinite cosmos. The earth trembles, galaxies swirl in the sky, and the ground echoes with creation and destruction. Shiva pauses, then smiles gently, resuming his dance.. Captions: Shiva: Let the balance be restored., Narrator: In the climax of his dance, the universe held its breath, waiting for his choice. With a gentle smile, Shiva wove a tapestry of balance.. Art Style: in the style of mystic-divine, , cinematic lighting, high detail. Mood: mythology. "
+}

@@ -1,0 +1,115 @@
+{
+  "story_text": "In the heart of Jiangnan, where the willow trees wept into serene waters, stood the grand estate of the Zhao family. Young Zhao Liang, a gentle soul with a poet's heart, wandered the gardens, his mind adrift on verses inspired by the beauty that surrounded him. His family, once the epitome of nobility and grace, was revered across the land.\n\nYet, beneath the surface of prosperity lay whispers of a shadow. The Zhao family had long been embroiled in a dispute over ancestral lands with the enigmatic Wu clan. As tensions simmered, Liang’s father, Zhao Ming, grew increasingly consumed by the feud, his heart hardened by the weight of legacy and pride.\n\nLiang, yearning for peace, penned verses that spoke of harmony and understanding, hoping to bridge the chasm between the families. But as the feud escalated, his words seemed powerless against the storm of animosity.\n\nOne fateful evening, as the moon cast a silver glow over the estate, Liang discovered a secret missive in his father's study. It revealed a betrayal within their ranks, a trusted ally conspiring with the Wu clan. The revelation shattered Liang's world, forcing him to confront the harsh reality of his family's decline.\n\nIn a moment of clarity, Liang chose to confront the traitor, his poetic soul now a beacon of courage. The confrontation was fierce, yet Liang's conviction prevailed, unveiling the truth to his father. Though the betrayal was quelled, it marked the beginning of the Zhao family's fall from grace.\n\nYears later, as the estate lay in ruins, Liang stood by the willow trees, his heart heavy with the weight of history. Yet, he continued to write, his verses now a testament to resilience and the enduring spirit of his family. The Zhao legacy, though tarnished, lived on through his words, echoing through the ages like a whispered promise of hope.",
+  "genre_preset": "family saga",
+  "style_preset": "classical",
+  "layout_style": "Horizontal Strip",
+  "character_description": [
+    {
+      "name": "Jia Baoyu",
+      "description": "A handsome youth with delicate features, red silk robes, and a jade pendant around his neck. In comics, he’s shown in gardens reading poetry or tearfully facing familial pressure."
+    },
+    {
+      "name": "Lin Daiyu",
+      "description": "A fragile, intelligent girl with pale skin, wearing flowing robes with lotus embroidery. She is often depicted crying or playing the zither under a cherry blossom tree."
+    }
+  ],
+  "expanded_story": "This intricate Chinese classic follows Jia Baoyu, heir of a noble family, who is more attuned to poetry and love than duty and politics. He shares a deep, doomed love with his sensitive cousin Lin Daiyu. As the family's fortunes decline due to corruption and internal decay, their romance is thwarted. Daiyu dies heartbroken, and Baoyu ultimately renounces the material world to become a monk. The novel critiques societal expectations and mourns the loss of youth and beauty.",
+  "text_engine": "openai_gpt4o",
+  "panel_count": 2,
+  "artistic_style": "classical",
+  "mood": "family saga",
+  "character_descriptions": [
+    {
+      "name": "Zhao Liang",
+      "description": "Young man with a gentle demeanor, likely in his early twenties. He has long, flowing black hair and deep brown eyes that reflect his poetic soul. His build is slender, and he stands at an average height. Liang's skin is fair, typical of someone who spends time indoors writing. He is often seen wearing traditional Chinese robes in muted colors, reflecting his calm and introspective nature. Liang is a dreamer and a peacemaker, with a heart full of empathy and creativity. He carries a small notebook and a brush pen, always ready to capture inspiration."
+    },
+    {
+      "name": "Zhao Ming",
+      "description": "Middle-aged man with an authoritative presence, likely in his late forties. He has short, graying hair and stern, dark eyes that reveal his burdened soul. Ming's build is robust, and he stands slightly taller than average. His skin is weathered from years of stress and responsibility. He wears elaborate, richly embroidered robes befitting his status as the head of the Zhao family. Ming is proud and determined, often consumed by the weight of legacy. He is frequently seen with a jade ring, a symbol of his family's heritage."
+    }
+  ],
+  "scenes": [
+    {
+      "panel": 1,
+      "description": "Wide shot of the Zhao family estate in Jiangnan, with willow trees gently swaying over serene waters. Zhao Liang, a young man with long, flowing black hair and traditional robes, stands in the garden, holding a notebook and brush pen. His expression is thoughtful and serene as he gazes at the beauty around him.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Narrator",
+          "text": "In the heart of Jiangnan, where willow trees wept into serene waters, stood the grand estate of the Zhao family.",
+          "type": "narration",
+          "location": "left"
+        },
+        {
+          "order": 2,
+          "speaker": "Zhao Liang",
+          "text": "If only my words could mend the rift between us and the Wu clan...",
+          "type": "dialogue",
+          "location": "right"
+        }
+      ]
+    },
+    {
+      "panel": 2,
+      "description": "Interior shot of Zhao Ming's study, dimly lit by moonlight. Zhao Liang stands in shock, holding an opened secret missive. His eyes are wide with disbelief. In the background, Zhao Ming, a middle-aged man with graying hair and elaborate robes, enters the room with a stern expression.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Narrator",
+          "text": "One fateful evening, a secret missive revealed a betrayal within their ranks...",
+          "type": "narration",
+          "location": "left"
+        },
+        {
+          "order": 2,
+          "speaker": "Zhao Liang",
+          "text": "Father, we have been deceived! A trusted ally conspires with the Wu clan!",
+          "type": "dialogue",
+          "location": "center"
+        },
+        {
+          "order": 3,
+          "speaker": "Zhao Ming",
+          "text": "This cannot be... We must act swiftly.",
+          "type": "dialogue",
+          "location": "right"
+        }
+      ]
+    }
+  ],
+  "current_panel_index": 1,
+  "panel_layout_details": [
+    {
+      "panel_index": 0,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 5
+    },
+    {
+      "panel_index": 1,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 432
+    }
+  ],
+  "panel_prompts": [
+    "Comic panel featuring: Zhao Liang. Characters: Zhao Liang: Young man with a gentle demeanor, likely in his early twenties. He has long, flowing black hair and deep brown eyes that reflect his poetic soul. His build is slender, and he stands at an average height. Liang's skin is fair, typical of someone who spends time indoors writing. He is often seen wearing traditional Chinese robes in muted colors, reflecting his calm and introspective nature. Liang is a dreamer and a peacemaker, with a heart full of empathy and creativity. He carries a small notebook and a brush pen, always ready to capture inspiration.. Scene: Wide shot of the Zhao family estate in Jiangnan, with willow trees gently swaying over serene waters. Zhao Liang, a young man with long, flowing black hair and traditional robes, stands in the garden, holding a notebook and brush pen. His expression is thoughtful and serene as he gazes at the beauty around him.. Captions: Narrator: In the heart of Jiangnan, where willow trees wept into serene waters, stood the grand estate of the Zhao family., Zhao Liang: If only my words could mend the rift between us and the Wu clan.... Art Style: in the style of classical, , cinematic lighting, high detail. Mood: family saga. ",
+    "Comic panel featuring: Zhao Liang, Zhao Ming. Characters: Zhao Liang: Young man with a gentle demeanor, likely in his early twenties. He has long, flowing black hair and deep brown eyes that reflect his poetic soul. His build is slender, and he stands at an average height. Liang's skin is fair, typical of someone who spends time indoors writing. He is often seen wearing traditional Chinese robes in muted colors, reflecting his calm and introspective nature. Liang is a dreamer and a peacemaker, with a heart full of empathy and creativity. He carries a small notebook and a brush pen, always ready to capture inspiration. | Zhao Ming: Middle-aged man with an authoritative presence, likely in his late forties. He has short, graying hair and stern, dark eyes that reveal his burdened soul. Ming's build is robust, and he stands slightly taller than average. His skin is weathered from years of stress and responsibility. He wears elaborate, richly embroidered robes befitting his status as the head of the Zhao family. Ming is proud and determined, often consumed by the weight of legacy. He is frequently seen with a jade ring, a symbol of his family's heritage.. Scene: Interior shot of Zhao Ming's study, dimly lit by moonlight. Zhao Liang stands in shock, holding an opened secret missive. His eyes are wide with disbelief. In the background, Zhao Ming, a middle-aged man with graying hair and elaborate robes, enters the room with a stern expression.. Captions: Narrator: One fateful evening, a secret missive revealed a betrayal within their ranks..., Zhao Liang: Father, we have been deceived! A trusted ally conspires with the Wu clan!, Zhao Ming: This cannot be... We must act swiftly.. Art Style: in the style of classical, , cinematic lighting, high detail. Mood: family saga. "
+  ],
+  "image_engine": "sd21",
+  "panel_image_paths": [
+    "output/panels/panel_1.png",
+    "output/panels/panel_2.png"
+  ],
+  "prompt": "Comic panel featuring: Zhao Liang, Zhao Ming. Characters: Zhao Liang: Young man with a gentle demeanor, likely in his early twenties. He has long, flowing black hair and deep brown eyes that reflect his poetic soul. His build is slender, and he stands at an average height. Liang's skin is fair, typical of someone who spends time indoors writing. He is often seen wearing traditional Chinese robes in muted colors, reflecting his calm and introspective nature. Liang is a dreamer and a peacemaker, with a heart full of empathy and creativity. He carries a small notebook and a brush pen, always ready to capture inspiration. | Zhao Ming: Middle-aged man with an authoritative presence, likely in his late forties. He has short, graying hair and stern, dark eyes that reveal his burdened soul. Ming's build is robust, and he stands slightly taller than average. His skin is weathered from years of stress and responsibility. He wears elaborate, richly embroidered robes befitting his status as the head of the Zhao family. Ming is proud and determined, often consumed by the weight of legacy. He is frequently seen with a jade ring, a symbol of his family's heritage.. Scene: Interior shot of Zhao Ming's study, dimly lit by moonlight. Zhao Liang stands in shock, holding an opened secret missive. His eyes are wide with disbelief. In the background, Zhao Ming, a middle-aged man with graying hair and elaborate robes, enters the room with a stern expression.. Captions: Narrator: One fateful evening, a secret missive revealed a betrayal within their ranks..., Zhao Liang: Father, we have been deceived! A trusted ally conspires with the Wu clan!, Zhao Ming: This cannot be... We must act swiftly.. Art Style: in the style of classical, , cinematic lighting, high detail. Mood: family saga. "
+}

@@ -1,0 +1,112 @@
+{
+  "story_text": "In the celestial tapestry of the cosmos, where stars whispered ancient secrets, Vishnu, the Preserver, gazed upon the Earth. The world, once a symphony of harmony, now trembled under the shadow of chaos. Dark forces conspired to unravel the threads of dharma, threatening to plunge creation into eternal night.\n\nVishnu, in his divine wisdom, chose to descend. He manifested as Narayan, a radiant being with skin like the twilight sky and eyes that mirrored the infinite ocean. His presence rippled through the realms, a beacon of hope in the gathering gloom.\n\nUpon the Earth, Narayan discovered a land ravaged by fear and despair. The rivers ran dry, and the winds carried the mournful cries of the oppressed. At the heart of this turmoil lay a sinister force, a demon cloaked in illusion, feeding on the world's suffering.\n\nWith each step, Narayan's resolve grew. He journeyed through forests of emerald and mountains crowned with snow, gathering allies and wisdom. The people, inspired by his courage, began to remember the forgotten songs of unity and strength.\n\nIn the shadow of a dying sun, Narayan confronted the demon. Their battle shook the heavens, a cosmic dance of light and shadow. In a moment of divine clarity, Narayan realized the demon's power lay in the fear it sowed. With a voice that echoed through eternity, he sang a hymn of love and truth, dispelling the darkness.\n\nThe world exhaled, reborn in the light of dharma restored. As Narayan ascended back to the celestial realms, the Earth flourished, a testament to the enduring power of hope and the eternal dance of the divine.",
+  "genre_preset": "mythology",
+  "style_preset": "divine-cosmic",
+  "layout_style": "Horizontal Strip",
+  "character_description": [
+    {
+      "name": "Lord Vishnu",
+      "description": "Vishnu is portrayed with sky-blue skin, a serene face, and four arms holding the conch (shankha), discus (chakra), mace (gada), and lotus (padma). He wears golden silk, a jeweled crown, and a radiant aura. In comics, he is often shown seated on the serpent Ananta in the cosmic ocean."
+    },
+    {
+      "name": "Avatars of Vishnu",
+      "description": "The ten avatars include Matsya (fish), Kurma (tortoise), Varaha (boar), Narasimha (half-lion), Vamana (dwarf), Parashurama, Rama, Krishna, Buddha, and Kalki. Each form has distinct comic characteristics—for instance, Narasimha with a lion face tearing apart a demon, and Vamana shown as a tiny Brahmin with radiant eyes."
+    }
+  ],
+  "expanded_story": "The Vishnu Purana recounts the cosmic functions of Lord Vishnu, focusing on his incarnations across the ages to preserve balance and destroy evil. From saving the world as a fish (Matsya) to teaching righteousness as Krishna, each avatar serves a divine purpose. The Purana blends cosmology, philosophy, and stories of virtue, illustrating how the divine manifests in every era to uphold dharma.",
+  "text_engine": "openai_gpt4o",
+  "panel_count": 2,
+  "artistic_style": "divine-cosmic",
+  "mood": "mythology",
+  "character_descriptions": [
+    {
+      "name": "Vishnu",
+      "description": "A divine being, often depicted as a male deity, with a majestic and serene presence. He embodies wisdom and preservation, often portrayed with blue skin symbolizing the infinite sky. Vishnu's eyes are deep and all-knowing, reflecting the vastness of the ocean. His attire is regal, often adorned with golden ornaments and a crown, exuding authority and grace. He carries a calm and composed demeanor, embodying the essence of balance and protection."
+    },
+    {
+      "name": "Narayan",
+      "description": "A radiant being with skin like the twilight sky, suggesting a deep, dark blue hue. His eyes mirror the infinite ocean, conveying depth and compassion. Narayan is of a strong and noble build, with an aura of divine light surrounding him. He wears flowing garments that shimmer with celestial energy, often depicted in shades of gold and white, symbolizing purity and divinity. His personality is courageous and inspiring, a beacon of hope and unity. Narayan is characterized by his unwavering resolve and the ability to instill hope in others."
+    },
+    {
+      "name": "The Demon",
+      "description": "A sinister force cloaked in illusion, often depicted as a shadowy and amorphous figure. The demon exudes an aura of fear and despair, feeding on the world's suffering. Its appearance is dark and foreboding, with eyes that glow with malevolent intent. The demon's form is constantly shifting, making it elusive and hard to pin down. It embodies chaos and deception, using fear as its primary weapon. The demon's presence is unsettling, casting a pall over the land it inhabits."
+    }
+  ],
+  "scenes": [
+    {
+      "panel": 1,
+      "description": "Wide shot of the celestial cosmos, stars twinkling like ancient eyes. Vishnu, a majestic figure with blue skin and golden attire, stands on a cloud, looking down at Earth with deep, all-knowing eyes. The planet below is shrouded in shadows, with hints of chaos swirling around.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Narrator",
+          "text": "In the celestial tapestry of the cosmos, Vishnu, the Preserver, gazed upon the Earth, now trembling under the shadow of chaos.",
+          "type": "narration",
+          "location": "left"
+        },
+        {
+          "order": 2,
+          "speaker": "Vishnu",
+          "text": "The world needs hope. I must descend.",
+          "type": "dialogue",
+          "location": "right"
+        }
+      ]
+    },
+    {
+      "panel": 2,
+      "description": "Epic scene of Narayan, with twilight blue skin and eyes like the ocean, standing on a hill overlooking a devastated land. His flowing garments shimmer with celestial light. In the distance, a shadowy demon looms, its form constantly shifting. Narayan stands resolute, his aura a beacon of hope.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Narrator",
+          "text": "Narayan, a radiant being, descended upon the Earth, a beacon of hope in the gathering gloom.",
+          "type": "narration",
+          "location": "left"
+        },
+        {
+          "order": 2,
+          "speaker": "Narayan",
+          "text": "Fear shall not reign. I will restore the light.",
+          "type": "dialogue",
+          "location": "right"
+        }
+      ]
+    }
+  ],
+  "current_panel_index": 1,
+  "panel_layout_details": [
+    {
+      "panel_index": 0,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 5
+    },
+    {
+      "panel_index": 1,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 432
+    }
+  ],
+  "panel_prompts": [
+    "Comic panel featuring: Vishnu. Characters: Vishnu: A divine being, often depicted as a male deity, with a majestic and serene presence. He embodies wisdom and preservation, often portrayed with blue skin symbolizing the infinite sky. Vishnu's eyes are deep and all-knowing, reflecting the vastness of the ocean. His attire is regal, often adorned with golden ornaments and a crown, exuding authority and grace. He carries a calm and composed demeanor, embodying the essence of balance and protection.. Scene: Wide shot of the celestial cosmos, stars twinkling like ancient eyes. Vishnu, a majestic figure with blue skin and golden attire, stands on a cloud, looking down at Earth with deep, all-knowing eyes. The planet below is shrouded in shadows, with hints of chaos swirling around.. Captions: Narrator: In the celestial tapestry of the cosmos, Vishnu, the Preserver, gazed upon the Earth, now trembling under the shadow of chaos., Vishnu: The world needs hope. I must descend.. Art Style: in the style of divine-cosmic, , cinematic lighting, high detail. Mood: mythology. ",
+    "Comic panel featuring: Narayan. Characters: Narayan: A radiant being with skin like the twilight sky, suggesting a deep, dark blue hue. His eyes mirror the infinite ocean, conveying depth and compassion. Narayan is of a strong and noble build, with an aura of divine light surrounding him. He wears flowing garments that shimmer with celestial energy, often depicted in shades of gold and white, symbolizing purity and divinity. His personality is courageous and inspiring, a beacon of hope and unity. Narayan is characterized by his unwavering resolve and the ability to instill hope in others.. Scene: Epic scene of Narayan, with twilight blue skin and eyes like the ocean, standing on a hill overlooking a devastated land. His flowing garments shimmer with celestial light. In the distance, a shadowy demon looms, its form constantly shifting. Narayan stands resolute, his aura a beacon of hope.. Captions: Narrator: Narayan, a radiant being, descended upon the Earth, a beacon of hope in the gathering gloom., Narayan: Fear shall not reign. I will restore the light.. Art Style: in the style of divine-cosmic, , cinematic lighting, high detail. Mood: mythology. "
+  ],
+  "image_engine": "sd21",
+  "panel_image_paths": [
+    "output/panels/panel_1.png",
+    "output/panels/panel_2.png"
+  ],
+  "prompt": "Comic panel featuring: Narayan. Characters: Narayan: A radiant being with skin like the twilight sky, suggesting a deep, dark blue hue. His eyes mirror the infinite ocean, conveying depth and compassion. Narayan is of a strong and noble build, with an aura of divine light surrounding him. He wears flowing garments that shimmer with celestial energy, often depicted in shades of gold and white, symbolizing purity and divinity. His personality is courageous and inspiring, a beacon of hope and unity. Narayan is characterized by his unwavering resolve and the ability to instill hope in others.. Scene: Epic scene of Narayan, with twilight blue skin and eyes like the ocean, standing on a hill overlooking a devastated land. His flowing garments shimmer with celestial light. In the distance, a shadowy demon looms, its form constantly shifting. Narayan stands resolute, his aura a beacon of hope.. Captions: Narrator: Narayan, a radiant being, descended upon the Earth, a beacon of hope in the gathering gloom., Narayan: Fear shall not reign. I will restore the light.. Art Style: in the style of divine-cosmic, , cinematic lighting, high detail. Mood: mythology. "
+}

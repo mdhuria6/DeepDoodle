@@ -1,0 +1,126 @@
+{
+  "story_text": "In the ancient land of Aranyavarta, where the sun kissed the peaks of the Himalayas and the rivers sang hymns of the divine, there reigned the mighty House of Vritra. The kingdom was ruled by King Dhruv, a sovereign of unparalleled wisdom and strength. Yet, beneath the surface of his prosperous reign, a shadow brewed—a conflict with his cousin, Prince Arin, whose heart burned with ambition and envy.\n\nThe heart of the conflict lay in an ancient prophecy, whispered by the sages: \"When the blood of kin spills upon sacred soil, the fate of dharma shall be sealed.\" Arin, driven by a desire to claim the throne, saw this as his destiny. He gathered an army, and the drums of war echoed through the valleys, calling warriors to arms.\n\nAs the armies clashed, the skies darkened, and the earth trembled with the fury of battle. The air was thick with the cries of valor and the lament of the fallen. Dhruv, wielding the legendary sword of his ancestors, faced Arin on the battlefield. Their duel was a tempest of steel and will, each strike a testament to their lineage.\n\nIn a moment of revelation, Dhruv realized the true meaning of the prophecy. It was not the bloodshed that would determine the fate of dharma, but the choice to end it. With a heavy heart, he lowered his sword, offering peace to Arin. The act of mercy shattered the cycle of vengeance, and the heavens wept with relief.\n\nIn the aftermath, the kingdom was united under Dhruv's rule, and the tale of his compassion became legend. The land flourished, and the legacy of dharma endured, a beacon of hope for generations to come.",
+  "genre_preset": "mythology",
+  "style_preset": "epic",
+  "layout_style": "Horizontal Strip",
+  "character_description": [
+    {
+      "name": "Arjuna",
+      "description": "Arjuna is a skilled warrior with a bronze complexion, long flowing hair tied into a warrior’s knot, and wears silver battle armor with blue silk. He wields a massive celestial bow (Gandiva) and is often shown with a focused, introspective expression. His comic pose often depicts him beside Krishna on the chariot."
+    },
+    {
+      "name": "Krishna",
+      "description": "Krishna appears with deep blue skin, adorned in yellow silk dhoti and a peacock feather crown. His expression is calm and wise, with a divine aura surrounding him. He is often depicted as Arjuna’s charioteer with the reins in one hand and the conch (Panchajanya) in the other."
+    },
+    {
+      "name": "Duryodhana",
+      "description": "Duryodhana is depicted with broad shoulders, dusky skin, and a crown with serpent motifs. His armor is black and gold, and his expression is often proud and confrontational. His posture reflects aggression and confidence, usually with his mace (gada) in hand."
+    }
+  ],
+  "expanded_story": "The Mahabharata tells of the rivalry between the Pandavas and Kauravas for the throne of Hastinapura. The conflict culminates in the Kurukshetra war, where gods, sages, and mortals are all drawn into a battle of dharma. Krishna guides Arjuna through the Bhagavad Gita, teaching him the path of righteousness. The war ends with heavy loss, and the Pandavas eventually rule, leaving behind profound lessons on duty, fate, and morality.",
+  "text_engine": "openai_gpt4o",
+  "panel_count": 2,
+  "artistic_style": "epic",
+  "mood": "mythology",
+  "character_descriptions": [
+    {
+      "name": "King Dhruv",
+      "description": "A middle-aged man with a commanding presence, possessing long black hair streaked with silver, deep-set brown eyes, and a muscular build. He stands tall at around 6 feet with a sun-kissed complexion. Dhruv wears regal armor adorned with intricate patterns and a flowing royal blue cape. Known for his unparalleled wisdom and strength, he carries the legendary sword of his ancestors, a symbol of his lineage and authority."
+    },
+    {
+      "name": "Prince Arin",
+      "description": "A young man in his early 30s with short, raven-black hair and piercing green eyes. He has a lean but athletic build and stands at approximately 5'10\". Arin's skin is fair, and he is often seen in dark, ornate armor that reflects his ambitious and envious nature. His demeanor is intense and driven, marked by a constant desire for power and recognition."
+    }
+  ],
+  "scenes": [
+    {
+      "panel": 1,
+      "description": "Wide shot of the majestic kingdom of Aranyavarta. The sun rises over the Himalayan peaks, casting a golden glow. In the foreground, King Dhruv stands on a balcony, his regal armor glinting in the light. Behind him, Prince Arin watches with a determined expression, his dark armor contrasting with the bright morning.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Narrator",
+          "text": "In the ancient land of Aranyavarta, where the sun kissed the peaks of the Himalayas, King Dhruv reigned with wisdom and strength.",
+          "type": "narration",
+          "location": "left"
+        },
+        {
+          "order": 2,
+          "speaker": "Narrator",
+          "text": "Yet, beneath the surface, a shadow brewed—a conflict with his cousin, Prince Arin, driven by ambition and envy.",
+          "type": "narration",
+          "location": "right"
+        },
+        {
+          "order": 3,
+          "speaker": "Prince Arin",
+          "text": "The throne is my destiny, sealed by the prophecy.",
+          "type": "dialogue",
+          "location": "right"
+        }
+      ]
+    },
+    {
+      "panel": 2,
+      "description": "Epic battlefield scene. King Dhruv and Prince Arin face each other amidst chaos. The sky is dark with storm clouds, and the ground shakes from the clash of armies. Dhruv, with his legendary sword, stands firm, while Arin charges with determination. Suddenly, Dhruv lowers his sword, his face showing a mix of realization and resolve.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Narrator",
+          "text": "As the armies clashed, the skies darkened. Dhruv faced Arin, their duel a tempest of steel and will.",
+          "type": "narration",
+          "location": "left"
+        },
+        {
+          "order": 2,
+          "speaker": "King Dhruv",
+          "text": "It is not bloodshed, but the choice to end it, that seals our fate.",
+          "type": "dialogue",
+          "location": "center"
+        },
+        {
+          "order": 3,
+          "speaker": "Narrator",
+          "text": "With mercy, Dhruv offered peace, shattering the cycle of vengeance.",
+          "type": "narration",
+          "location": "right"
+        }
+      ]
+    }
+  ],
+  "current_panel_index": 1,
+  "panel_layout_details": [
+    {
+      "panel_index": 0,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 5
+    },
+    {
+      "panel_index": 1,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 432
+    }
+  ],
+  "panel_prompts": [
+    "Comic panel featuring: King Dhruv, Prince Arin. Characters: King Dhruv: A middle-aged man with a commanding presence, possessing long black hair streaked with silver, deep-set brown eyes, and a muscular build. He stands tall at around 6 feet with a sun-kissed complexion. Dhruv wears regal armor adorned with intricate patterns and a flowing royal blue cape. Known for his unparalleled wisdom and strength, he carries the legendary sword of his ancestors, a symbol of his lineage and authority. | Prince Arin: A young man in his early 30s with short, raven-black hair and piercing green eyes. He has a lean but athletic build and stands at approximately 5'10\". Arin's skin is fair, and he is often seen in dark, ornate armor that reflects his ambitious and envious nature. His demeanor is intense and driven, marked by a constant desire for power and recognition.. Scene: Wide shot of the majestic kingdom of Aranyavarta. The sun rises over the Himalayan peaks, casting a golden glow. In the foreground, King Dhruv stands on a balcony, his regal armor glinting in the light. Behind him, Prince Arin watches with a determined expression, his dark armor contrasting with the bright morning.. Captions: Narrator: In the ancient land of Aranyavarta, where the sun kissed the peaks of the Himalayas, King Dhruv reigned with wisdom and strength., Narrator: Yet, beneath the surface, a shadow brewed—a conflict with his cousin, Prince Arin, driven by ambition and envy., Prince Arin: The throne is my destiny, sealed by the prophecy.. Art Style: in the style of epic, , cinematic lighting, high detail. Mood: mythology. ",
+    "Comic panel featuring: King Dhruv, Prince Arin. Characters: King Dhruv: A middle-aged man with a commanding presence, possessing long black hair streaked with silver, deep-set brown eyes, and a muscular build. He stands tall at around 6 feet with a sun-kissed complexion. Dhruv wears regal armor adorned with intricate patterns and a flowing royal blue cape. Known for his unparalleled wisdom and strength, he carries the legendary sword of his ancestors, a symbol of his lineage and authority. | Prince Arin: A young man in his early 30s with short, raven-black hair and piercing green eyes. He has a lean but athletic build and stands at approximately 5'10\". Arin's skin is fair, and he is often seen in dark, ornate armor that reflects his ambitious and envious nature. His demeanor is intense and driven, marked by a constant desire for power and recognition.. Scene: Epic battlefield scene. King Dhruv and Prince Arin face each other amidst chaos. The sky is dark with storm clouds, and the ground shakes from the clash of armies. Dhruv, with his legendary sword, stands firm, while Arin charges with determination. Suddenly, Dhruv lowers his sword, his face showing a mix of realization and resolve.. Captions: Narrator: As the armies clashed, the skies darkened. Dhruv faced Arin, their duel a tempest of steel and will., King Dhruv: It is not bloodshed, but the choice to end it, that seals our fate., Narrator: With mercy, Dhruv offered peace, shattering the cycle of vengeance.. Art Style: in the style of epic, , cinematic lighting, high detail. Mood: mythology. "
+  ],
+  "image_engine": "flux.1-schnell",
+  "panel_image_paths": [
+    "output/panels/panel_1.png",
+    "output/panels/panel_2.png"
+  ],
+  "prompt": "Comic panel featuring: King Dhruv, Prince Arin. Characters: King Dhruv: A middle-aged man with a commanding presence, possessing long black hair streaked with silver, deep-set brown eyes, and a muscular build. He stands tall at around 6 feet with a sun-kissed complexion. Dhruv wears regal armor adorned with intricate patterns and a flowing royal blue cape. Known for his unparalleled wisdom and strength, he carries the legendary sword of his ancestors, a symbol of his lineage and authority. | Prince Arin: A young man in his early 30s with short, raven-black hair and piercing green eyes. He has a lean but athletic build and stands at approximately 5'10\". Arin's skin is fair, and he is often seen in dark, ornate armor that reflects his ambitious and envious nature. His demeanor is intense and driven, marked by a constant desire for power and recognition.. Scene: Epic battlefield scene. King Dhruv and Prince Arin face each other amidst chaos. The sky is dark with storm clouds, and the ground shakes from the clash of armies. Dhruv, with his legendary sword, stands firm, while Arin charges with determination. Suddenly, Dhruv lowers his sword, his face showing a mix of realization and resolve.. Captions: Narrator: As the armies clashed, the skies darkened. Dhruv faced Arin, their duel a tempest of steel and will., King Dhruv: It is not bloodshed, but the choice to end it, that seals our fate., Narrator: With mercy, Dhruv offered peace, shattering the cycle of vengeance.. Art Style: in the style of epic, , cinematic lighting, high detail. Mood: mythology. "
+}
