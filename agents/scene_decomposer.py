@@ -84,6 +84,15 @@ def scene_decomposer(state: ComicGenerationState, prompt_file: str = "hybrid_sce
 				continue
 			if len(scenes) != panel_count:
 				logger.warning(f"   > Validation Failed: Expected {panel_count} panels, got {len(scenes)}.")
+				if len(scenes) < panel_count:
+					logger.warning("   > Not enough scenes generated. Retrying...")
+				else:
+					logger.warning("   > Too many scenes generated. Retrying...")
+					if attempt == max_retries - 1:
+						logger.error("   > Too many scenes generated. Truncating to panel count.")
+						scenes = scenes[:panel_count]
+						break
+				# If we reach here, we need to retry
 				continue
 			logger.info(f"   > Successfully decomposed and validated into {len(scenes)} scenes.")
 			logger.debug(f"   > Scene: {scenes}")

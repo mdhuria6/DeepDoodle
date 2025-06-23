@@ -22,7 +22,7 @@ def format_caption_text(caption: Caption) -> str:
     elif caption_type == "narrator" and speaker:
         return f"{speaker}: {text}"
     elif caption_type == "narration":
-        return f"Narrator: {text}"
+        return f"{text}"
     elif caption_type == "caption" and speaker:
         return f"{speaker}: {text}"
     elif caption_type == "caption":
@@ -369,7 +369,7 @@ def draw_caption_bubbles(
             # print(f"DEBUG [caption_utils.draw_caption_bubbles]: Drawing NARRATOR bubble. Outline: '{current_border_color}', Width: {current_border_width}") # DEBUG print
             draw.rectangle( # Narrator boxes are typically rectangular
                 (bg_x0, bg_y0, bg_x1, bg_y1),
-                fill=style_config['caption_background_color'], # Use specific narrator background
+                fill=style_config.get('narrator_background_color', style_config['caption_background_color']), # Use specific narrator background
                 outline=current_border_color,
                 width=current_border_width
             )

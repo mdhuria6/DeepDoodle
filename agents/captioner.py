@@ -49,7 +49,7 @@ def add_texts_to_image(
         sfx_text_color=SFX_TEXT_COLOR, 
         sfx_font_path=SFX_FONT_PATH,
         border_color="black",
-        border_width=1  # Changed from 3 back to 1
+        border_width=1
     )
 
     # 2. Load image (or error fallback)
@@ -93,7 +93,7 @@ def captioner(state: ComicGenerationState) -> dict:
     """Node 6: Adds captions to each sized panel image."""
     print("--- AGENT: Captioner ---")
 
-    print("   > Captioning sized panels...", state)
+    print("   > Captioning sized panels...")
     sized_panel_paths = state.get("sized_panel_image_paths", [])
     scenes_data = state.get("scenes", []) 
     layout_style = state.get("layout_style", "grid_2x2")
@@ -167,14 +167,8 @@ def captioner(state: ComicGenerationState) -> dict:
         except Exception as e:
             print(f"Error saving captioned image {output_path_captioned}: {e}")
 
-    print("cdfdvdfv",{
-        "panel_images_with_captions_paths": panel_images_with_captions_paths,
-        "scenes": scenes_data,
-        "layout_style": layout_style
-    })
     return {
         "panel_images_with_captions_paths": panel_images_with_captions_paths,
         "scenes": scenes_data,
         "layout_style": layout_style
     }
-

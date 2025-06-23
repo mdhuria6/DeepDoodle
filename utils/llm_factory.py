@@ -17,7 +17,7 @@ class ModelWrapper:
             return response.content if hasattr(response, 'content') else str(response)
         elif self.engine_type == "huggingface":
             model = self.model_name or kwargs.get("model", "mistralai/Mixtral-8x7B-Instruct-v0.1")
-            max_tokens = kwargs.get("max_tokens", 1000)
+            max_tokens = kwargs.get("max_tokens", 10000)
             temperature = kwargs.get("temperature", 0.7)
             top_p = kwargs.get("top_p", 0.9)
             return self.engine.text_generation(

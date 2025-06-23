@@ -41,6 +41,14 @@ def _generate_placeholder_image(target_w: int, target_h: int, image_path: str):
     img.save(image_path)
     print(f"   > Saved placeholder image to: {image_path}")
 
+# --- Negative Prompt --- 
+# A general-purpose negative prompt to discourage the model from generating unwanted elements.
+NEGATIVE_PROMPT = (
+    "text, words, letters, characters, writing, signature, watermark, font, typography, "
+    "speech bubble, dialogue bubble, caption, comic panel borders, "
+    "low quality, blurry, bad anatomy, distorted, poorly drawn, artifacts, ugly, noise"
+)
+
 def _generate_image_with_bedrock(
     prompt: str, 
     target_w: int, 
@@ -67,7 +75,7 @@ def _generate_image_with_bedrock(
             "taskType": "TEXT_IMAGE",
             "textToImageParams": {
                 "text": prompt,
-                "negativeText": "text, words, letters, characters, writing, signature, watermark, font, typography, low quality, blurry, bad anatomy, distorted, poorly drawn, artifacts"
+                "negativeText": NEGATIVE_PROMPT
             },
             "imageGenerationConfig": {
                 "numberOfImages": 1,
@@ -90,7 +98,7 @@ def _generate_image_with_bedrock(
             # Let's add common negative prompts for quality and to avoid text, but not restrict style.
             "text_prompts": [
                 {"text": prompt, "weight": 1.0},
-                {"text": "text, words, letters, characters, writing, signature, watermark, font, typography, low quality, blurry, bad anatomy, distorted, poorly drawn, artifacts", "weight": -1.0}
+                {"text": NEGATIVE_PROMPT, "weight": -1.0}
             ],
         }
     else:
@@ -201,7 +209,12 @@ def _generate_image_with_huggingface(prompt: str, width: int, height: int, style
     full_prompt = f"{prompt}, style: {style}"
 
     # Call text-to-image model inference
-    response = client.text_to_image(full_prompt, width=width, height=height)
+    response = client.text_to_image(
+        full_prompt, 
+        width=width, 
+        height=height,
+        negative_prompt=NEGATIVE_PROMPT
+    )
 
     # Handle possible response types
     if isinstance(response, Image.Image):
