@@ -1,7 +1,9 @@
+import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
+import sys
 import streamlit as st
 from PIL import Image
-import os
-import sys
 import shutil # Added shutil import
 
 # Add project root to Python path
@@ -17,10 +19,14 @@ from configs import (
 ) #type: ignore
 from models.comic_generation_state import ComicGenerationState # Import from models
 
-# from agents.image_validator import ImageValidator
-# image_validator = ImageValidator()
-
 # --- Page Configuration ---
+# Constants for layout options
+LAYOUT_2X2_GRID = "2x2 Grid"
+LAYOUT_FEATURED_PANEL = "Featured Panel"
+LAYOUT_MIXED_GRID = "Mixed Grid"
+LAYOUT_HORIZONTAL_STRIP = "Horizontal Strip"
+LAYOUT_VERTICAL_STRIP = "Vertical Strip"
+
 st.set_page_config(page_title="DeepDoodle: AI Comic Generator", layout="wide", initial_sidebar_state="expanded")
 
 # --- CSS Styling ---
@@ -109,18 +115,18 @@ with st.sidebar:
     st.header("📄 Page Layout")
     panel_count = st.slider("Number of Panels", min_value=1, max_value=8, value=4)
     layout_options = {
-        "2x2 Grid": "grid_2x2", 
-        "Horizontal Strip": "horizontal_strip",
-        "Vertical Strip": "vertical_strip",
-        "Featured Panel": "feature_left", 
-        "Mixed Grid": "mixed_2x2"
+        LAYOUT_2X2_GRID: "grid_2x2", 
+        LAYOUT_HORIZONTAL_STRIP: "horizontal_strip",
+        LAYOUT_VERTICAL_STRIP: "vertical_strip",
+        LAYOUT_FEATURED_PANEL: "feature_left", 
+        LAYOUT_MIXED_GRID: "mixed_2x2"
     }
     selected_layout_name = st.selectbox("Select Panel Layout", list(layout_options.keys()))
     layout = layout_options[selected_layout_name]
     
-    if panel_count < 3 and selected_layout_name == "Featured Panel":
-        st.warning("'Featured Panel' layout requires at least 3 panels.")
-    if panel_count < 4 and selected_layout_name in ["2x2 Grid", "Mixed Grid"]:
+    if panel_count < 3 and selected_layout_name == LAYOUT_FEATURED_PANEL:
+        st.warning(f"'{LAYOUT_FEATURED_PANEL}' layout requires at least 3 panels.")
+    if panel_count < 4 and selected_layout_name in [LAYOUT_2X2_GRID, LAYOUT_MIXED_GRID]:
         st.warning(f"'{selected_layout_name}' layout requires at least 4 panels.")
     
     st.markdown("---")
@@ -135,9 +141,9 @@ if generate_button:
     if not story_input.strip():
         st.error("Please provide a story first!")
         is_valid = False
-    if panel_count < 3 and selected_layout_name == "Featured Panel":
+    if panel_count < 3 and selected_layout_name == LAYOUT_FEATURED_PANEL:
         is_valid = False
-    if panel_count < 4 and selected_layout_name in ["2x2 Grid", "Mixed Grid"]:
+    if panel_count < 4 and selected_layout_name in [LAYOUT_2X2_GRID, LAYOUT_MIXED_GRID]:
         is_valid = False
 
     if is_valid:
@@ -147,8 +153,8 @@ if generate_button:
             inputs = {
                 "story_text": story_input,
                 "panel_count": panel_count,
-                "style_preset": style if style != "auto" else "Gritty Noir Comic Art",
-                "genre_preset": mood if mood != "auto" else "Suspenseful",
+                "style_preset": style,
+                "genre_preset": mood,
                 "layout_style": layout,
                 "text_engine": text_engine,
                 "image_engine": image_engine,
