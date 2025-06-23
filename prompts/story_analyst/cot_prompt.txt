@@ -14,16 +14,16 @@ Step 3: Write a concise, visually rich description for each character. Ensure th
 
 Step 4: Package all descriptions into the following JSON format:
 
-{
+{{
   "character_descriptions": [
-    {
+    {{
       "name": "Character Name",
       "description": "Detailed visual description suitable for illustration."
-    }
+    }}
   ]
-}
+}}
 
-Important: Return only the final JSON object as your output.
+Important: Output ONLY the raw JSON object, with no Markdown, no triple backticks, and no code block formatting.
 
 Story:
 {story_text}

@@ -91,7 +91,7 @@ def plot_text_generation_metrics(csv_path: str, output_dir: str):
     plt.close()
 
     # 2. Line plot for all metrics
-    plt.figure(figsize=(8, 16))
+    plt.figure(figsize=(12, 8))
     for metric in ["meteor", "rougeL_f1", "bert_f1"]:
         plt.plot(df["case_id"], df[metric], marker="o", label=metric)
     plt.title("Metric Scores by Test Case")
@@ -103,7 +103,7 @@ def plot_text_generation_metrics(csv_path: str, output_dir: str):
     plt.close()
 
     # 3. Boxplot for metric distribution
-    plt.figure(figsize=(8, 16))
+    plt.figure(figsize=(12, 8))
     melted_df = df.melt(id_vars=["case_id"], value_vars=["meteor", "rougeL_f1", "bert_f1"])
     sns.boxplot(x="variable", y="value", data=melted_df)
     plt.title("Distribution of Text Generation Metrics")
