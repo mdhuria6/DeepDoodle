@@ -13,6 +13,7 @@ Critical Rules:
 2. Strict JSON Output: The output MUST be a single, valid JSON array of panel objects. Do not include any text, explanations, or markdown formatting like triple backticks or headers before or after the JSON array.
 3. Purely Visual Descriptions: The description field is for the artist. It must only contain visual information (camera shots, character poses, environment, lighting). It must NOT contain dialogue, narration, or sound effects.
 4. Schema Adherence: All fields (panel, description, captions, order, speaker, text, type, location) are mandatory as per the schema. For dialogue, location must be one of "left", "right", "center", or "auto".
+5. Strict Number Panels: Exactly {panel_count} number of panels should be created.
 
 JSON Schema:
 [

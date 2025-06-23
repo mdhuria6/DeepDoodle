@@ -1,0 +1,96 @@
+{
+  "story_text": "In the year 2047, Earth had become a shadow of itself, shrouded in the remnants of human civilization. Dr. Lena Hart, a renowned astrobiologist, stood on the desolate shores of what was once Manhattan, scanning the horizon where alien ships hovered like dark clouds.\n\nThe invasion had begun subtly. Signals masked as cosmic noise were first detected by Lena's team, dismissed by many as anomalies. As these signals grew clearer, so did the intentions of the visitors. Massive ships had appeared, unleashing drones that orbited Earth, disabling all electronic communications and causing global panic.\n\nLena had been working tirelessly in a hidden lab, trying to decode the alien technology. With each passing day, the drones descended lower, studying, watching. Humanity's military efforts to retaliate were futile. The drones were impervious to every attack.\n\nThe climax of Lena's efforts came one stormy night when, through a combination of alien tech and human ingenuity, she managed to hack into a drone's communication network. What she discovered was chilling: Earth was to be terraformed, its atmosphere altered to suit the aliens, rendering it uninhabitable for humans.\n\nArmed with this knowledge, Lena faced a dire choice: release this information to the remnants of world governments, sparking mass chaos, or seek a diplomatic solution with beings they did not understand.\n\nChoosing hope over despair, Lena used the hacked network to send a message of peace and coexistence. The response was immediate and surprising—the drones retreated slightly, hovering as if in contemplation.\n\nIn the days that followed, the world waited in bated breath for Lena's gamble to yield results. The resolution remained uncertain, but for the first time since the dark ships appeared, there was a glimmer of hope. Humanity had not won, but they had perhaps earned a chance to survive and negotiate on their terms.",
+  "genre_preset": "sci-fi",
+  "style_preset": "realistic",
+  "layout_style": "Horizontal Strip",
+  "character_description": [
+    {
+      "name": "Commander Elena Vasquez",
+      "description": "Elena is a 38-year-old military tactician with short-cropped black hair, deep-set brown eyes, and a scar over her right eyebrow. She wears a high-tech black and grey armored suit with red LED accents and an Earth Resistance emblem on the chest. Her build is lean and muscular, and she carries a plasma pistol holstered at her thigh. Calm under pressure, she exhibits fierce loyalty to her squad and a quiet grief over her lost family."
+    },
+    {
+      "name": "Xel'tor",
+      "description": "Xel’tor is a towering alien warrior from the Zahrak Dominion, standing 8 feet tall with metallic silver-blue skin that shimmers like liquid armor. His four glowing cyan eyes are vertically aligned, and he has bio-mechanical tendrils emerging from his shoulders. He wears an exosuit with pulsating organic tech, and speaks in a deep, resonant voice. Once a ruthless invader, he begins questioning the morality of the conquest after observing human resilience."
+    }
+  ],
+  "expanded_story": "The skies tore open above every major city as Zahrak warships descended, unleashing biomechanical troops and orbital strikes. Earth’s defenses collapsed within hours—except for a single resistance group led by Commander Elena Vasquez. In the ruins of New York, she leads a desperate counter-offensive, her team scavenging alien tech to mount guerrilla strikes. Meanwhile, Xel’tor, a Zahrak warlord bred for conquest, begins to study humanity closer. After witnessing Elena save a child amidst the chaos, he starts to feel something foreign—doubt. As resistance and Zahrak forces clash in a decimated Manhattan, Elena and Xel’tor’s paths converge. In a tense stand-off, Elena offers peace through alliance against a more sinister faction of Zahrak intent on planetary extinction. Torn between loyalty and conscience, Xel’tor must decide: obey the empire, or fight beside the very species he came to destroy.",
+  "image_engine": "flux.1-schnell",
+  "text_engine": "openai_gpt4",
+  "panel_count": 2,
+  "artistic_style": "realistic",
+  "mood": "sci-fi",
+  "character_descriptions": [
+    {
+      "name": "Dr. Lena Hart",
+      "description": "Renowned astrobiologist, possibly in her late 30s to early 40s. She has sharp, intelligent eyes and short, practical dark hair. Her build is average, leaning towards slender, and she stands at a medium height. Her skin tone is fair. Typically wears utilitarian clothing suited for lab work, such as a lab coat over a comfortable shirt and trousers, with sturdy boots. She is determined, resourceful, and deeply committed to her scientific pursuits. Often seen with various gadgets or tools pertinent to her research."
+    }
+  ],
+  "scenes": [
+    {
+      "panel": 1,
+      "description": "Wide shot of a desolate, dystopian landscape that was once Manhattan. Dr. Lena Hart stands alone on the cracked shore, her gaze fixed on the horizon where ominous alien ships hover like dark, foreboding clouds. The sky is a mix of stormy grays and the eerie light emanating from the ships.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Dr. Lena Hart",
+          "text": "This isn't just random interference... it's a calculated invasion.",
+          "type": "dialogue",
+          "location": "auto"
+        }
+      ]
+    },
+    {
+      "panel": 2,
+      "description": "Interior of a chaotic, cluttered lab hidden underground. Lena, surrounded by alien technology and digital screens flashing with data, is intensely focused as she types rapidly. A storm rages outside, visible through a small, reinforced window. The room is lit by the glow of monitors and the occasional flash of lightning.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Dr. Lena Hart",
+          "text": "If I can just breach their network... maybe, just maybe, we can find a way to coexist.",
+          "type": "dialogue",
+          "location": "auto"
+        },
+        {
+          "order": 2,
+          "speaker": "Narrator",
+          "text": "With a spark of human ingenuity, Lena hacks into the drone's system, uncovering their chilling plan for Earth.",
+          "type": "narration",
+          "location": "left"
+        }
+      ]
+    }
+  ],
+  "current_panel_index": 1,
+  "panel_layout_details": [
+    {
+      "panel_index": 0,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 5
+    },
+    {
+      "panel_index": 1,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 432
+    }
+  ],
+  "panel_prompts": [
+    "Comic panel featuring: Dr. Lena Hart. Characters: Dr. Lena Hart: Renowned astrobiologist, possibly in her late 30s to early 40s. She has sharp, intelligent eyes and short, practical dark hair. Her build is average, leaning towards slender, and she stands at a medium height. Her skin tone is fair. Typically wears utilitarian clothing suited for lab work, such as a lab coat over a comfortable shirt and trousers, with sturdy boots. She is determined, resourceful, and deeply committed to her scientific pursuits. Often seen with various gadgets or tools pertinent to her research.. Scene: Wide shot of a desolate, dystopian landscape that was once Manhattan. Dr. Lena Hart stands alone on the cracked shore, her gaze fixed on the horizon where ominous alien ships hover like dark, foreboding clouds. The sky is a mix of stormy grays and the eerie light emanating from the ships.. Captions: Dr. Lena Hart: This isn't just random interference... it's a calculated invasion.. Art Style: in the style of realistic, , cinematic lighting, high detail. Mood: sci-fi. ",
+    "Comic panel featuring: Dr. Lena Hart. Characters: Dr. Lena Hart: Renowned astrobiologist, possibly in her late 30s to early 40s. She has sharp, intelligent eyes and short, practical dark hair. Her build is average, leaning towards slender, and she stands at a medium height. Her skin tone is fair. Typically wears utilitarian clothing suited for lab work, such as a lab coat over a comfortable shirt and trousers, with sturdy boots. She is determined, resourceful, and deeply committed to her scientific pursuits. Often seen with various gadgets or tools pertinent to her research.. Scene: Interior of a chaotic, cluttered lab hidden underground. Lena, surrounded by alien technology and digital screens flashing with data, is intensely focused as she types rapidly. A storm rages outside, visible through a small, reinforced window. The room is lit by the glow of monitors and the occasional flash of lightning.. Captions: Dr. Lena Hart: If I can just breach their network... maybe, just maybe, we can find a way to coexist., Narrator: With a spark of human ingenuity, Lena hacks into the drone's system, uncovering their chilling plan for Earth.. Art Style: in the style of realistic, , cinematic lighting, high detail. Mood: sci-fi. "
+  ],
+  "panel_image_paths": [
+    "output/panels/panel_1.png",
+    "output/panels/panel_2.png"
+  ]
+}
