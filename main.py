@@ -2,6 +2,7 @@ import os
 import shutil
 import logging
 from graph import create_workflow
+from generate_workflow_diagram import generate_workflow_diagram
 from configs import OUTPUT_DIR, PROMPT
 from configs import STORY_EXPANSION_WORD_THRESHOLD
 import nltk 
@@ -9,6 +10,8 @@ import nltk
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+app = None
 
 def run_comic_generation_workflow(inputs: dict):
     """
@@ -38,7 +41,7 @@ def run_comic_generation_workflow(inputs: dict):
         else:
             raise ValueError("Incorrect prompt. Expected 'Simple' or 'Detailed'.")
     app = create_workflow(entry)        
-    logger.info("Starting Comic Generation")
+    logger.info("Starting Comic Generation ...")
     final_state = app.invoke(inputs, {"recursion_limit": 100})
     logger.info("Comic Generation Workflow Complete")
     return final_state
@@ -65,7 +68,7 @@ if __name__ == "__main__":
     """
     default_inputs = {
         "story_text": example_story,
-        "panel_count": 8,
+        "panel_count": 4,
         "style_preset": "Simple Line Art Comic",
         "genre_preset": "Sci-Fi",
         "layout_style": "mixed_2x2",
@@ -73,3 +76,4 @@ if __name__ == "__main__":
         "prompt": PROMPT
     }
     run_comic_generation_workflow(default_inputs)
+    generate_workflow_diagram(app)
