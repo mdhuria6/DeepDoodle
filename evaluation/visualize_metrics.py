@@ -9,10 +9,10 @@ def plot_average_scores(summary_df: pd.DataFrame, output_dir: str):
                                 var_name="metric", value_name="score")
     melt_avg["label"] = melt_avg["model"] + " | " + melt_avg["prompt"]
 
-    plt.figure(figsize=(12, 6))
+    plt.figure(figsize=(12, 12))
     sns.barplot(data=melt_avg, x="label", y="score", hue="metric")
     plt.xticks(rotation=45, ha='right')
-    plt.title("📊 Average Metric Scores by Model | Prompt")
+    plt.title("Average Metric Scores by Model | Prompt")
     plt.tight_layout()
 
     avg_plot_path = os.path.join(output_dir, "average_metrics_barplot.png")
@@ -79,8 +79,8 @@ def plot_text_generation_metrics(csv_path: str, output_dir: str):
 
     sns.set(style="whitegrid")
 
-    # 📊 1. Bar plot for BERT F1
-    plt.figure(figsize=(12, 6))
+    # 1. Bar plot for BERT F1
+    plt.figure(figsize=(8, 16))
     sns.barplot(x="case_id", y="bert_f1", data=df, palette="viridis")
     plt.title("BERT F1 Score by Test Case")
     plt.xlabel("Test Case")
@@ -90,8 +90,8 @@ def plot_text_generation_metrics(csv_path: str, output_dir: str):
     plt.savefig(os.path.join(output_dir, "bert_f1_barplot.png"))
     plt.close()
 
-    # 📈 2. Line plot for all metrics
-    plt.figure(figsize=(12, 6))
+    # 2. Line plot for all metrics
+    plt.figure(figsize=(8, 16))
     for metric in ["meteor", "rougeL_f1", "bert_f1"]:
         plt.plot(df["case_id"], df[metric], marker="o", label=metric)
     plt.title("Metric Scores by Test Case")
@@ -102,8 +102,8 @@ def plot_text_generation_metrics(csv_path: str, output_dir: str):
     plt.savefig(os.path.join(output_dir, "metric_lineplot.png"))
     plt.close()
 
-    # 📦 3. Boxplot for metric distribution
-    plt.figure(figsize=(10, 6))
+    # 3. Boxplot for metric distribution
+    plt.figure(figsize=(8, 16))
     melted_df = df.melt(id_vars=["case_id"], value_vars=["meteor", "rougeL_f1", "bert_f1"])
     sns.boxplot(x="variable", y="value", data=melted_df)
     plt.title("Distribution of Text Generation Metrics")
@@ -113,4 +113,4 @@ def plot_text_generation_metrics(csv_path: str, output_dir: str):
     plt.savefig(os.path.join(output_dir, "metric_boxplot.png"))
     plt.close()
 
-    print(f"✅ Plots saved to {output_dir}")
+    print(f"Plots saved to {output_dir}")

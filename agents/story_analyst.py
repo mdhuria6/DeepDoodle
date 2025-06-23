@@ -7,7 +7,6 @@ from utils.load_prompts import load_prompt_template
 import json
 import re
 
-# Set up logging configuration
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -25,7 +24,6 @@ def story_analyst(state: ComicGenerationState, prompt_file: str = "hybrid_story_
         logger.info(f"Input Story Text: {story_text}")
         logger.info(f"Word Count of Story: {len(story_text.strip().split())}")
 
-        ##############################################################################
         # Check if story_text is empty or None
         if not story_text:
             logger.warning("No story_text found in state or story_text is empty.")
@@ -81,7 +79,6 @@ def story_analyst(state: ComicGenerationState, prompt_file: str = "hybrid_story_
         logger.info(f"Mood set to: {final_mood}")
         logger.info(f"Layout style set to: {layout_style}")
 
-        ################################################################################
         # Return the final analysis result
         return {
             "character_descriptions": character_descriptions,
@@ -94,7 +91,6 @@ def story_analyst(state: ComicGenerationState, prompt_file: str = "hybrid_story_
         logger.exception("Exception in story_analyst:")
         raise RuntimeError(f"story_analyst failed: {e}")
 
-########################################################################
 # Heuristic fallback for character extraction
 def extract_fallback_character_descriptions(story_text):
     """

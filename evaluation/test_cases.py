@@ -96,15 +96,19 @@ test_cases = [
         "character_description": [
             {
                 "name": "Lord Shiva",
-                "description": "Shiva is illustrated with ash-grey skin, matted hair with Ganga flowing from it, a crescent moon, and a third eye. He wears tiger skin, serpents as ornaments, and holds a trident (trishul) and damaru drum. In comic panels, he often sits in meditation on Mount Kailash or performs the Tandava dance surrounded by cosmic fire."
+                "description": "Male deity, often depicted as a robust, well-built figure with a serene yet powerful presence. He has long matted hair, sometimes with a crescent moon and Ganga flowing through it. His third eye is a distinctive feature on his forehead. He often has ash smeared on his body and is sometimes portrayed with a blue throat. He is usually seen wearing a tiger skin and a snake around his neck, holding a trident (Trishula) as a prop. His eyes exude wisdom and tranquility, embodying a balance of destruction and creation."
             },
             {
                 "name": "Parvati",
-                "description": "Parvati is shown with gentle eyes, golden skin, and a red saree with green blouse. She holds a lotus or mirror, and wears sacred ornaments. Comic visuals depict her as nurturing yet powerful, seated beside Shiva or in goddess form as Durga."
+                "description": "Female deity, depicted with a graceful and nurturing presence. She has long, flowing black hair and warm, compassionate eyes. Her skin is usually portrayed as golden or fair. Parvati often wears colorful traditional Indian attire, adorned with jewelry. She is the epitome of beauty, devotion, and strength, exuding a calm and loving demeanor."
             },
             {
-                "name": "Nandi",
-                "description": "Nandi is the white bull mount of Shiva, shown with large expressive eyes, a decorated saddle, and ornaments. In comic frames, Nandi is often stationed at the gate of Kailash or accompanying Shiva and Parvati."
+                "name": "Ganesha",
+                "description": "Male deity with an elephant head, symbolizing wisdom and intellect. He has a large belly, representing prosperity and the ability to digest both the good and bad in life. His skin tone is often portrayed as reddish or yellowish. Ganesha usually wears a dhoti and is adorned with jewels. He carries a small axe and a lotus flower, and is often accompanied by a small mouse, which serves as his vehicle. His eyes are kind and inviting, reflecting his role as the remover of obstacles."
+            },
+            {
+                "name": "Kartikeya",
+                "description": "Male deity, depicted as a young warrior with a strong, athletic build. He has sharp features with piercing eyes and a confident demeanor. Kartikeya is often shown with multiple heads, symbolizing his all-seeing nature, and sometimes with six faces. He wears traditional warrior attire, often with armor and a spear as his weapon. His presence is dynamic and commanding, embodying courage and leadership."
             }
         ],
         "expanded_story": "The Shiva Purana explores the many forms and legends of Lord Shiva—from his cosmic dance (Tandava) to his roles as husband, yogi, and destroyer. It details his union with Parvati, the birth of Ganesha and Kartikeya, and philosophical teachings on detachment, time, and energy. The stories emphasize balance between creation and dissolution, devotion and wisdom, and form and formlessness."
