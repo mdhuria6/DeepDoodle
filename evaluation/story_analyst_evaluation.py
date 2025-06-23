@@ -1,7 +1,7 @@
 import os
 import nltk
 import pandas as pd
-from agents.story_generator import story_generator
+from agents.story_analyst import story_analyst
 from models.comic_generation_state import ComicGenerationState
 from evaluation.agent_text_validator import run_text_generation_evaluation_multiprocessing
 from evaluation.visualize_metrics import plot_average_scores, plot_text_generation_metrics_combined
@@ -22,7 +22,7 @@ prompt_variants = [
     "structured_prompt.txt",
     "zero_shot_prompt.txt"
 ]
-class ConfiguredStoryGenerator:
+class ConfiguredStoryAnalyst:
     def __init__(self, prompt_file, model_name):
         self.prompt_file = prompt_file
         self.model_name = model_name
@@ -31,14 +31,14 @@ class ConfiguredStoryGenerator:
         input_dict = input_dict.copy()
         input_dict["prompt"] = self.prompt_file
         input_dict["text_engine"] = self.model_name
-        return call_story_generator(input_dict)
+        return call_story_analyst(input_dict)
     
-model_variants = ["mistral_mixtral_8x7b_instruct"]
+model_variants = ["openai_gpt4o"]
 
-def call_story_generator(input_dict):
+def call_story_analyst(input_dict):
     state = ComicGenerationState(input_dict)
-    prompt_file = input_dict.get("prompt", "cot_structured_prompt.txt")
-    return story_generator(state, prompt_file)
+    prompt_file = input_dict.get("prompt", "cot_prompt.txt")
+    return story_analyst(state, prompt_file)
 
 def summarize_average_scores(df: pd.DataFrame):
     grouped = df.groupby(["model", "prompt"]).agg({
@@ -61,7 +61,7 @@ if __name__ == "__main__":
         for model_name in model_variants:
             print(f"\n Running evaluation with Prompt: {prompt_name}, Model: {model_name}")
             result_csv = os.path.join(base_output_dir, f"results_{prompt_name}_{model_name}.csv")
-            story_generator_fn = ConfiguredStoryGenerator(prompt_file, model_name)
+            story_generator_fn = ConfiguredStoryAnalyst(prompt_file, model_name)
 
             df = run_text_generation_evaluation_multiprocessing(
                 agent_func=story_generator_fn,

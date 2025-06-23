@@ -26,7 +26,7 @@ def run_text_generation_evaluation_multiprocessing(
     output_key="story_text",
     input_keys=None,
     save_path="evaluation_results.csv",
-    max_workers=4
+    max_workers=1
 ):
     import multiprocessing
     with multiprocessing.Pool(processes=max_workers) as pool:
