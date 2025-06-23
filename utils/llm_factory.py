@@ -62,11 +62,6 @@ def get_model_client(request_type: str = "text", engine_name: str = "mistral_mix
             model_name = "mistralai/Mixtral-8x7B-Instruct-v0.1"
             client = InferenceClient(token=hf_token)
             return ModelWrapper(client, "huggingface", model_name=model_name, is_image_model=False)
-        elif engine_name == "openai_gpt4":
-            if not os.getenv("OPENAI_API_KEY"):
-                raise ValueError("OPENAI_API_KEY environment variable not set.")
-            client = ChatOpenAI(model="gpt-4-turbo", temperature=0.7)
-            return ModelWrapper(client, "openai", model_name="gpt-4-turbo", is_image_model=False)
         elif engine_name == "openai_gpt4o":
             if not os.getenv("OPENAI_API_KEY"):
                 raise ValueError("OPENAI_API_KEY environment variable not set.")

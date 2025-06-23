@@ -6,7 +6,7 @@ from models.comic_generation_state import ComicGenerationState
 
 
 class ImageValidator:
-    def __init__(self, model_name="openai/clip-vit-large-patch14", threshold=0.3, device=None):
+    def __init__(self, model_name="openai/clip-vit-large-patch14", threshold=0.225, device=None):
         # Automatically choose the best available device: MPS (Mac), CUDA (GPU), or CPU
         self.device = device or (
             "mps" if torch.backends.mps.is_available()

@@ -73,7 +73,6 @@ with st.sidebar:
     st.header("⚙️ Model Configuration")
     text_engine_options = {
         "OpenAI (gpt-4o)": "openai_gpt4o",
-        "OpenAI (gpt-4-turbo)": "openai_gpt4",
         "Mistral AI (Mixtral-8x7B-Instruct)": "mistral_mixtral_8x7b_instruct",
         "Google (Gemini 1.5 Flash)": "gemini_1.5_flash",
     }
@@ -107,21 +106,21 @@ with st.sidebar:
     # -----------------------------------------
 
     st.header("📄 Page Layout")
-    panel_count = st.slider("Number of Panels", min_value=1, max_value=8, value=4)
+    # panel_count = st.slider("Number of Panels", min_value=1, max_value=8, value=4)
     layout_options = {
-        "2x2 Grid": "grid_2x2", 
-        "Horizontal Strip": "horizontal_strip",
-        "Vertical Strip": "vertical_strip",
-        "Featured Panel": "feature_left", 
-        "Mixed Grid": "mixed_2x2"
+        "2x2 Grid (4 Panels)": ("grid_2x2", 4), 
+        "Horizontal Strip (2 Panels)": ("horizontal_strip", 2),
+        "Vertical Strip (2 Panels)": ("vertical_strip", 2),
+        "Featured Panel (3 Panels)": ("feature_left", 3), 
+        "Mixed Grid (4 Panels)": ("mixed_2x2", 4)
     }
     selected_layout_name = st.selectbox("Select Panel Layout", list(layout_options.keys()))
-    layout = layout_options[selected_layout_name]
+    layout, panel_count = layout_options[selected_layout_name]
     
-    if panel_count < 3 and selected_layout_name == "Featured Panel":
-        st.warning("'Featured Panel' layout requires at least 3 panels.")
-    if panel_count < 4 and selected_layout_name in ["2x2 Grid", "Mixed Grid"]:
-        st.warning(f"'{selected_layout_name}' layout requires at least 4 panels.")
+    # if panel_count < 3 and selected_layout_name == "Featured Panel":
+    #     st.warning("'Featured Panel' layout requires at least 3 panels.")
+    # if panel_count < 4 and selected_layout_name in ["2x2 Grid", "Mixed Grid"]:
+    #     st.warning(f"'{selected_layout_name}' layout requires at least 4 panels.")
     
     st.markdown("---")
     generate_button = st.button("✨ Generate Comic", use_container_width=True)
@@ -135,10 +134,10 @@ if generate_button:
     if not story_input.strip():
         st.error("Please provide a story first!")
         is_valid = False
-    if panel_count < 3 and selected_layout_name == "Featured Panel":
-        is_valid = False
-    if panel_count < 4 and selected_layout_name in ["2x2 Grid", "Mixed Grid"]:
-        is_valid = False
+    # if panel_count < 3 and selected_layout_name == "Featured Panel":
+    #     is_valid = False
+    # if panel_count < 4 and selected_layout_name in ["2x2 Grid", "Mixed Grid"]:
+    #     is_valid = False
 
     if is_valid:
         with st.spinner("🧙‍♂️ The AI agents are doodling... Please wait."):
