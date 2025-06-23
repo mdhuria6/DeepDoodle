@@ -18,7 +18,7 @@ class ModelWrapper:
         elif self.engine_type == "huggingface":
             model = self.model_name or kwargs.get("model", "mistralai/Mixtral-8x7B-Instruct-v0.1")
             max_tokens = kwargs.get("max_tokens", 10000)
-            temperature = kwargs.get("temperature", 0.7)
+            temperature = kwargs.get("temperature", 0.4)
             top_p = kwargs.get("top_p", 0.9)
             return self.engine.text_generation(
                 prompt,
@@ -65,12 +65,12 @@ def get_model_client(request_type: str = "text", engine_name: str = "mistral_mix
         elif engine_name == "openai_gpt4":
             if not os.getenv("OPENAI_API_KEY"):
                 raise ValueError("OPENAI_API_KEY environment variable not set.")
-            client = ChatOpenAI(model="gpt-4-turbo", temperature=0.7)
+            client = ChatOpenAI(model="gpt-4-turbo", temperature=0.4)
             return ModelWrapper(client, "openai", model_name="gpt-4-turbo", is_image_model=False)
         elif engine_name == "openai_gpt4o":
             if not os.getenv("OPENAI_API_KEY"):
                 raise ValueError("OPENAI_API_KEY environment variable not set.")
-            client = ChatOpenAI(model="gpt-4o", temperature=0.7)
+            client = ChatOpenAI(model="gpt-4o", temperature=0.4)
             return ModelWrapper(client, "openai", model_name="gpt-4o", is_image_model=False)
         elif engine_name == "gemini_1.5_flash":
             try:
@@ -81,7 +81,7 @@ def get_model_client(request_type: str = "text", engine_name: str = "mistral_mix
             if not google_api_key:
                 raise ValueError("GOOGLE_API_KEY environment variable not set.")
             # Gemini Flash model name is 'gemini-1.5-flash-latest' (as per Google API)
-            client = ChatGoogleGenerativeAI(model="gemini-1.5-flash-latest", google_api_key=google_api_key, temperature=0.7)
+            client = ChatGoogleGenerativeAI(model="gemini-1.5-flash-latest", google_api_key=google_api_key, temperature=0.4)
             return ModelWrapper(client, "gemini", model_name="gemini-1.5-flash-latest", is_image_model=False)
         else:
             print(f"Warning: Unknown text engine '{engine_name}'. Defaulting to mistral_mixtral")

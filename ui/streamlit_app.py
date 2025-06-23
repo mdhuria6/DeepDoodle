@@ -180,7 +180,7 @@ if generate_button:
 if st.session_state.result:
     result = st.session_state.result
     if result and result.get("final_page_images"):
-        st.success("✅ Comic generated successfully!")
+        st.success("Comic generated successfully!")
         
         # Create two columns to constrain the width of the comic page display
         col1, col2, col3 = st.columns([1, 6, 1]) 
@@ -213,6 +213,6 @@ if st.session_state.result:
                         st.info("No validation score available.")
 
     else:
-        st.error("❌ An error occurred. The agents failed to generate the comic.")
+        st.error("An error occurred. The agents failed to generate the comic.")
 else:
     st.info("Fill in the details on the left and click 'Generate Comic' to see the magic!")
