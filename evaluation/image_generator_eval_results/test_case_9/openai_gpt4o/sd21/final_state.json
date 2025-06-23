@@ -1,0 +1,116 @@
+{
+  "story_text": "In the verdant heart of Vrindavan, where the Yamuna river whispered secrets to the wind, a celestial event unfolded. The sky was painted in hues of twilight as the earth prepared to receive a divine child. Born in the prison cell of Mathura, Krishna's arrival was heralded by the celestial beings, for he was destined to restore dharma.\n\nThe tyrant King Kamsa, haunted by a prophecy of his downfall at the hands of his sister's child, sought to vanquish the infant. Yet, the cosmos conspired against him. Under the cover of a stormy night, Vasudeva, Krishna's father, carried the infant across the Yamuna, which parted its waters in reverence. In Gokul, Krishna found solace and love in the arms of Yashoda.\n\nAs Krishna grew, his divine aura became apparent. He charmed the villagers with his playful antics, yet his eyes held the wisdom of ages. But darkness loomed as Kamsa's demons, sent to thwart his destiny, descended upon the land. Krishna, with the strength of a thousand suns, vanquished them, each victory a testament to his divine purpose.\n\nIn the climactic moment, Krishna faced Kamsa in the grand arena. With a serene smile, he toppled the tyrant, fulfilling the prophecy. The land rejoiced, for dharma had been restored. Yet, as the echoes of celebration faded, Krishna gazed into the horizon, knowing his journey was far from over. The world awaited his guidance, and he, the eternal protector, was ready.",
+  "genre_preset": "mythology",
+  "style_preset": "puranic",
+  "layout_style": "Horizontal Strip",
+  "character_description": [
+    {
+      "name": "Krishna (young)",
+      "description": "Young Krishna is shown with dark blue skin, wearing a yellow dhoti and playing a flute. He has curly hair with a peacock feather and a radiant smile. Often surrounded by cows and children, his comic visuals highlight innocence with divine undertones."
+    },
+    {
+      "name": "Kamsa",
+      "description": "Kamsa is portrayed with a fierce face, sharp mustache, and dark robes. His crown has spiked designs and he wields a bloodied sword. In comics, he’s often seen on a throne in Mathura or in a menacing posture toward Krishna’s family."
+    }
+  ],
+  "expanded_story": "The Harivamsa supplements the Mahabharata by detailing Krishna’s divine lineage and childhood in Gokul. Born to Vasudeva and Devaki, Krishna is secretly raised by Yashoda to protect him from Kamsa, a tyrant who fears a prophecy of his death. Krishna defeats demons, lifts the Govardhana mountain, and finally confronts Kamsa. The text explores his role as both a playful child and a divine protector, linking earthly events to cosmic balance.",
+  "text_engine": "openai_gpt4o",
+  "panel_count": 2,
+  "artistic_style": "puranic",
+  "mood": "mythology",
+  "character_descriptions": [
+    {
+      "name": "Krishna",
+      "description": "A divine child with a celestial presence, Krishna has dark, curly hair and deep, mesmerizing eyes that hold the wisdom of ages. His skin is a rich, dark blue, symbolizing his divine nature. As a child, he is often depicted wearing a simple dhoti and adorned with peacock feathers in his hair. His playful and charming personality endears him to all, yet he possesses an aura of strength and serenity. Krishna is often seen with a flute, which he plays to enchant the villagers, and his smile is serene and knowing."
+    },
+    {
+      "name": "King Kamsa",
+      "description": "A tyrant king with a menacing presence, Kamsa is a tall and imposing figure with a muscular build. He has sharp features, with piercing eyes that reflect his cruel and paranoid nature. His hair is dark and slicked back, and he often wears regal attire with rich fabrics and heavy jewelry, symbolizing his wealth and power. Kamsa's demeanor is ruthless and fearful, driven by the prophecy of his downfall."
+    },
+    {
+      "name": "Vasudeva",
+      "description": "Krishna's father, Vasudeva, is a noble and determined man with a strong, sturdy build. He has kind eyes and a gentle face, with graying hair that speaks of his wisdom and experience. Vasudeva is often depicted wearing simple, traditional clothing, reflecting his humility and devotion. His personality is marked by courage and steadfastness, as he bravely carries Krishna across the Yamuna to safety."
+    },
+    {
+      "name": "Yashoda",
+      "description": "Yashoda is a loving and nurturing woman with a warm, motherly appearance. She has soft, gentle features and kind eyes that reflect her deep affection for Krishna. Her hair is dark and often tied back in a simple bun. Yashoda is usually dressed in traditional attire, with a sari that reflects her simple village life. Her personality is characterized by boundless love and care, as she raises Krishna with devotion and tenderness."
+    }
+  ],
+  "scenes": [
+    {
+      "panel": 1,
+      "description": "Wide shot of a stormy night. Vasudeva, a strong and determined man, carries baby Krishna wrapped in a cloth. The Yamuna river parts its waters, creating a path for Vasudeva to cross. The sky is dark, with flashes of lightning illuminating the scene.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Narrator",
+          "text": "Under the cover of a stormy night, Vasudeva carried the divine child across the Yamuna.",
+          "type": "narration",
+          "location": "left"
+        },
+        {
+          "order": 2,
+          "speaker": "Vasudeva",
+          "text": "Hold on, my son. The world awaits your light.",
+          "type": "dialogue",
+          "location": "right"
+        }
+      ]
+    },
+    {
+      "panel": 2,
+      "description": "Epic wide shot of a grand arena. Krishna, now grown, stands confidently with a serene smile. His dark blue skin and peacock feather-adorned hair contrast with the vibrant crowd. King Kamsa, a menacing figure, stands opposite him, looking fearful and angry.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Narrator",
+          "text": "In the grand arena, Krishna faced the tyrant Kamsa, fulfilling the prophecy.",
+          "type": "narration",
+          "location": "left"
+        },
+        {
+          "order": 2,
+          "speaker": "Krishna",
+          "text": "Your reign of fear ends today, Kamsa.",
+          "type": "dialogue",
+          "location": "right"
+        }
+      ]
+    }
+  ],
+  "current_panel_index": 1,
+  "panel_layout_details": [
+    {
+      "panel_index": 0,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 5
+    },
+    {
+      "panel_index": 1,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 432
+    }
+  ],
+  "panel_prompts": [
+    "Comic panel featuring: Krishna, Vasudeva. Characters: Krishna: A divine child with a celestial presence, Krishna has dark, curly hair and deep, mesmerizing eyes that hold the wisdom of ages. His skin is a rich, dark blue, symbolizing his divine nature. As a child, he is often depicted wearing a simple dhoti and adorned with peacock feathers in his hair. His playful and charming personality endears him to all, yet he possesses an aura of strength and serenity. Krishna is often seen with a flute, which he plays to enchant the villagers, and his smile is serene and knowing. | Vasudeva: Krishna's father, Vasudeva, is a noble and determined man with a strong, sturdy build. He has kind eyes and a gentle face, with graying hair that speaks of his wisdom and experience. Vasudeva is often depicted wearing simple, traditional clothing, reflecting his humility and devotion. His personality is marked by courage and steadfastness, as he bravely carries Krishna across the Yamuna to safety.. Scene: Wide shot of a stormy night. Vasudeva, a strong and determined man, carries baby Krishna wrapped in a cloth. The Yamuna river parts its waters, creating a path for Vasudeva to cross. The sky is dark, with flashes of lightning illuminating the scene.. Captions: Narrator: Under the cover of a stormy night, Vasudeva carried the divine child across the Yamuna., Vasudeva: Hold on, my son. The world awaits your light.. Art Style: in the style of puranic, , cinematic lighting, high detail. Mood: mythology. ",
+    "Comic panel featuring: Krishna, King Kamsa. Characters: Krishna: A divine child with a celestial presence, Krishna has dark, curly hair and deep, mesmerizing eyes that hold the wisdom of ages. His skin is a rich, dark blue, symbolizing his divine nature. As a child, he is often depicted wearing a simple dhoti and adorned with peacock feathers in his hair. His playful and charming personality endears him to all, yet he possesses an aura of strength and serenity. Krishna is often seen with a flute, which he plays to enchant the villagers, and his smile is serene and knowing. | King Kamsa: A tyrant king with a menacing presence, Kamsa is a tall and imposing figure with a muscular build. He has sharp features, with piercing eyes that reflect his cruel and paranoid nature. His hair is dark and slicked back, and he often wears regal attire with rich fabrics and heavy jewelry, symbolizing his wealth and power. Kamsa's demeanor is ruthless and fearful, driven by the prophecy of his downfall.. Scene: Epic wide shot of a grand arena. Krishna, now grown, stands confidently with a serene smile. His dark blue skin and peacock feather-adorned hair contrast with the vibrant crowd. King Kamsa, a menacing figure, stands opposite him, looking fearful and angry.. Captions: Narrator: In the grand arena, Krishna faced the tyrant Kamsa, fulfilling the prophecy., Krishna: Your reign of fear ends today, Kamsa.. Art Style: in the style of puranic, , cinematic lighting, high detail. Mood: mythology. "
+  ],
+  "image_engine": "sd21",
+  "panel_image_paths": [
+    "output/panels/panel_1.png",
+    "output/panels/panel_2.png"
+  ],
+  "prompt": "Comic panel featuring: Krishna, King Kamsa. Characters: Krishna: A divine child with a celestial presence, Krishna has dark, curly hair and deep, mesmerizing eyes that hold the wisdom of ages. His skin is a rich, dark blue, symbolizing his divine nature. As a child, he is often depicted wearing a simple dhoti and adorned with peacock feathers in his hair. His playful and charming personality endears him to all, yet he possesses an aura of strength and serenity. Krishna is often seen with a flute, which he plays to enchant the villagers, and his smile is serene and knowing. | King Kamsa: A tyrant king with a menacing presence, Kamsa is a tall and imposing figure with a muscular build. He has sharp features, with piercing eyes that reflect his cruel and paranoid nature. His hair is dark and slicked back, and he often wears regal attire with rich fabrics and heavy jewelry, symbolizing his wealth and power. Kamsa's demeanor is ruthless and fearful, driven by the prophecy of his downfall.. Scene: Epic wide shot of a grand arena. Krishna, now grown, stands confidently with a serene smile. His dark blue skin and peacock feather-adorned hair contrast with the vibrant crowd. King Kamsa, a menacing figure, stands opposite him, looking fearful and angry.. Captions: Narrator: In the grand arena, Krishna faced the tyrant Kamsa, fulfilling the prophecy., Krishna: Your reign of fear ends today, Kamsa.. Art Style: in the style of puranic, , cinematic lighting, high detail. Mood: mythology. "
+}

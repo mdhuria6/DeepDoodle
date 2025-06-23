@@ -1,0 +1,136 @@
+{
+  "story_text": "In the vast expanse of the cosmos, where stars twinkled like scattered diamonds, there existed a planet of endless azure skies and golden sands. Here, the young Prince Orion roamed, his heart as boundless as the universe itself. Orion, with eyes like twin moons, was a curious soul, forever seeking the mysteries beyond his celestial home.\n\nOne day, a silver ship descended from the heavens, its sleek form gliding to rest upon the sands. From it emerged a pilot, Captain Elara, weary from her travels across the stars. Her heart was heavy with solitude, having left behind a world that no longer felt like home.\n\nOrion, intrigued by the visitor, approached with a gentle smile. \"Welcome, traveler,\" he greeted, his voice as soothing as the evening breeze. Elara, taken aback by his warmth, shared her tales of distant galaxies and the loneliness that shadowed her journey.\n\nAs days turned into nights, Orion revealed to Elara the wonders of his world—the shimmering lakes that sang with the wind and the luminous flowers that bloomed under starlight. In return, Elara taught Orion of the constellations that danced in the night sky, each a story of love and loss.\n\nYet, as their bond deepened, the time came for Elara to continue her voyage. Orion, with a heart both heavy and full, gifted her a single, radiant blossom. \"This flower,\" he said, \"will remind you that love, though it may fade, leaves a fragrance that lingers.\"\n\nWith tears in her eyes, Elara embraced Orion, understanding at last that love was not bound by time or space. As her ship ascended, she gazed upon the planet below, her heart alight with the promise of return.\n\nAnd so, in the vast tapestry of the universe, a young prince taught a pilot the enduring beauty of love and the bittersweet nature of loss, leaving an indelible mark upon the stars.",
+  "genre_preset": "novella",
+  "style_preset": "storybook",
+  "layout_style": "Horizontal Strip",
+  "character_description": [
+    {
+      "name": "The Little Prince",
+      "description": "A blond boy with curly hair, golden scarf, and starry-eyed wonder. In comics, he’s drawn standing on tiny planets with a rose or gazing into the sky. His expression is dreamy and innocent, wearing a green tunic and boots."
+    },
+    {
+      "name": "The Aviator",
+      "description": "A rugged pilot with goggles, a leather cap, and an aged bomber jacket. Often shown sketching or looking pensively at the stars, he represents the adult viewpoint softened by the prince’s wisdom."
+    }
+  ],
+  "expanded_story": "After crash-landing in the Sahara Desert, a pilot meets a mysterious young boy—the Little Prince—who tells him stories of his home planet, a single rose he loves, and his travels to various strange worlds. Through their conversations, the prince reveals deep truths about love, loneliness, and what truly matters. He eventually returns to his star, leaving the pilot changed forever. The story is a poetic allegory on the loss of innocence and the purity of childlike love.",
+  "text_engine": "openai_gpt4o",
+  "panel_count": 2,
+  "artistic_style": "storybook",
+  "mood": "novella",
+  "character_descriptions": [
+    {
+      "name": "Prince Orion",
+      "description": "A young prince with eyes like twin moons, suggesting a deep, reflective nature. He has a curious and gentle demeanor, with a heart as boundless as the universe. Orion likely has a youthful appearance, with features that convey warmth and openness. His clothing might be regal yet simple, suitable for a prince of a celestial realm, possibly in shades of blue and gold to match the azure skies and golden sands of his home."
+    },
+    {
+      "name": "Captain Elara",
+      "description": "A female pilot weary from her travels, with a heart heavy with solitude. She likely has a mature appearance, marked by the experiences of her journeys. Elara might have short, practical hair, possibly dark from the description of her being a seasoned traveler. Her eyes could reflect a sense of longing and wisdom. Her attire would be practical and suited for space travel, possibly a sleek, silver pilot suit to match her ship. Her personality is introspective and open to the wonders of the universe, as shown by her bond with Orion."
+    }
+  ],
+  "scenes": [
+    {
+      "panel": 1,
+      "description": "Wide shot of a vast, cosmic landscape with endless azure skies and golden sands. Prince Orion stands in the foreground, his eyes reflecting the twinkling stars above. In the distance, a sleek silver ship descends from the sky, casting a shadow on the sands.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Narrator",
+          "text": "In the vast expanse of the cosmos, where stars twinkled like scattered diamonds, there existed a planet of endless azure skies and golden sands.",
+          "type": "narration",
+          "location": "left"
+        },
+        {
+          "order": 2,
+          "speaker": "Narrator",
+          "text": "Here, the young Prince Orion roamed, his heart as boundless as the universe itself.",
+          "type": "narration",
+          "location": "left"
+        },
+        {
+          "order": 3,
+          "speaker": "Orion",
+          "text": "Welcome, traveler.",
+          "type": "dialogue",
+          "location": "right"
+        },
+        {
+          "order": 4,
+          "speaker": "Narrator",
+          "text": "A silver ship descended from the heavens, and from it emerged a pilot, Captain Elara, weary from her travels.",
+          "type": "narration",
+          "location": "left"
+        }
+      ]
+    },
+    {
+      "panel": 2,
+      "description": "Medium shot of Orion and Elara sitting together under a starlit sky. Orion gestures toward the shimmering lakes and luminous flowers around them. Elara listens intently, her eyes reflecting the constellations above.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Narrator",
+          "text": "As days turned into nights, Orion revealed to Elara the wonders of his world.",
+          "type": "narration",
+          "location": "left"
+        },
+        {
+          "order": 2,
+          "speaker": "Elara",
+          "text": "These stars... they tell stories of love and loss.",
+          "type": "dialogue",
+          "location": "right"
+        },
+        {
+          "order": 3,
+          "speaker": "Orion",
+          "text": "This flower will remind you that love, though it may fade, leaves a fragrance that lingers.",
+          "type": "dialogue",
+          "location": "left"
+        },
+        {
+          "order": 4,
+          "speaker": "Narrator",
+          "text": "And so, in the vast tapestry of the universe, a young prince taught a pilot the enduring beauty of love.",
+          "type": "narration",
+          "location": "left"
+        }
+      ]
+    }
+  ],
+  "current_panel_index": 1,
+  "panel_layout_details": [
+    {
+      "panel_index": 0,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 5
+    },
+    {
+      "panel_index": 1,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 432
+    }
+  ],
+  "panel_prompts": [
+    "Comic panel featuring: Prince Orion. Characters: Prince Orion: A young prince with eyes like twin moons, suggesting a deep, reflective nature. He has a curious and gentle demeanor, with a heart as boundless as the universe. Orion likely has a youthful appearance, with features that convey warmth and openness. His clothing might be regal yet simple, suitable for a prince of a celestial realm, possibly in shades of blue and gold to match the azure skies and golden sands of his home.. Scene: Wide shot of a vast, cosmic landscape with endless azure skies and golden sands. Prince Orion stands in the foreground, his eyes reflecting the twinkling stars above. In the distance, a sleek silver ship descends from the sky, casting a shadow on the sands.. Captions: Narrator: In the vast expanse of the cosmos, where stars twinkled like scattered diamonds, there existed a planet of endless azure skies and golden sands., Narrator: Here, the young Prince Orion roamed, his heart as boundless as the universe itself., Orion: Welcome, traveler., Narrator: A silver ship descended from the heavens, and from it emerged a pilot, Captain Elara, weary from her travels.. Art Style: in the style of storybook, , cinematic lighting, high detail. Mood: novella. ",
+    "Comic panel featuring: . Scene: Medium shot of Orion and Elara sitting together under a starlit sky. Orion gestures toward the shimmering lakes and luminous flowers around them. Elara listens intently, her eyes reflecting the constellations above.. Captions: Narrator: As days turned into nights, Orion revealed to Elara the wonders of his world., Elara: These stars... they tell stories of love and loss., Orion: This flower will remind you that love, though it may fade, leaves a fragrance that lingers., Narrator: And so, in the vast tapestry of the universe, a young prince taught a pilot the enduring beauty of love.. Art Style: in the style of storybook, , cinematic lighting, high detail. Mood: novella. "
+  ],
+  "image_engine": "sd21",
+  "panel_image_paths": [
+    "output/panels/panel_1.png",
+    "output/panels/panel_2.png"
+  ],
+  "prompt": "Comic panel featuring: . Scene: Medium shot of Orion and Elara sitting together under a starlit sky. Orion gestures toward the shimmering lakes and luminous flowers around them. Elara listens intently, her eyes reflecting the constellations above.. Captions: Narrator: As days turned into nights, Orion revealed to Elara the wonders of his world., Elara: These stars... they tell stories of love and loss., Orion: This flower will remind you that love, though it may fade, leaves a fragrance that lingers., Narrator: And so, in the vast tapestry of the universe, a young prince taught a pilot the enduring beauty of love.. Art Style: in the style of storybook, , cinematic lighting, high detail. Mood: novella. "
+}

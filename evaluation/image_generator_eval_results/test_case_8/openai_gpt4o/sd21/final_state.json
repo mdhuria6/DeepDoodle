@@ -1,0 +1,123 @@
+{
+  "story_text": "In the ancient land of Bharata, where the sacred rivers sang hymns to the mountains, the skies bore witness to the birth of Kartikeya, the god of war. His arrival was heralded by a storm of celestial music, as the earth trembled with anticipation. Kartikeya, with eyes like burning embers and a heart forged in the fires of divinity, was destined to vanquish the demon Tarakasura, whose shadow loomed over the world, spreading fear and chaos.\n\nTarakasura, a monster of formidable power, had grown arrogant, believing himself invincible. His dark magic had cast a pall over the land, withering crops and silencing the laughter of children. The people prayed for salvation, their cries echoing through the heavens.\n\nAs Kartikeya grew, so did his strength and wisdom. Armed with the divine spear gifted by his father, Shiva, he rode upon the swift peacock, his loyal steed. The clash between the young god and the demon was inevitable, a storm of fury and valor.\n\nThe battlefield was a tapestry of fire and thunder, as Kartikeya faced Tarakasura. The demon, towering and fierce, laughed at the youthful god. Yet, Kartikeya's resolve was unyielding. With a mighty roar, he hurled his spear, piercing the demon's heart, shattering the darkness that had gripped the land.\n\nAs Tarakasura fell, the skies cleared, and the earth sighed in relief. Kartikeya stood victorious, his name etched into the annals of time. The people rejoiced, their hearts filled with hope and gratitude. Though the battle was won, Kartikeya knew his journey was eternal, a guardian of righteousness in a world ever teetering on the edge of chaos.",
+  "genre_preset": "mythology",
+  "style_preset": "warrior-epic",
+  "layout_style": "Horizontal Strip",
+  "character_description": [
+    {
+      "name": "Kartikeya (Skanda)",
+      "description": "Kartikeya is portrayed as a youthful, radiant god with golden armor, six faces (Shanmukha), and twelve arms holding various weapons. He rides a majestic peacock, and his comic form includes red war banners, fierce eyes, and flames surrounding his form to signify divine energy."
+    },
+    {
+      "name": "Tarakasura",
+      "description": "Tarakasura is a powerful demon with dark red skin, muscular build, and armor studded with skulls. His multiple weapons and towering size depict menace. Comic frames show him in fiery battles or storming celestial realms."
+    }
+  ],
+  "expanded_story": "Born from the divine spark of Shiva and Parvati, Kartikeya (Skanda) is raised by the Krittikas and trained as a commander of the gods. He leads the devas in battle against the demon Tarakasura, whose tyranny threatens the heavens. With divine weapons and strategy, Kartikeya slays the demon and restores cosmic order. The Purana also elaborates on his wisdom, leadership, and spiritual aspects beyond warfare.",
+  "text_engine": "openai_gpt4o",
+  "panel_count": 2,
+  "artistic_style": "warrior-epic",
+  "mood": "mythology",
+  "character_descriptions": [
+    {
+      "name": "Kartikeya",
+      "description": "A god of war with eyes like burning embers, symbolizing his divine power and determination. He possesses a strong and athletic build, indicative of his martial prowess. Kartikeya is often depicted as youthful, with a regal and commanding presence. His clothing consists of traditional divine armor, intricately designed and shimmering with celestial energy. He is known for his unyielding resolve and valor. Kartikeya wields a divine spear, a gift from his father Shiva, and rides a swift peacock, his loyal steed."
+    },
+    {
+      "name": "Tarakasura",
+      "description": "A towering and fierce demon with dark, menacing features. His presence is formidable, exuding an aura of arrogance and invincibility. Tarakasura's skin is dark, reflecting his malevolent nature, and his eyes are filled with malice. He is clad in dark, mystical armor that enhances his fearsome appearance. Known for his dark magic, he casts a shadow over the land, spreading fear and chaos. His laughter is chilling, and he embodies the essence of a powerful and terrifying adversary."
+    },
+    {
+      "name": "Shiva",
+      "description": "A divine figure, father of Kartikeya, known for his wisdom and power. He is often depicted with a serene yet commanding presence, with long, flowing hair and a third eye on his forehead symbolizing his omniscience. Shiva's attire is traditional and divine, often seen with a tiger skin and adorned with serpents. He possesses a calm and contemplative demeanor, yet his power is immense and awe-inspiring."
+    },
+    {
+      "name": "Peacock",
+      "description": "A swift and loyal steed of Kartikeya, characterized by its vibrant and iridescent plumage. The peacock is graceful and majestic, with a proud and noble bearing. Known for its speed and agility, it serves as a symbol of beauty and divine grace, complementing Kartikeya's own divine nature."
+    }
+  ],
+  "scenes": [
+    {
+      "panel": 1,
+      "description": "A panoramic view of the ancient land of Bharata, with sacred rivers winding through lush valleys and mountains touching the sky. In the foreground, a celestial storm brews, swirling with divine music. Kartikeya, a youthful god with a strong, athletic build and eyes like burning embers, stands at the center, his divine armor shimmering with celestial energy.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Narrator",
+          "text": "In the ancient land of Bharata, the skies bore witness to the birth of Kartikeya, god of war. His arrival was heralded by a storm of celestial music.",
+          "type": "narration",
+          "location": "left"
+        },
+        {
+          "order": 2,
+          "speaker": "Kartikeya",
+          "text": "I am destined to vanquish the darkness that looms over this world.",
+          "type": "dialogue",
+          "location": "right"
+        }
+      ]
+    },
+    {
+      "panel": 2,
+      "description": "A dramatic battlefield scene with Kartikeya on his swift peacock, facing the towering demon Tarakasura. The demon's dark, menacing features are highlighted by his mystical armor. Kartikeya, with unyielding resolve, hurls his divine spear towards Tarakasura, whose eyes are filled with malice. The background is a chaotic blend of fire and thunder.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Narrator",
+          "text": "The clash between the young god and the demon was inevitable, a storm of fury and valor.",
+          "type": "narration",
+          "location": "left"
+        },
+        {
+          "order": 2,
+          "speaker": "Tarakasura",
+          "text": "You think you can defeat me, boy? I am invincible!",
+          "type": "dialogue",
+          "location": "right"
+        },
+        {
+          "order": 3,
+          "speaker": "Kartikeya",
+          "text": "Your reign of terror ends now!",
+          "type": "dialogue",
+          "location": "left"
+        }
+      ]
+    }
+  ],
+  "current_panel_index": 1,
+  "panel_layout_details": [
+    {
+      "panel_index": 0,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 5
+    },
+    {
+      "panel_index": 1,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 432
+    }
+  ],
+  "panel_prompts": [
+    "Comic panel featuring: Kartikeya. Characters: Kartikeya: A god of war with eyes like burning embers, symbolizing his divine power and determination. He possesses a strong and athletic build, indicative of his martial prowess. Kartikeya is often depicted as youthful, with a regal and commanding presence. His clothing consists of traditional divine armor, intricately designed and shimmering with celestial energy. He is known for his unyielding resolve and valor. Kartikeya wields a divine spear, a gift from his father Shiva, and rides a swift peacock, his loyal steed.. Scene: A panoramic view of the ancient land of Bharata, with sacred rivers winding through lush valleys and mountains touching the sky. In the foreground, a celestial storm brews, swirling with divine music. Kartikeya, a youthful god with a strong, athletic build and eyes like burning embers, stands at the center, his divine armor shimmering with celestial energy.. Captions: Narrator: In the ancient land of Bharata, the skies bore witness to the birth of Kartikeya, god of war. His arrival was heralded by a storm of celestial music., Kartikeya: I am destined to vanquish the darkness that looms over this world.. Art Style: in the style of warrior-epic, , cinematic lighting, high detail. Mood: mythology. ",
+    "Comic panel featuring: Kartikeya, Tarakasura. Characters: Kartikeya: A god of war with eyes like burning embers, symbolizing his divine power and determination. He possesses a strong and athletic build, indicative of his martial prowess. Kartikeya is often depicted as youthful, with a regal and commanding presence. His clothing consists of traditional divine armor, intricately designed and shimmering with celestial energy. He is known for his unyielding resolve and valor. Kartikeya wields a divine spear, a gift from his father Shiva, and rides a swift peacock, his loyal steed. | Tarakasura: A towering and fierce demon with dark, menacing features. His presence is formidable, exuding an aura of arrogance and invincibility. Tarakasura's skin is dark, reflecting his malevolent nature, and his eyes are filled with malice. He is clad in dark, mystical armor that enhances his fearsome appearance. Known for his dark magic, he casts a shadow over the land, spreading fear and chaos. His laughter is chilling, and he embodies the essence of a powerful and terrifying adversary.. Scene: A dramatic battlefield scene with Kartikeya on his swift peacock, facing the towering demon Tarakasura. The demon's dark, menacing features are highlighted by his mystical armor. Kartikeya, with unyielding resolve, hurls his divine spear towards Tarakasura, whose eyes are filled with malice. The background is a chaotic blend of fire and thunder.. Captions: Narrator: The clash between the young god and the demon was inevitable, a storm of fury and valor., Tarakasura: You think you can defeat me, boy? I am invincible!, Kartikeya: Your reign of terror ends now!. Art Style: in the style of warrior-epic, , cinematic lighting, high detail. Mood: mythology. "
+  ],
+  "image_engine": "sd21",
+  "panel_image_paths": [
+    "output/panels/panel_1.png",
+    "output/panels/panel_2.png"
+  ],
+  "prompt": "Comic panel featuring: Kartikeya, Tarakasura. Characters: Kartikeya: A god of war with eyes like burning embers, symbolizing his divine power and determination. He possesses a strong and athletic build, indicative of his martial prowess. Kartikeya is often depicted as youthful, with a regal and commanding presence. His clothing consists of traditional divine armor, intricately designed and shimmering with celestial energy. He is known for his unyielding resolve and valor. Kartikeya wields a divine spear, a gift from his father Shiva, and rides a swift peacock, his loyal steed. | Tarakasura: A towering and fierce demon with dark, menacing features. His presence is formidable, exuding an aura of arrogance and invincibility. Tarakasura's skin is dark, reflecting his malevolent nature, and his eyes are filled with malice. He is clad in dark, mystical armor that enhances his fearsome appearance. Known for his dark magic, he casts a shadow over the land, spreading fear and chaos. His laughter is chilling, and he embodies the essence of a powerful and terrifying adversary.. Scene: A dramatic battlefield scene with Kartikeya on his swift peacock, facing the towering demon Tarakasura. The demon's dark, menacing features are highlighted by his mystical armor. Kartikeya, with unyielding resolve, hurls his divine spear towards Tarakasura, whose eyes are filled with malice. The background is a chaotic blend of fire and thunder.. Captions: Narrator: The clash between the young god and the demon was inevitable, a storm of fury and valor., Tarakasura: You think you can defeat me, boy? I am invincible!, Kartikeya: Your reign of terror ends now!. Art Style: in the style of warrior-epic, , cinematic lighting, high detail. Mood: mythology. "
+}

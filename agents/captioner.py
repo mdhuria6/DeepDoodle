@@ -17,7 +17,7 @@ from configs import (
     LINE_SPACING, NARRATOR_BACKGROUND_COLOR, CAPTION_CORNER_RADIUS,
     SFX_TEXT_COLOR, SFX_FONT_PATH # Assuming these might be in global config
 )
-from agents.sarvam import sarvam_agent
+from agents.sarvam_translator import sarvam_agent
 
 
 def add_texts_to_image(

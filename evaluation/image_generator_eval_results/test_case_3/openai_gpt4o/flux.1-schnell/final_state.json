@@ -1,0 +1,118 @@
+{
+  "story_text": "The rain drummed a relentless beat against the windows of the old mansion, perched like a forgotten relic on the edge of the island. Detective Sam Marlowe, trench coat soaked and cigarette barely hanging from his lips, stepped into the dimly lit foyer. The air was thick with the scent of damp wood and something else—fear.\n\nTen strangers had been summoned here by cryptic invitations. Now, two were dead. The island, shrouded in mist, offered no escape. Marlowe's eyes narrowed as he scanned the room, taking in the anxious faces gathered around the flickering fireplace. Each one a suspect, each one a potential victim.\n\nThe storm outside mirrored the tension within. As the night wore on, whispers of betrayal and hidden pasts filled the air. Marlowe pieced together the puzzle, each revelation a jagged shard of truth. The killer was among them, playing a deadly game.\n\nA scream shattered the uneasy truce. Marlowe raced to the source, his heart pounding like a war drum. In the library, a figure lay sprawled, lifeless. The others gathered, eyes wide with terror. Marlowe's mind raced, the pieces clicking into place.\n\nWith a sudden clarity, he turned to face the group. \"The killer,\" he said, voice steady, \"is one of us.\" The words hung heavy in the air, a chilling promise of what was yet to come. The storm raged on, an endless night with no dawn in sight.",
+  "genre_preset": "mystery",
+  "style_preset": "noir",
+  "layout_style": "Horizontal Strip",
+  "character_description": [
+    {
+      "name": "Justice Wargrave",
+      "description": "An elderly judge with sharp eyes, a black robe, and a stoic expression. In comic scenes, he’s often seated in deep shadows, holding a book or orchestrating events with cold logic."
+    },
+    {
+      "name": "Vera Claythorne",
+      "description": "A young governess with wavy brown hair, a plain dress, and anxious expressions. She’s often shown clutching a letter or staring into a mirror, reflecting guilt and vulnerability."
+    }
+  ],
+  "expanded_story": "Ten strangers are invited to a secluded island by a mysterious host. Each guest has a dark secret—a crime for which they’ve never been punished. One by one, they begin to die, following a sinister nursery rhyme. Tensions rise, suspicions mount, and paranoia consumes them as they realize the killer is among them. In the end, all ten perish. Later, a letter reveals the mastermind was Judge Wargrave, who meticulously planned the justice-themed killings before taking his own life.",
+  "text_engine": "openai_gpt4o",
+  "panel_count": 2,
+  "artistic_style": "noir",
+  "mood": "mystery",
+  "character_descriptions": [
+    {
+      "name": "Detective Sam Marlowe",
+      "description": "A middle-aged man with a rugged appearance, likely in his 40s. He has a weathered face, dark hair slicked back, and piercing eyes that miss nothing. He is of average height and has a solid build. Marlowe wears a classic trench coat, which is soaked from the rain, and a fedora. His demeanor is serious and determined, with a cigarette perpetually hanging from his lips, adding to his hard-boiled detective persona."
+    }
+  ],
+  "scenes": [
+    {
+      "panel": 1,
+      "description": "Wide shot of the old mansion, rain pouring down heavily, creating a misty atmosphere. Detective Sam Marlowe stands in the dimly lit foyer, his trench coat soaked, a cigarette dangling from his lips. The room is filled with anxious faces of strangers gathered around a flickering fireplace.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Narrator",
+          "text": "The rain drummed a relentless beat against the windows of the old mansion, perched like a forgotten relic on the edge of the island.",
+          "type": "narration",
+          "location": "left"
+        },
+        {
+          "order": 2,
+          "speaker": "Narrator",
+          "text": "Detective Sam Marlowe entered, the air thick with the scent of damp wood and fear.",
+          "type": "narration",
+          "location": "left"
+        },
+        {
+          "order": 3,
+          "speaker": "Marlowe",
+          "text": "Ten strangers, two dead... and the rest, suspects.",
+          "type": "dialogue",
+          "location": "auto"
+        }
+      ]
+    },
+    {
+      "panel": 2,
+      "description": "Close-up of Marlowe's intense eyes as he stands in the library. A lifeless figure is sprawled on the floor, surrounded by the other guests, their faces a mix of terror and suspicion. The storm rages outside, lightning briefly illuminating the scene.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Narrator",
+          "text": "A scream shattered the uneasy truce.",
+          "type": "narration",
+          "location": "left"
+        },
+        {
+          "order": 2,
+          "speaker": "Marlowe",
+          "text": "The killer is one of us.",
+          "type": "dialogue",
+          "location": "center"
+        },
+        {
+          "order": 3,
+          "speaker": "Narrator",
+          "text": "The words hung heavy in the air, a chilling promise of what was yet to come.",
+          "type": "narration",
+          "location": "left"
+        }
+      ]
+    }
+  ],
+  "current_panel_index": 1,
+  "panel_layout_details": [
+    {
+      "panel_index": 0,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 5
+    },
+    {
+      "panel_index": 1,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 432
+    }
+  ],
+  "panel_prompts": [
+    "Comic panel featuring: Detective Sam Marlowe. Characters: Detective Sam Marlowe: A middle-aged man with a rugged appearance, likely in his 40s. He has a weathered face, dark hair slicked back, and piercing eyes that miss nothing. He is of average height and has a solid build. Marlowe wears a classic trench coat, which is soaked from the rain, and a fedora. His demeanor is serious and determined, with a cigarette perpetually hanging from his lips, adding to his hard-boiled detective persona.. Scene: Wide shot of the old mansion, rain pouring down heavily, creating a misty atmosphere. Detective Sam Marlowe stands in the dimly lit foyer, his trench coat soaked, a cigarette dangling from his lips. The room is filled with anxious faces of strangers gathered around a flickering fireplace.. Captions: Narrator: The rain drummed a relentless beat against the windows of the old mansion, perched like a forgotten relic on the edge of the island., Narrator: Detective Sam Marlowe entered, the air thick with the scent of damp wood and fear., Marlowe: Ten strangers, two dead... and the rest, suspects.. Art Style: in the style of noir, , cinematic lighting, high detail. Mood: mystery. ",
+    "Comic panel featuring: . Scene: Close-up of Marlowe's intense eyes as he stands in the library. A lifeless figure is sprawled on the floor, surrounded by the other guests, their faces a mix of terror and suspicion. The storm rages outside, lightning briefly illuminating the scene.. Captions: Narrator: A scream shattered the uneasy truce., Marlowe: The killer is one of us., Narrator: The words hung heavy in the air, a chilling promise of what was yet to come.. Art Style: in the style of noir, , cinematic lighting, high detail. Mood: mystery. "
+  ],
+  "image_engine": "flux.1-schnell",
+  "panel_image_paths": [
+    "output/panels/panel_1.png",
+    "output/panels/panel_2.png"
+  ],
+  "prompt": "Comic panel featuring: . Scene: Close-up of Marlowe's intense eyes as he stands in the library. A lifeless figure is sprawled on the floor, surrounded by the other guests, their faces a mix of terror and suspicion. The storm rages outside, lightning briefly illuminating the scene.. Captions: Narrator: A scream shattered the uneasy truce., Marlowe: The killer is one of us., Narrator: The words hung heavy in the air, a chilling promise of what was yet to come.. Art Style: in the style of noir, , cinematic lighting, high detail. Mood: mystery. "
+}

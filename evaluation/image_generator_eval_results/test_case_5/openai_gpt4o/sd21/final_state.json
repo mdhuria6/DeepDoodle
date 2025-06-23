@@ -1,0 +1,135 @@
+{
+  "story_text": "In the heart of the Whispering Woods, where the trees murmured secrets and the brook sang lullabies, there lived four siblings: Elara, Finn, Nia, and Rowan. One misty morning, while playing hide and seek, they stumbled upon a hidden path veiled by shimmering leaves, leading them to a world beyond their wildest dreams.\n\nThis was the realm of Luminara, where the skies were painted in hues of lavender and gold, and the air sparkled with enchantment. At its heart stood a majestic lion named Aurelius, whose mane glowed like the sun. He was the noble ruler of this land, but his reign was threatened by the wicked witch Morgath, who sought to shroud Luminara in eternal darkness.\n\nThe siblings, entranced by the beauty and peril of this world, vowed to help Aurelius. As they journeyed through enchanted forests and across crystal lakes, the witch's minions pursued them, their shadows stretching long and ominous.\n\nIn a moonlit clearing, the siblings faced Morgath. Elara, the eldest, realized the witch’s power lay in her enchanted amulet. With courage and unity, they devised a plan. Finn, swift as the wind, distracted the witch, while Nia and Rowan created an illusion of light. Elara seized the moment, snatching the amulet and shattering it against a stone.\n\nWith a roar of triumph, Aurelius banished the darkness. The siblings, now heroes, watched as Luminara blossomed in radiant light. Though they returned to their world, the magic of Luminara lingered in their hearts, a reminder of the courage that binds and the light that conquers even the deepest shadows.",
+  "genre_preset": "fantasy",
+  "style_preset": "storybook",
+  "layout_style": "Horizontal Strip",
+  "character_description": [
+    {
+      "name": "Lucy Pevensie",
+      "description": "A bright-eyed girl with short brown hair, a knee-length coat, and a satchel. In comics, she’s shown peeking through a wardrobe or hugging the lion Aslan with childlike wonder."
+    },
+    {
+      "name": "Aslan",
+      "description": "A majestic golden lion with a wise face and radiant mane. He is drawn with glowing eyes and divine presence, often surrounded by golden light or standing atop a battlefield."
+    },
+    {
+      "name": "White Witch",
+      "description": "A tall, cold queen with pale skin, icy crown, and silver robes. Her comic form includes a twisted staff and a trail of snow, exuding frost and menace."
+    }
+  ],
+  "expanded_story": "During WWII, four siblings—Peter, Susan, Edmund, and Lucy—are sent to the countryside where Lucy discovers a wardrobe that leads to Narnia, a magical land frozen in eternal winter. The evil White Witch rules cruelly, but the return of Aslan the lion brings hope. Edmund betrays the others but is redeemed. With Aslan’s sacrifice and return, the children help defeat the witch and are crowned kings and queens of Narnia. Years later, they return through the wardrobe, back to their world.",
+  "text_engine": "openai_gpt4o",
+  "panel_count": 2,
+  "artistic_style": "storybook",
+  "mood": "fantasy",
+  "character_descriptions": [
+    {
+      "name": "Elara",
+      "description": "Elara is the eldest sibling, likely in her late teens. She has long, wavy brown hair and piercing green eyes. Her build is athletic and she stands at an average height. Elara has a fair skin tone. She wears practical clothing suitable for adventure, such as a tunic and sturdy boots. Her personality is courageous and responsible, often taking the lead. A distinctive feature is her determined expression and the way she carries herself with confidence."
+    },
+    {
+      "name": "Finn",
+      "description": "Finn is a young boy, possibly in his early teens. He has short, tousled blond hair and bright blue eyes. His build is lean and he is slightly shorter than his siblings. Finn has a light skin tone. He dresses in comfortable, easy-to-move-in clothes, like a simple shirt and trousers. Finn is swift and agile, with a playful and adventurous spirit. His distinctive feature is his quick movements and a mischievous grin."
+    },
+    {
+      "name": "Nia",
+      "description": "Nia is a young girl, likely in her early teens. She has curly black hair and warm brown eyes. Her build is petite and she is of average height. Nia has a medium skin tone. She wears a colorful dress that allows for freedom of movement. Her personality is creative and empathetic, often using her imagination to solve problems. A distinctive feature is her bright smile and the way her eyes light up with ideas."
+    },
+    {
+      "name": "Rowan",
+      "description": "Rowan is a young boy, probably in his early teens. He has straight brown hair and hazel eyes. His build is sturdy and he is slightly taller than Finn. Rowan has a fair skin tone. He wears casual clothing, such as a t-shirt and shorts. Rowan is thoughtful and observant, often providing practical solutions. A distinctive feature is his calm demeanor and the way he often pauses to think before acting."
+    },
+    {
+      "name": "Aurelius",
+      "description": "Aurelius is a majestic lion with a mane that glows like the sun, giving off a radiant golden hue. He is large and regal, with a powerful build. His eyes are a deep amber, exuding wisdom and nobility. Aurelius's fur is a rich tawny color. He is noble and protective, embodying the qualities of a wise and just ruler. A distinctive feature is his luminous mane, which seems to shimmer with an inner light."
+    },
+    {
+      "name": "Morgath",
+      "description": "Morgath is a wicked witch with long, silver hair that flows like a river of moonlight. Her eyes are cold and dark, filled with malice. She has a slender build and stands tall, with a pale skin tone. Morgath wears a dark, flowing robe adorned with mystical symbols. Her personality is cunning and malevolent, driven by a desire for power. A distinctive feature is her enchanted amulet, which glows with a sinister energy."
+    }
+  ],
+  "scenes": [
+    {
+      "panel": 1,
+      "description": "Wide shot of the Whispering Woods, with tall trees and a gentle brook. The siblings, Elara, Finn, Nia, and Rowan, are partially hidden among the trees, playing hide and seek. The morning mist hangs low, and a hidden path glows faintly with shimmering leaves, inviting them forward.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Narrator",
+          "text": "In the heart of the Whispering Woods, four siblings discovered a path to a world beyond their wildest dreams.",
+          "type": "narration",
+          "location": "left"
+        },
+        {
+          "order": 2,
+          "speaker": "Finn",
+          "text": "Hey, look! There's something magical over there!",
+          "type": "dialogue",
+          "location": "right"
+        }
+      ]
+    },
+    {
+      "panel": 2,
+      "description": "A moonlit clearing in Luminara. The siblings stand in a semicircle, facing Morgath, who looms with her dark robe and glowing amulet. Aurelius, the majestic lion, watches intently from the side. Finn is poised to run, Nia and Rowan are ready to create an illusion, and Elara stands determined, eyeing the amulet.",
+      "captions": [
+        {
+          "order": 1,
+          "speaker": "Narrator",
+          "text": "In the realm of Luminara, the siblings faced Morgath, determined to save this enchanted world.",
+          "type": "narration",
+          "location": "left"
+        },
+        {
+          "order": 2,
+          "speaker": "Elara",
+          "text": "We have to destroy her amulet. It's the source of her power!",
+          "type": "dialogue",
+          "location": "center"
+        },
+        {
+          "order": 3,
+          "speaker": "Aurelius",
+          "text": "Together, you can bring back the light.",
+          "type": "dialogue",
+          "location": "right"
+        }
+      ]
+    }
+  ],
+  "current_panel_index": 1,
+  "panel_layout_details": [
+    {
+      "panel_index": 0,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 5
+    },
+    {
+      "panel_index": 1,
+      "page_number": 1,
+      "page_layout_type": "horizontal_strip_2",
+      "ideal_width": 530,
+      "ideal_height": 422,
+      "target_generation_width": 512,
+      "target_generation_height": 448,
+      "ideal_x_offset": 5,
+      "ideal_y_offset": 432
+    }
+  ],
+  "panel_prompts": [
+    "Comic panel featuring: Elara, Finn, Nia, Rowan. Characters: Elara: Elara is the eldest sibling, likely in her late teens. She has long, wavy brown hair and piercing green eyes. Her build is athletic and she stands at an average height. Elara has a fair skin tone. She wears practical clothing suitable for adventure, such as a tunic and sturdy boots. Her personality is courageous and responsible, often taking the lead. A distinctive feature is her determined expression and the way she carries herself with confidence. | Finn: Finn is a young boy, possibly in his early teens. He has short, tousled blond hair and bright blue eyes. His build is lean and he is slightly shorter than his siblings. Finn has a light skin tone. He dresses in comfortable, easy-to-move-in clothes, like a simple shirt and trousers. Finn is swift and agile, with a playful and adventurous spirit. His distinctive feature is his quick movements and a mischievous grin. | Nia: Nia is a young girl, likely in her early teens. She has curly black hair and warm brown eyes. Her build is petite and she is of average height. Nia has a medium skin tone. She wears a colorful dress that allows for freedom of movement. Her personality is creative and empathetic, often using her imagination to solve problems. A distinctive feature is her bright smile and the way her eyes light up with ideas. | Rowan: Rowan is a young boy, probably in his early teens. He has straight brown hair and hazel eyes. His build is sturdy and he is slightly taller than Finn. Rowan has a fair skin tone. He wears casual clothing, such as a t-shirt and shorts. Rowan is thoughtful and observant, often providing practical solutions. A distinctive feature is his calm demeanor and the way he often pauses to think before acting.. Scene: Wide shot of the Whispering Woods, with tall trees and a gentle brook. The siblings, Elara, Finn, Nia, and Rowan, are partially hidden among the trees, playing hide and seek. The morning mist hangs low, and a hidden path glows faintly with shimmering leaves, inviting them forward.. Captions: Narrator: In the heart of the Whispering Woods, four siblings discovered a path to a world beyond their wildest dreams., Finn: Hey, look! There's something magical over there!. Art Style: in the style of storybook, , cinematic lighting, high detail. Mood: fantasy. ",
+    "Comic panel featuring: Elara, Finn, Nia, Rowan, Aurelius, Morgath. Characters: Elara: Elara is the eldest sibling, likely in her late teens. She has long, wavy brown hair and piercing green eyes. Her build is athletic and she stands at an average height. Elara has a fair skin tone. She wears practical clothing suitable for adventure, such as a tunic and sturdy boots. Her personality is courageous and responsible, often taking the lead. A distinctive feature is her determined expression and the way she carries herself with confidence. | Finn: Finn is a young boy, possibly in his early teens. He has short, tousled blond hair and bright blue eyes. His build is lean and he is slightly shorter than his siblings. Finn has a light skin tone. He dresses in comfortable, easy-to-move-in clothes, like a simple shirt and trousers. Finn is swift and agile, with a playful and adventurous spirit. His distinctive feature is his quick movements and a mischievous grin. | Nia: Nia is a young girl, likely in her early teens. She has curly black hair and warm brown eyes. Her build is petite and she is of average height. Nia has a medium skin tone. She wears a colorful dress that allows for freedom of movement. Her personality is creative and empathetic, often using her imagination to solve problems. A distinctive feature is her bright smile and the way her eyes light up with ideas. | Rowan: Rowan is a young boy, probably in his early teens. He has straight brown hair and hazel eyes. His build is sturdy and he is slightly taller than Finn. Rowan has a fair skin tone. He wears casual clothing, such as a t-shirt and shorts. Rowan is thoughtful and observant, often providing practical solutions. A distinctive feature is his calm demeanor and the way he often pauses to think before acting. | Aurelius: Aurelius is a majestic lion with a mane that glows like the sun, giving off a radiant golden hue. He is large and regal, with a powerful build. His eyes are a deep amber, exuding wisdom and nobility. Aurelius's fur is a rich tawny color. He is noble and protective, embodying the qualities of a wise and just ruler. A distinctive feature is his luminous mane, which seems to shimmer with an inner light. | Morgath: Morgath is a wicked witch with long, silver hair that flows like a river of moonlight. Her eyes are cold and dark, filled with malice. She has a slender build and stands tall, with a pale skin tone. Morgath wears a dark, flowing robe adorned with mystical symbols. Her personality is cunning and malevolent, driven by a desire for power. A distinctive feature is her enchanted amulet, which glows with a sinister energy.. Scene: A moonlit clearing in Luminara. The siblings stand in a semicircle, facing Morgath, who looms with her dark robe and glowing amulet. Aurelius, the majestic lion, watches intently from the side. Finn is poised to run, Nia and Rowan are ready to create an illusion, and Elara stands determined, eyeing the amulet.. Captions: Narrator: In the realm of Luminara, the siblings faced Morgath, determined to save this enchanted world., Elara: We have to destroy her amulet. It's the source of her power!, Aurelius: Together, you can bring back the light.. Art Style: in the style of storybook, , cinematic lighting, high detail. Mood: fantasy. "
+  ],
+  "image_engine": "sd21",
+  "panel_image_paths": [
+    "output/panels/panel_1.png",
+    "output/panels/panel_2.png"
+  ],
+  "prompt": "Comic panel featuring: Elara, Finn, Nia, Rowan, Aurelius, Morgath. Characters: Elara: Elara is the eldest sibling, likely in her late teens. She has long, wavy brown hair and piercing green eyes. Her build is athletic and she stands at an average height. Elara has a fair skin tone. She wears practical clothing suitable for adventure, such as a tunic and sturdy boots. Her personality is courageous and responsible, often taking the lead. A distinctive feature is her determined expression and the way she carries herself with confidence. | Finn: Finn is a young boy, possibly in his early teens. He has short, tousled blond hair and bright blue eyes. His build is lean and he is slightly shorter than his siblings. Finn has a light skin tone. He dresses in comfortable, easy-to-move-in clothes, like a simple shirt and trousers. Finn is swift and agile, with a playful and adventurous spirit. His distinctive feature is his quick movements and a mischievous grin. | Nia: Nia is a young girl, likely in her early teens. She has curly black hair and warm brown eyes. Her build is petite and she is of average height. Nia has a medium skin tone. She wears a colorful dress that allows for freedom of movement. Her personality is creative and empathetic, often using her imagination to solve problems. A distinctive feature is her bright smile and the way her eyes light up with ideas. | Rowan: Rowan is a young boy, probably in his early teens. He has straight brown hair and hazel eyes. His build is sturdy and he is slightly taller than Finn. Rowan has a fair skin tone. He wears casual clothing, such as a t-shirt and shorts. Rowan is thoughtful and observant, often providing practical solutions. A distinctive feature is his calm demeanor and the way he often pauses to think before acting. | Aurelius: Aurelius is a majestic lion with a mane that glows like the sun, giving off a radiant golden hue. He is large and regal, with a powerful build. His eyes are a deep amber, exuding wisdom and nobility. Aurelius's fur is a rich tawny color. He is noble and protective, embodying the qualities of a wise and just ruler. A distinctive feature is his luminous mane, which seems to shimmer with an inner light. | Morgath: Morgath is a wicked witch with long, silver hair that flows like a river of moonlight. Her eyes are cold and dark, filled with malice. She has a slender build and stands tall, with a pale skin tone. Morgath wears a dark, flowing robe adorned with mystical symbols. Her personality is cunning and malevolent, driven by a desire for power. A distinctive feature is her enchanted amulet, which glows with a sinister energy.. Scene: A moonlit clearing in Luminara. The siblings stand in a semicircle, facing Morgath, who looms with her dark robe and glowing amulet. Aurelius, the majestic lion, watches intently from the side. Finn is poised to run, Nia and Rowan are ready to create an illusion, and Elara stands determined, eyeing the amulet.. Captions: Narrator: In the realm of Luminara, the siblings faced Morgath, determined to save this enchanted world., Elara: We have to destroy her amulet. It's the source of her power!, Aurelius: Together, you can bring back the light.. Art Style: in the style of storybook, , cinematic lighting, high detail. Mood: fantasy. "
+}
