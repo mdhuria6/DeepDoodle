@@ -30,11 +30,11 @@ def generate_workflow_diagram(app=None):
         with open(output_filename, "wb") as f:
             f.write(image_bytes)
 
-        print(f"✅ Workflow diagram saved successfully as '{output_filename}' in your project root.")
+        print(f"Workflow diagram saved successfully as '{output_filename}' in your project root.")
 
     except Exception as e:
         print("\n" + "="*50)
-        print("❌ ERROR: Could not generate the diagram.")
+        print("ERROR: Could not generate the diagram.")
         print("This usually means the 'pygraphviz' library or the system-level 'graphviz' tool is not installed correctly.")
         print("\nPlease ensure you have installed Graphviz on your system.")
         print("For macOS with Homebrew, run: brew install graphviz")

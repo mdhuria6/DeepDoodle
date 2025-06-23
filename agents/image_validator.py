@@ -172,7 +172,7 @@ class ImageValidator:
         if not prompts:
             return {
                 "final_score": 1.0,
-                "final_decision": "✅ PASS",
+                "final_decision": "PASS",
                 "image": task["image_path"],
                 "details": {}
             }
@@ -216,13 +216,13 @@ class ImageValidator:
                 "cosine_similarity": round(score, 4),
                 "weight": round(weight, 3),
                 "threshold": round(threshold, 3),
-                "decision": "✅ PASS" if passed else "❌ FAIL"
+                "decision": "PASS" if passed else "FAIL"
             }
 
         # Step 8: Compile final results
         final_results = {
             "final_score": round(weighted_score, 4),
-            "final_decision": "✅ PASS" if weighted_score >= self.default_threshold else "❌ FAIL",
+            "final_decision": "PASS" if weighted_score >= self.default_threshold else "FAIL",
             "image": task["image_path"],
             "details": results
         }
@@ -295,7 +295,7 @@ def image_validator(state: ComicGenerationState) -> dict:
         },
         "style_prompt": state.get("artistic_style"),
         # Weights determine the importance of each part in the final score.
-        "weights": {"scene": 0.5, "character": 0.3, "style": 0.2},
+        "weights": {"scene": 0.25, "character": 0.3, "style": 0.15},
         # Thresholds set the minimum similarity score for a part to be considered "present".
         "thresholds": {"scene": 0.25, "character": 0.25, "action": 0.2}
     }
@@ -317,7 +317,7 @@ def image_validator(state: ComicGenerationState) -> dict:
         # On error, append a failure message to maintain list alignment
         error_result = {
             "final_score": 0.0,
-            "final_decision": "❌ ERROR",
+            "final_decision": "ERROR",
             "image": panel_image_path,
             "details": {"error": str(e)}
         }
