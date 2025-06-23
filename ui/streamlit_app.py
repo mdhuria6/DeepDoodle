@@ -78,7 +78,7 @@ def setup_directories():
 with st.sidebar:
     st.header("⚙️ Model Configuration")
     text_engine_options = {
-        "OpenAI (gpt-4o)": "openai_gpt4o",
+        "OpenAI (gpt-4o) - Recommended": "openai_gpt4o",
         "Mistral AI (Mixtral-8x7B-Instruct)": "mistral_mixtral_8x7b_instruct",
         "Google (Gemini 1.5 Flash)": "gemini_1.5_flash",
     }
@@ -86,7 +86,7 @@ with st.sidebar:
     text_engine = text_engine_options[selected_text_engine_name]
 
     image_engine_options = {
-        "Black Forest Labs (FLUX.1-schnell)": "flux.1-schnell",
+        "Black Forest Labs (FLUX.1-schnell) - Recommended": "flux.1-schnell",
         "Stability AI (stable-diffusion-2-1)": "sd21",
     }
     selected_image_engine_name = st.selectbox("Select Image Engine", list(image_engine_options.keys()))
@@ -172,24 +172,11 @@ if st.session_state.result:
                     st.markdown(f"<p style='text-align: center; color: #888;'>Page {i + 1}</p>", unsafe_allow_html=True)
         
         # Display individual panels in an expander with a grid layout
-        with st.expander("Show Individual Panels & Validation"):
+        with st.expander("Show Individual Panels"):
             cols = st.columns(4)
-            validation_results = result.get("validation_scores")
-
             for idx, panel_path in enumerate(result["panel_image_paths"]):
                 with cols[idx % 4]:
                     st.image(panel_path, caption=f"Panel {idx + 1}", use_container_width=True)
-
-                    # commented out validation code for now
-                    if validation_results and idx < len(validation_results):
-                        validation = validation_results[idx]
-                        st.markdown(
-                            # f"**Score:** {validation.get('final_score', 'N/A')}<br>"
-                            f"**Decision:** {validation.get('final_decision', 'N/A')}",
-                            unsafe_allow_html=True
-                        )
-                    else:
-                        st.info("No validation score available.")
 
     else:
         st.error("An error occurred. The agents failed to generate the comic.")
