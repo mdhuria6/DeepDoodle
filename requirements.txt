@@ -12,7 +12,6 @@ langchain-google-genai
 boto3
 torch
 transformers
-torch
 huggingface_hub
 bert-score 
 rouge-score 
