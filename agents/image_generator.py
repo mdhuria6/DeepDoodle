@@ -4,7 +4,6 @@ from PIL import Image, ImageDraw
 import json
 import base64
 import boto3
-from botocore.exceptions import ClientError
 from typing import Optional
 from huggingface_hub import InferenceClient
 from configs import (
