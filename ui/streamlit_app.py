@@ -113,11 +113,11 @@ with st.sidebar:
 
     st.header("📄 Page Layout")
     layout_options = {
+        LAYOUT_MIXED_GRID: ("mixed_2x2", 4),
+        LAYOUT_FEATURED_PANEL: ("feature_left", 3),
         LAYOUT_2X2_GRID: ("grid_2x2", 4), 
         LAYOUT_HORIZONTAL_STRIP: ("horizontal_strip", 2),
-        LAYOUT_VERTICAL_STRIP: ("vertical_strip", 2),
-        LAYOUT_FEATURED_PANEL: ("feature_left", 3), 
-        LAYOUT_MIXED_GRID: ("mixed_2x2", 4)
+        LAYOUT_VERTICAL_STRIP: ("vertical_strip", 2)
     }
     selected_layout_name = st.selectbox("Select Panel Layout", list(layout_options.keys()))
     layout, panel_count = layout_options[selected_layout_name]
