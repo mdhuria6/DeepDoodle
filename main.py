@@ -3,20 +3,18 @@ import shutil
 import logging
 from graph import create_workflow
 from generate_workflow_diagram import generate_workflow_diagram
-from configs import OUTPUT_DIR, PROMPT
-from configs import STORY_EXPANSION_WORD_THRESHOLD
+from configs import OUTPUT_DIR
 import nltk 
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-app = None
-
 def run_comic_generation_workflow(inputs: dict):
     """
     Main function to set up the environment and run the comic generation workflow.
     Accepts an inputs dictionary for story, panel_count, style, genre, and layout.
+    Returns the final state and the compiled workflow app.
     """
     # Clean up previous outputs
     if os.path.exists(OUTPUT_DIR):
@@ -27,24 +25,13 @@ def run_comic_generation_workflow(inputs: dict):
     os.makedirs(os.path.join(OUTPUT_DIR, "pages"), exist_ok=True)
     logger.info(f"Output directory '{OUTPUT_DIR}' has been set up and cleaned.")
     logger.info("Starting comic generation workflow.")
-    story_text = inputs.get("story_text", "")
-    word_count = len(story_text.strip().split())
 
-    # Create and run the workflow
-    if word_count < STORY_EXPANSION_WORD_THRESHOLD:
-        entry = "story_generator"
-    else:
-        if PROMPT == "Simple":
-            entry = "story_analyst"
-        elif PROMPT == "Detailed":
-            entry = "detailed_story_analyst"
-        else:
-            raise ValueError("Incorrect prompt. Expected 'Simple' or 'Detailed'.")
-    app = create_workflow(entry)        
+    # Create the workflow. The entry point is now managed internally by the graph.
+    app = create_workflow()        
     logger.info("Starting Comic Generation ...")
     final_state = app.invoke(inputs, {"recursion_limit": 100})
     logger.info("Comic Generation Workflow Complete")
-    return final_state
+    return final_state, app
 
 if __name__ == "__main__":
 
@@ -73,7 +60,6 @@ if __name__ == "__main__":
         "genre_preset": "Sci-Fi",
         "layout_style": "mixed_2x2",
         "text_engine": "mistral_mixtral_8x7b_instruct",
-        "prompt": PROMPT
     }
-    run_comic_generation_workflow(default_inputs)
+    final_state, app = run_comic_generation_workflow(default_inputs)
     generate_workflow_diagram(app)
