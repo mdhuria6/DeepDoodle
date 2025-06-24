@@ -1,7 +1,7 @@
 import logging
 import json
 from models.comic_generation_state import ComicGenerationState
-from utils.response_util import sanitize_llm_response
+from utils.response_util import sanitize_llm_response_scene_decomposer
 from utils.llm_factory import get_model_client
 from utils.load_prompts import load_prompt_template
 from typing import List, Dict
@@ -77,7 +77,7 @@ def scene_decomposer(state: ComicGenerationState, prompt_file: str = "hybrid_sce
 		logger.info(f"   > Calling {text_engine} to decompose story... (Attempt {attempt + 1}/{max_retries})")
 		try:
 			response = llm.generate_text(prompt, max_tokens=8000)
-			response = sanitize_llm_response(response)  # Clean up the response
+			response = sanitize_llm_response_scene_decomposer(response)  # Clean up the response
 			scenes = json.loads(response)
 
 			# --- Validation Logic ---
