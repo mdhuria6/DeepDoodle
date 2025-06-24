@@ -4,7 +4,7 @@ test_cases = [
         "genre_preset": "historical fiction",
         "style_preset": "storybook",
         "layout_style": "dual-city-drama",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Charles Darnay",
                 "description": "A noble-born Frenchman with refined features, shoulder-length brown hair, and modest aristocratic clothing. In comic panels, he is shown in courtrooms or hiding during the French Revolution, often with somber eyes reflecting moral conflict."
@@ -21,7 +21,7 @@ test_cases = [
         "genre_preset": "novella",
         "style_preset": "storybook",
         "layout_style": "planetary-fable",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "The Little Prince",
                 "description": "A blond boy with curly hair, golden scarf, and starry-eyed wonder. In comics, he’s drawn standing on tiny planets with a rose or gazing into the sky. His expression is dreamy and innocent, wearing a green tunic and boots."
@@ -38,7 +38,7 @@ test_cases = [
         "genre_preset": "mystery",
         "style_preset": "noir",
         "layout_style": "isolation-suspense",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Justice Wargrave",
                 "description": "An elderly judge with sharp eyes, a black robe, and a stoic expression. In comic scenes, he’s often seated in deep shadows, holding a book or orchestrating events with cold logic."
@@ -55,7 +55,7 @@ test_cases = [
         "genre_preset": "family saga",
         "style_preset": "classical",
         "layout_style": "imperial-family-drama",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Jia Baoyu",
                 "description": "A handsome youth with delicate features, red silk robes, and a jade pendant around his neck. In comics, he’s shown in gardens reading poetry or tearfully facing familial pressure."
@@ -72,7 +72,7 @@ test_cases = [
         "genre_preset": "fantasy",
         "style_preset": "storybook",
         "layout_style": "portal-adventure",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Lucy Pevensie",
                 "description": "A bright-eyed girl with short brown hair, a knee-length coat, and a satchel. In comics, she’s shown peeking through a wardrobe or hugging the lion Aslan with childlike wonder."
@@ -93,7 +93,7 @@ test_cases = [
         "genre_preset": "mythology",
         "style_preset": "mystic-divine",
         "layout_style": "symbolic-trinity",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Lord Shiva",
                 "description": "Male deity, often depicted as a robust, well-built figure with a serene yet powerful presence. He has long matted hair, sometimes with a crescent moon and Ganga flowing through it. His third eye is a distinctive feature on his forehead. He often has ash smeared on his body and is sometimes portrayed with a blue throat. He is usually seen wearing a tiger skin and a snake around his neck, holding a trident (Trishula) as a prop. His eyes exude wisdom and tranquility, embodying a balance of destruction and creation."
@@ -118,7 +118,7 @@ test_cases = [
         "genre_preset": "mythology",
         "style_preset": "divine-cosmic",
         "layout_style": "avatar-chronicle",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Lord Vishnu",
                 "description": "Vishnu is portrayed with sky-blue skin, a serene face, and four arms holding the conch (shankha), discus (chakra), mace (gada), and lotus (padma). He wears golden silk, a jeweled crown, and a radiant aura. In comics, he is often shown seated on the serpent Ananta in the cosmic ocean."
@@ -135,7 +135,7 @@ test_cases = [
         "genre_preset": "mythology",
         "style_preset": "warrior-epic",
         "layout_style": "battle-divine",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Kartikeya (Skanda)",
                 "description": "Kartikeya is portrayed as a youthful, radiant god with golden armor, six faces (Shanmukha), and twelve arms holding various weapons. He rides a majestic peacock, and his comic form includes red war banners, fierce eyes, and flames surrounding his form to signify divine energy."
@@ -152,7 +152,7 @@ test_cases = [
         "genre_preset": "mythology",
         "style_preset": "puranic",
         "layout_style": "origin-divine",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Krishna (young)",
                 "description": "Young Krishna is shown with dark blue skin, wearing a yellow dhoti and playing a flute. He has curly hair with a peacock feather and a radiant smile. Often surrounded by cows and children, his comic visuals highlight innocence with divine undertones."
@@ -169,7 +169,7 @@ test_cases = [
         "genre_preset": "mythology",
         "style_preset": "epic",
         "layout_style": "war-court",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Arjuna",
                 "description": "Arjuna is a skilled warrior with a bronze complexion, long flowing hair tied into a warrior’s knot, and wears silver battle armor with blue silk. He wields a massive celestial bow (Gandiva) and is often shown with a focused, introspective expression. His comic pose often depicts him beside Krishna on the chariot."
@@ -190,7 +190,7 @@ test_cases = [
         "genre_preset": "mythology",
         "style_preset": "epic",
         "layout_style": "saga-quest",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Rama",
                 "description": "Rama is a tall, serene prince with sky-blue skin, wearing golden dhoti, royal armlets, and a green sash across his chest. He carries a bow (Kodanda) and quiver, with a calm yet resolute expression. His comic representation includes a halo behind his head, indicating divinity and righteousness."
@@ -211,7 +211,7 @@ test_cases = [
         "genre_preset": "fantasy",
         "style_preset": "storybook",
         "layout_style": "forest-cottage",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Snow White",
                 "description": "Snow White is a beautiful princess with fair skin, jet-black hair, and red lips. Known for her gentle and cheerful demeanor, she wears a dress with puffed sleeves and a yellow skirt. Her innocence and kindness win the hearts of all she meets."
@@ -232,7 +232,7 @@ test_cases = [
         "genre_preset": "fantasy",
         "style_preset": "storybook",
         "layout_style": "transformation-fairytale",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Cinderella",
                 "description": "Cinderella is a kind-hearted young woman with golden-blonde hair, dressed in rags that transform into a sparkling blue gown. Forced to work as a servant by her cruel stepmother and stepsisters, she remains gentle and hopeful, dreaming of freedom and love."
@@ -253,7 +253,7 @@ test_cases = [
         "genre_preset": "fantasy",
         "style_preset": "storybook",
         "layout_style": "castle-romance",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Belle",
                 "description": "Belle is a smart, curious young woman with brown hair tied in a low ponytail, often seen in a blue village dress or a golden ballgown. She loves books and dreams of adventure beyond her quiet town. Compassionate and brave, she sees the goodness in others beyond appearances."
@@ -270,7 +270,7 @@ test_cases = [
         "genre_preset": "fantasy",
         "style_preset": "epic",
         "layout_style": "journey",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Frodo Baggins",
                 "description": "Frodo is a small, humble hobbit from the Shire with curly brown hair and bright eyes. He is brave, kind-hearted, and burdened with the task of carrying the One Ring to Mount Doom. His innocence and perseverance make him the unlikely hero of Middle-earth."
@@ -291,7 +291,7 @@ test_cases = [
         "genre_preset": "Fantasy",
         "style_preset": "storybook",
         "layout_style": "rid_2x2",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Harry Potter",
                 "description": "Harry is an 11-year-old boy with messy black hair, green eyes, and a lightning-shaped scar on his forehead. Often dressed in a school robe and round glasses, he begins his journey unaware of his magical heritage. Courageous, loyal, and driven by a deep sense of justice, he becomes the symbol of resistance against dark magic."
@@ -308,7 +308,7 @@ test_cases = [
         "genre_preset": "drama",
         "style_preset": "manga",
         "layout_style": "grid_2x2",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Naruto Uzumaki",
                 "description": "Naruto is a spirited, determined ninja with spiky blond hair, blue eyes, and whisker-like marks on his cheeks. He wears an orange and black jumpsuit and carries the will of the entire Hidden Leaf Village. Once a lonely orphan, he now stands as the heart of his generation—guided by a dream to become Hokage and earn everyone's recognition. His unwavering belief in friendship and redemption defines his strength."
@@ -325,7 +325,7 @@ test_cases = [
         "genre_preset": "sci-fi",
         "style_preset": "manga",
         "layout_style": "heroic-sacrifice",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Goku (Son Goku)",
                 "description": "Goku is a cheerful and fearless Saiyan warrior with spiky black hair, a muscular build, and an orange martial arts gi. Known for his unwavering optimism and love for fighting strong opponents, Goku values peace and family above all. His signature move is the Kamehameha wave, and he often sacrifices for others, embodying a true hero’s spirit."
@@ -342,7 +342,7 @@ test_cases = [
         "genre_preset": "fantasy",
         "style_preset": "manga",
         "layout_style": "classic",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Kai Arashi",
                 "description": "Kai is a 14-year-old boy with spiky black hair tipped with silver, large expressive green eyes, and a slim athletic build. He wears a tattered white school uniform shirt with a red sash tied around his waist, and carries a broken watch given by his father. His right hand glows faintly blue when his powers activate. His demeanor shifts from shy and reserved to intense and determined when protecting others."
@@ -359,7 +359,7 @@ test_cases = [
         "genre_preset": "sci-fi",
         "style_preset": "realistic",
         "layout_style": "cinematic",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Commander Elena Vasquez",
                 "description": "Elena is a 38-year-old military tactician with short-cropped black hair, deep-set brown eyes, and a scar over her right eyebrow. She wears a high-tech black and grey armored suit with red LED accents and an Earth Resistance emblem on the chest. Her build is lean and muscular, and she carries a plasma pistol holstered at her thigh. Calm under pressure, she exhibits fierce loyalty to her squad and a quiet grief over her lost family."
@@ -563,7 +563,7 @@ test_cases = [
         "genre_preset": "adventure",
         "style_preset": "pulp",
         "layout_style": "lost-world",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Ayesha",
                 "description": "The immortal queen with flowing black hair, golden diadem, and luminous eyes; in comics she wears a white, Greek\u2011style gown that glows faintly, exuding ethereal majesty."
@@ -584,7 +584,7 @@ test_cases = [
         "genre_preset": "fiction",
         "style_preset": "historical-drama",
         "layout_style": "wartime-rise",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Mamie Stover",
                 "description": "Mamie is a striking woman with red curls, bold lipstick, and a curve-hugging blue dress adorned with war-era brooches. In comic panels, she's often framed against neon signs or military docks, her posture confident yet calculated."
@@ -605,7 +605,7 @@ test_cases = [
         "genre_preset": "fiction",
         "style_preset": "noir-thriller",
         "layout_style": "investigative-duo",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Lisbeth Salander",
                 "description": "A slender, goth-styled hacker with jet-black hair in a choppy cut, piercings, black leather jacket, and cold, analytical eyes. She's drawn often with her laptop in shadows, exuding intelligence, distrust, and rebellion."
@@ -630,7 +630,7 @@ test_cases = [
         "genre_preset": "fiction",
         "style_preset": "techno-thriller",
         "layout_style": "symbol-hunt",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Robert Langdon",
                 "description": "A scholarly man in a Harris tweed jacket, brown slacks, and a Mickey Mouse watch. He’s drawn mid-lecture or deciphering symbols in dimly lit corridors, always carrying a notepad and pointing to ancient engravings."
@@ -655,7 +655,7 @@ test_cases = [
         "genre_preset": "mystery thriller",
         "style_preset": "noir-thriller",
         "layout_style": "symbolic-chase",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Robert Langdon",
                 "description": "A Harvard symbologist with neat brown hair, dark blazer, and tweed trousers. In comic panels, he is shown pointing to museum artifacts or racing through candle-lit cathedrals, flashlight in hand and eyes wide with revelation."
@@ -680,7 +680,7 @@ test_cases = [
         "genre_preset": "romance",
         "style_preset": "melodrama",
         "layout_style": "intimate-flashback",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Francesca Johnson",
                 "description": "A graceful Italian-American woman in her 40s, wearing modest house dresses and apron. In comic frames, she’s shown gazing out of farmhouse windows or nervously touching her locket as emotions stir inside her."
@@ -701,7 +701,7 @@ test_cases = [
         "genre_preset": "magic realism",
         "style_preset": "surreal",
         "layout_style": "generational-spiral",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "José Arcadio Buendía",
                 "description": "A burly man with unkempt beard, linen shirt, and a crazed glint in his eyes. In comics, he's shown building alchemical devices or wandering the jungle, surrounded by mystical symbols."
@@ -730,7 +730,7 @@ test_cases = [
         "genre_preset": "war thriller",
         "style_preset": "military-thriller",
         "layout_style": "covert-operation",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Kurt Steiner",
                 "description": "A tall, sharp-featured German officer with an eyepatch, leather jacket, and SS insignia removed. In comics, he’s drawn with tension in his jaw, crouching in a British village churchyard or whispering to locals under moonlight."
@@ -755,7 +755,7 @@ test_cases = [
         "genre_preset": "adventure",
         "style_preset": "nautical-epic",
         "layout_style": "oceanic-pursuit",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Captain Ahab",
                 "description": "A weathered, one-legged seafarer with a long gray beard, stormy eyes, and a peg leg carved from whale bone. In comics, he’s drawn gripping the ship’s helm with windblown coat and harpoon raised toward the horizon."
@@ -784,7 +784,7 @@ test_cases = [
         "genre_preset": "gothic horror",
         "style_preset": "dark-romantic",
         "layout_style": "madness-laboratory",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Victor Frankenstein",
                 "description": "A gaunt, wide-eyed man with tousled black hair, a lab coat stained with soot, and gloves. In comics, he’s shown bent over a cluttered desk, lightning flashing behind him, or recoiling in regret."
@@ -812,7 +812,7 @@ test_cases = [
         "genre_preset": "romance",
         "style_preset": "shakespearean",
         "layout_style": "duel-and-destiny",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Romeo Montague",
                 "description": "A dreamy young man in doublet and tights, with a short cloak and romantic gaze. In comics, he’s drawn climbing balconies, dueling with fierce resolve, or holding Juliet’s hand with tragic tenderness."
@@ -841,7 +841,7 @@ test_cases = [
         "genre_preset": "romance",
         "style_preset": "regency-classic",
         "layout_style": "drawing-room-duel",
-        "character_description": [
+        "character_descriptions": [
             {
                 "name": "Elizabeth Bennet",
                 "description": "A sharp-eyed young woman with curled brown hair, empire-waist gowns, and a knowing smirk. Often drawn walking through gardens, reading letters, or exchanging glances across ballroom floors."

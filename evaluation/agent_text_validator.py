@@ -9,30 +9,43 @@ logger = logging.getLogger(__name__)
 
 def evaluate_case(args):
     idx, case, agent_func, output_key, input_keys, task_type = args
-    agent_input = {key: case[key] for key in input_keys if key in case}
-    output = agent_func(agent_input)
-    if task_type == "story_generator":
-            generated = output[output_key]
-            reference = case["expanded_story"]
-            meteor = evaluate_meteor(generated, reference)
-            rouge = evaluate_rouge(generated, reference)
-            bert = evaluate_bertscore(generated, reference)
+    try:
+        agent_input = {}
+        for key in input_keys:
+            if key == "story_text" and task_type == "story_analyst" and "expanded_story" in case:
+                agent_input[key] = case["expanded_story"]
+            elif key in case:
+                agent_input[key] = case[key]
+
+        output = agent_func(agent_input)
+        if task_type == "story_generator":
+                generated = output[output_key]
+                reference = case["expanded_story"]
+                meteor = evaluate_meteor(generated, reference)
+                rouge = evaluate_rouge(generated, reference)
+                bert = evaluate_bertscore(generated, reference)
+                return {
+                    "case_id": idx + 1,
+                    "meteor": meteor,
+                    **rouge,
+                    **bert
+                }
+        elif task_type == "story_analyst":
+            extracted = output["character_descriptions"]
+            reference = case["character_descriptions"]
+            metrics = evaluate_character_descriptions(extracted, reference)
             return {
                 "case_id": idx + 1,
-                "meteor": meteor,
-                **rouge,
-                **bert
+                **metrics
             }
-    elif task_type == "story_analyst":
-        extracted = output["character_descriptions"]
-        reference = case["character_description"]
-        metrics = evaluate_character_descriptions(extracted, reference)
+        else:
+            raise ValueError(f"Unsupported task_type: {task_type}")
+    except Exception as e:
+        logging.exception(f"Test Case {idx + 1} failed: {e}")
         return {
             "case_id": idx + 1,
-            **metrics
+            "error": str(e)
         }
-    else:
-        raise ValueError(f"Unsupported task_type: {task_type}")
 
 def run_agent_evaluation(
     agent_func: Callable,
@@ -56,6 +69,7 @@ def run_agent_evaluation(
             results.append(evaluate_case(args))
 
     df = pd.DataFrame(results)
+    df.fillna(value={"meteor": 0, "rougeL_f1": 0, "bert_f1": 0}, inplace=True)
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
     df.to_csv(save_path, index=False)
     print(f"\n✅ Evaluation complete. Results saved to {save_path}")
@@ -84,7 +98,7 @@ def run_text_generation_evaluation(
     results = []
 
     for idx, case in enumerate(test_cases):
-        print(f"\n🔍 Evaluating Test Case {idx + 1}...")
+        print(f"\nEvaluating Test Case {idx + 1}...")
         
         agent_input = {key: case[key] for key in input_keys if key in case} if input_keys else {"story_text": case["input"]}
 

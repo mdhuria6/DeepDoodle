@@ -3,18 +3,21 @@ Below is an example of how to extract and describe characters. Follow the same f
 Example:  
 Story: "Alex ran down the alley with Mittens at his heels."  
 Output:  
-{
+{{
   "character_descriptions": [
-    {
+   {{
       "name": "Alex",
       "description": "12-year-old boy with messy brown hair, blue eyes, slim build, wears a blue hoodie and jeans, curious and energetic."
-    },
-    {
+    }},
+    {{
       "name": "Mittens",
       "description": "Small gray tabby cat with green eyes, mischievous and agile, always alert."
-    }
+    }}
   ]
-}
+}}
+
+Now analyze this story:  
+{story_text}
 
 Instructions: Identify all named people and animals in the story. For each, describe:
 - Age (if known or inferable)
@@ -23,6 +26,3 @@ Instructions: Identify all named people and animals in the story. For each, desc
 - For animals: breed, coloring, and behavior
 
 Be vivid and specific enough for illustration. Return only a valid JSON object in the format shown. No extra text.
-
-Now analyze this story:  
-{story_text}

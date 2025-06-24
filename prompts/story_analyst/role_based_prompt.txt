@@ -7,13 +7,13 @@ You are a senior character designer for an animation studio. Given the narrative
 If any trait isn't mentioned, infer it from context or omit it gracefully.
 
 Return your output as a valid JSON object using this structure:
-{
+{{
   "character_descriptions": [
-    { "name": "", "description": "" }
+    {{ "name": "", "description": "" }}
   ]
-}
-
-Ensure proper JSON syntax. No extra commentary.
+}}
 
 Story:
 {story_text}
+
+Important: Output ONLY the raw JSON object, with no Markdown, no triple backticks, and no code block formatting.

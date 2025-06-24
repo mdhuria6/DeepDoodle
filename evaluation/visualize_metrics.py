@@ -25,11 +25,13 @@ def plot_text_generation_metrics_combined(df: pd.DataFrame, output_dir: str):
     Plots comparison graphs for multiple models and prompts across metrics.
     """
     os.makedirs(output_dir, exist_ok=True)
+    metric_cols = [col for col in ["meteor", "rougeL_f1", "bert_f1", "cosine_sim"] if col in df.columns]
+
     
     # Melt the DataFrame for easier plotting
     melt_df = df.melt(
         id_vars=["case_id", "model", "prompt"],
-        value_vars=["meteor", "rougeL_f1", "bert_f1"],
+        value_vars=metric_cols,
         var_name="metric",
         value_name="score"
     )

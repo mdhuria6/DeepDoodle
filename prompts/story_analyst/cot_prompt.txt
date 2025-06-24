@@ -23,7 +23,7 @@ Step 4: Package all descriptions into the following JSON format:
   ]
 }}
 
-Important: Output ONLY the raw JSON object, with no Markdown, no triple backticks, and no code block formatting.
-
 Story:
 {story_text}
+
+Important: Output ONLY the raw JSON object, with no Markdown, no triple backticks, and no code block formatting.

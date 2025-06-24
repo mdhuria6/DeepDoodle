@@ -1,7 +1,9 @@
 import os
 import nltk
+import sys
 import pandas as pd
 import argparse
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from agents.story_analyst import story_analyst
 from models.comic_generation_state import ComicGenerationState
 from evaluation.agent_text_validator import run_agent_evaluation, run_text_generation_evaluation, run_text_generation_evaluation_multiprocessing
@@ -16,12 +18,12 @@ nltk.download("omw-1.4")
 base_output_dir = "output/story_analyst"
 os.makedirs(base_output_dir, exist_ok=True)
 prompt_variants = [
-    "cot_prompt.txt",
-    "few_shot_prompt.txt",
+    "zero_shot_prompt.txt",
     "hybrid_prompt.txt",
+    "few_shot_prompt.txt",
+    "cot_prompt.txt",
     "role_based_prompt.txt",
     "structured_prompt.txt",
-    "zero_shot_prompt.txt"
 ]
 
 model_variants = ["mistral_mixtral_8x7b_instruct"]
@@ -63,7 +65,7 @@ def main(use_multiprocessing=False):
                     agent_func=configured_story_analyst,
                     test_cases=test_cases,
                     output_key="character_descriptions",
-                    input_keys=["story_text", "style_preset", "genre_preset", "layout_style", "character_description", "prompt", "text_engine"],
+                    input_keys=["story_text", "style_preset", "genre_preset", "layout_style", "character_descriptions", "prompt", "text_engine"],
                     save_path=result_csv,
                     max_workers=4
                 )
@@ -72,7 +74,7 @@ def main(use_multiprocessing=False):
                     agent_func=configured_story_analyst,
                     test_cases=test_cases,
                     output_key="character_descriptions",
-                    input_keys=["story_text", "style_preset", "genre_preset", "layout_style", "character_description", "prompt", "text_engine"],
+                    input_keys=["story_text", "style_preset", "genre_preset", "layout_style", "character_descriptions", "prompt", "text_engine"],
                     save_path=result_csv,
                     task_type="story_analyst"
                 )

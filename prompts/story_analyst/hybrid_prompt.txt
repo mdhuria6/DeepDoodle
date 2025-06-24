@@ -39,4 +39,4 @@ You are an expert in comic book adaptation and visual storytelling. Analyze the 
         ]
         }}
 
-        Remember: Output ONLY the raw JSON object, with no Markdown, no triple backticks, and no code block formatting.
+Remember: Output ONLY the raw JSON object, with no Markdown, no triple backticks, and no code block formatting.
