@@ -18,10 +18,10 @@ Return your result as a valid JSON object using this format:
   ]
 }}
 
+Story:
+{story_text}
+
 Important:
 - Only include named characters or animals
 - Return only the JSON (no extra text or formatting)
 - Ensure proper JSON syntax (no trailing commas)
-
-Story:
-{story_text}

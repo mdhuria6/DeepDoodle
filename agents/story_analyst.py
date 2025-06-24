@@ -47,7 +47,7 @@ def story_analyst(state: ComicGenerationState, prompt_file: str = "hybrid_prompt
         llm = get_model_client("text", text_engine)
         logger.info("Submitting analysis prompt to the language model for story analysis...")
         # Use the LLM's generate_text method
-        llm_response = llm.generate_text(analysis_prompt, max_tokens=1000, temperature=0.3)
+        llm_response = llm.generate_text(analysis_prompt, max_tokens=2000, temperature=0.3)
 
         logger.info("LLM response received successfully.")
         llm_content = llm_response if isinstance(llm_response, str) else str(llm_response)
