@@ -1,7 +1,7 @@
 import logging
 from typing import Dict, Any
 from models.comic_generation_state import ComicGenerationState
-from utils.response_util import sanitize_llm_response
+from utils.response_util import sanitize_llm_response_character_description
 from utils.llm_factory import get_model_client
 from utils.load_prompts import load_prompt_template
 import json
@@ -54,7 +54,7 @@ def story_analyst(state: ComicGenerationState, prompt_file: str = "hybrid_prompt
         logger.debug(f"LLM Response: {llm_content[:300]}...")
         try:
             # Parse the LLM response as JSON
-            llm_content = sanitize_llm_response(llm_content)
+            llm_content = sanitize_llm_response_character_description(llm_content)
             analysis = json.loads(llm_content)
         except json.JSONDecodeError as e:
             logger.error(f"JSON decoding failed: {e}")
