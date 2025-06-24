@@ -51,7 +51,7 @@ def story_analyst(state: ComicGenerationState, prompt_file: str = "hybrid_prompt
 
         logger.info("LLM response received successfully.")
         llm_content = llm_response if isinstance(llm_response, str) else str(llm_response)
-        logger.debug(f"LLM Response: {llm_content[:300]}...")
+        logger.info(f"LLM Response: {llm_content}...")
         try:
             # Parse the LLM response as JSON
             llm_content = sanitize_llm_response(llm_content)
@@ -62,8 +62,6 @@ def story_analyst(state: ComicGenerationState, prompt_file: str = "hybrid_prompt
             raise RuntimeError("LLM response was not valid JSON.")
         # Handle LLM analysis response
         if isinstance(analysis, dict):
-            final_style = analysis.get('artistic_style') or artistic_style or 'Modern Comic Style'
-            final_mood = analysis.get('mood') or mood or 'Adventure'
             character_descriptions = analysis.get('character_descriptions', [])
         else:
             raise RuntimeError("LLM analysis did not return a dict.")
@@ -71,20 +69,11 @@ def story_analyst(state: ComicGenerationState, prompt_file: str = "hybrid_prompt
         if not character_descriptions:
             character_descriptions = extract_fallback_character_descriptions(story_text)
 
-        layout_style = state.get('layout_style', 'grid_2x2')  # Default layout style if not provided.
-        layout_style = state.get('layout_style', 'grid_2x2')  # Default layout style if not provided.
 
         logger.info(f"Character Defined: {character_descriptions}")
-        logger.info(f"Style set to: {final_style}")
-        logger.info(f"Mood set to: {final_mood}")
-        logger.info(f"Layout style set to: {layout_style}")
-
         # Return the final analysis result
         return {
             "character_descriptions": character_descriptions,
-            "artistic_style": final_style,
-            "mood": final_mood,
-            "layout_style": layout_style
         }
     except Exception as e:
         # Log any exception in the main function and return fallback values
