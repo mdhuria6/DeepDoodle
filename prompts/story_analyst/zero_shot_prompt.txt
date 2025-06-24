@@ -19,9 +19,10 @@ Return the result as a valid JSON object with the following structure:
   ]
 }}
 
-Important:
-- Only include characters explicitly named in the story
-- Output only the JSON — no extra commentary or formatting
 
 Story:
 {story_text}
+
+Important:
+- Only include characters explicitly named in the story
+- Output only the JSON — no extra commentary or formatting

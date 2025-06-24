@@ -25,11 +25,13 @@ def plot_text_generation_metrics_combined(df: pd.DataFrame, output_dir: str):
     Plots comparison graphs for multiple models and prompts across metrics.
     """
     os.makedirs(output_dir, exist_ok=True)
+    metric_cols = [col for col in ["meteor", "rougeL_f1", "bert_f1", "cosine_sim"] if col in df.columns]
+
     
     # Melt the DataFrame for easier plotting
     melt_df = df.melt(
         id_vars=["case_id", "model", "prompt"],
-        value_vars=["meteor", "rougeL_f1", "bert_f1"],
+        value_vars=metric_cols,
         var_name="metric",
         value_name="score"
     )
@@ -91,7 +93,7 @@ def plot_text_generation_metrics(csv_path: str, output_dir: str):
     plt.close()
 
     # 2. Line plot for all metrics
-    plt.figure(figsize=(8, 16))
+    plt.figure(figsize=(12, 8))
     for metric in ["meteor", "rougeL_f1", "bert_f1"]:
         plt.plot(df["case_id"], df[metric], marker="o", label=metric)
     plt.title("Metric Scores by Test Case")
@@ -103,7 +105,7 @@ def plot_text_generation_metrics(csv_path: str, output_dir: str):
     plt.close()
 
     # 3. Boxplot for metric distribution
-    plt.figure(figsize=(8, 16))
+    plt.figure(figsize=(12, 8))
     melted_df = df.melt(id_vars=["case_id"], value_vars=["meteor", "rougeL_f1", "bert_f1"])
     sns.boxplot(x="variable", y="value", data=melted_df)
     plt.title("Distribution of Text Generation Metrics")
