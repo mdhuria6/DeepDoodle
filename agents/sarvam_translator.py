@@ -37,7 +37,9 @@ def sarvam_agent(state: ComicGenerationState) -> dict:
 
     system_prompt = (
         f"You are an expert translator. Your task is to translate the user\'s text into {target_language}. "
-        "Provide only the translated text. Do not include any explanations, analysis, or extra formatting. "
+        "Provide only the translated text. Do not shorten or summarize the original text. "
+        "Translate the entire text accurately. "
+        "Do not include any explanations, analysis, or extra formatting. "
         "Your entire response must be only the translation."
     )
 

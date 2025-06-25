@@ -195,7 +195,8 @@ def determine_font_and_layout(
 
     while current_font_size >= style_config['min_font_size']:
         # Assume you have a variable `target_language` (e.g., from state)
-        font_path = get_font_path_for_language(target_language)
+        font_path = style_config['font_path']
+        # font_path = get_font_path_for_language(target_language)
         font_to_test = _try_load_font(font_path, current_font_size)
         if not font_to_test:
             # print(f"Panel {panel_idx_for_logging+1}: Failed to load main font at size {current_font_size}. Trying smaller.")

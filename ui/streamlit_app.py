@@ -98,11 +98,11 @@ with st.sidebar:
     
     # Updated style_options to match keys from STYLE_CONFIGS
     # Assuming 'auto' is still desired as an option for future development or default handling
-    style_options = ["auto", "Simple Line Art Comic", "Black and White Manga", "Ghibli Animation", "Modern Anime", "Classic Western Comic"]
-    style = st.selectbox("Select Visual Style", style_options, index=0) # Default to 'auto'
+    style_options = ["Ghibli Animation", "Simple Line Art Comic", "Black and White Manga", "Modern Anime", "Classic Western Comic"]
+    style = st.selectbox("Select Visual Style", style_options, index=0)
 
-    mood_options = ["auto", "Sci-Fi", "Fantasy", "Horror", "Comedy", "Drama", "Mystery", "Adventure", "Whimsical", "Noir", "Cyberpunk", "Steampunk"]
-    mood = st.selectbox("Select Mood", mood_options, index=0) # Default to 'auto'
+    mood_options = ["Sci-Fi", "Fantasy", "Horror", "Comedy", "Romance", "Mythology", "Drama", "Mystery", "Adventure", "Whimsical", "Noir", "Cyberpunk", "Steampunk"]
+    mood = st.selectbox("Select Mood", mood_options, index=0)
     
     # --- Add Sarvam language dropdown here ---
     sarvam_languages = [

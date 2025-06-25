@@ -1,11 +1,15 @@
-# configs/paths_config.py
 import os
 from configs.base_config import PROJECT_ROOT
 
 # Asset Paths
 ASSETS_DIR = os.path.join(PROJECT_ROOT, "assets")
 FONTS_DIR = os.path.join(ASSETS_DIR, "fonts")
+
+# --- Font Paths ---
 BUNDLED_FONT_PATH = os.path.join(FONTS_DIR, "ComicNeue", "ComicNeue-Regular.ttf")
+HINDI_FONT_PATH = os.path.join(FONTS_DIR, "NotoSansHindi.ttf")
+TAMIL_FONT_PATH = os.path.join(FONTS_DIR, "NotoSansTamil.ttf")
+TELUGU_FONT_PATH = os.path.join(FONTS_DIR, "NotoSansTelugu.ttf")
 
 # Output Directories
 OUTPUT_DIR = os.path.join(PROJECT_ROOT, "output")
