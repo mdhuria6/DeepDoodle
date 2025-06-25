@@ -22,5 +22,5 @@ bs4
 matplotlib
 pandas
 torchvision
-pygraphviz
+# pygraphviz  # Temporarily removed due to deployment issues
 scikit-learn
